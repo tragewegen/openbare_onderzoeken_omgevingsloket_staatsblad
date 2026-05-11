@@ -1,0 +1,12 @@
+# Bestanden alleen in de hoofdmap (root)
+/*.py
+/*.ps1
+/*.docx
+
+# Bestanden in de map 'logboek'
+logboek/*.txt
+
+# Bestanden in de map 'resultaten_analyse' en alle onderliggende mappen
+resultaten_analyse/**/*.geojson
+resultaten_analyse/**/*.json
+resultaten_analyse/**/*.gfs

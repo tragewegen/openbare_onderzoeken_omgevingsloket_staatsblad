@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>Gemeente Rapport</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { display: flex; height: 100vh; margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; background-color: #f0f0f0; }
+        #sidebar { width: 450px; background: #ffffff; border-right: 1px solid #ddd; display: flex; flex-direction: column; z-index: 1000; }
+        #sidebar-header { padding: 0; background: #2c3e50; color: white; }
+        #sidebar-header h3 { padding: 20px 20px 5px 20px; margin: 0; }
+        
+        .btn-follow-container { padding: 0 20px 15px 20px; background: #2c3e50; }
+        .btn-follow { 
+            background-color: #27ae60; 
+            color: white; 
+            border: none; 
+            padding: 8px 15px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 0.85rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+        .btn-follow:hover { background-color: #2ecc71; }
+
+        #content-area { flex-grow: 1; overflow-y: auto; padding: 15px; background: #f9f9f9; }
+        .section-title { font-size: 1.2rem; font-weight: bold; color: #2c3e50; margin: 20px 0 10px 0; border-bottom: 2px solid #3498db; padding-bottom: 5px; }
+        .card { background: white; border-radius: 8px; padding: 12px; margin-bottom: 12px; border-left: 5px solid #3498db; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .card-omgeving { border-left-color: #3498db; cursor: pointer; transition: transform 0.1s; }
+        .card-omgeving:hover { transform: scale(1.01); }
+        .card-staatsblad { border-left-color: #e67e22; }
+        .card h4 { margin: 0 0 5px 0; font-size: 1rem; color: #2c3e50; }
+        .card p { margin: 3px 0; font-size: 0.85rem; color: #555; line-height: 1.3; }
+        .card .omschrijving { font-style: italic; color: #777; margin-top: 5px; border-top: 1px solid #eee; padding-top: 5px; }
+        .btn-link { display: inline-block; margin-top: 8px; color: #3498db; text-decoration: none; font-weight: bold; font-size: 0.8rem; }
+        #map { flex-grow: 1; height: 100%; }
+    </style>
+</head>
+<body>
+<div id="sidebar">
+    <div id="sidebar-header">
+        <h3>Omgevings-Dashboard</h3>
+        <h2 id="muni-title" style="margin: 0; padding: 0 20px 10px 20px; color: #3498db; background: #2c3e50; font-size: 1.4rem;">Kontich</h2>
+        <div class="btn-follow-container">
+            <button class="btn-follow" onclick="followThisPage()">
+                Volg wijzigingen op deze pagina
+            </button>
+        </div>
+    </div>
+    <div id="content-area"></div>
+</div>
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    const map = L.map('map').setView([50.9, 4.4], 9);
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OSM' }).addTo(map);
+    const resultLayer = L.layerGroup().addTo(map);
+
+    // 2. WMS Configuratie (Provincie Vlaams-Brabant)
+    const trageWegenBrabant = L.tileLayer.wms('https://geoservices.vlaamsbrabant.be/TrageWegen/MapServer/WMSServer', {
+        layers: '0', 
+        format: 'image/png',
+        transparent: true,
+        version: '1.1.1',
+        attribution: '© Provincie Vlaams-Brabant'
+    });
+
+    const overlays = {
+        "Dossiers en Wegen": resultLayer,
+        "Tragewegenregister": trageWegenBrabant
+    };
+    L.control.layers(null, overlays).addTo(map);
+
+    function followThisPage() {
+        const currentUrl = window.location.href;
+        const followUrl = "https://www.followthatpage.com/add?url=" + encodeURIComponent(currentUrl);
+        navigator.clipboard.writeText(currentUrl).then(() => {
+            window.open(followUrl, '_blank');
+        });
+    }
+
+    
+    const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"id": 986176, "projectnummer": "2026042195", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-03-27", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-11", "vvo_huidige_toestand": "Kontich", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "pveJYC0vQE-wbIX1oWFeHw", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026042195", "uuid": "d2WWcgJySai4JY1uOG403Q", "projectNaam": "SERTSU KIFLU_verbouwing", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2026042195"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[4.435731196186018, 51.13582276022371], [4.435712443053717, 51.135817027208745], [4.435664551544625, 51.13586586318228], [4.436136569050566, 51.13601015678539], [4.436141714757819, 51.13601172683597], [4.436291855342591, 51.13605762621158], [4.436354804687813, 51.13607686152911], [4.436374770722642, 51.1360521221178], [4.436395891901202, 51.136025943845404], [4.436395706087825, 51.13602589002093], [4.436332313679135, 51.13600651116232], [4.436225711640754, 51.13597392589853], [4.436177570680354, 51.13595921225988], [4.435778307730003, 51.13583716003192], [4.435731196186018, 51.13582276022371]]]]}}]};
+    const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"gml_id": "F_TrageWegen.24974", "OBJECTID": 24974, "WS_OIDN": null, "LBLSTATUS": "buiten gebruik", "LBLMORF": null, "LBLWEGCAT": null, "LSTRNM": null, "RSTRNM": null, "LBLBEHEER": null, "WV_LBLTYPE": null, "WB_BREEDTE": null, "TRAGE_WEG": 1, "TW_ID": "27726", "TW_BREEDTE": -8, "TW_EIGENAAR": -8, "TW_DAT_INVENTARISATIE": "1970-01-01T00:00:00", "TW_JUR_STATUUT": 2, "TW_ABW": "KON_49_1", "TW_ZICHTBAAR": 2, "TW_NIET_ZB_REDEN": -8, "TW_TOEGANKELIJK": 2, "TW_NIET_TG_REDEN": -8, "TW_VERHARDING": -8, "Shape_Length": 300.25365689, "TW_NAAM": null, "index_right": 8, "id": 986176, "projectnummer": "2026042195", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-03-27", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-11", "vvo_huidige_toestand": "Kontich", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "pveJYC0vQE-wbIX1oWFeHw", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026042195", "uuid": "d2WWcgJySai4JY1uOG403Q", "projectNaam": "SERTSU KIFLU_verbouwing", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[4.436847655208912, 51.13595187355789], [4.435202911080037, 51.1363578829475], [4.434705580811004, 51.13710338724721], [4.433512939355704, 51.137312118241304]]]}}, {"type": "Feature", "properties": {"gml_id": "F_TrageWegen.24991", "OBJECTID": 24991, "WS_OIDN": null, "LBLSTATUS": "buiten gebruik", "LBLMORF": null, "LBLWEGCAT": null, "LSTRNM": null, "RSTRNM": null, "LBLBEHEER": null, "WV_LBLTYPE": null, "WB_BREEDTE": null, "TRAGE_WEG": 1, "TW_ID": "27806", "TW_BREEDTE": -8, "TW_EIGENAAR": -8, "TW_DAT_INVENTARISATIE": "1970-01-01T00:00:00", "TW_JUR_STATUUT": -7, "TW_ABW": null, "TW_ZICHTBAAR": 2, "TW_NIET_ZB_REDEN": -8, "TW_TOEGANKELIJK": 2, "TW_NIET_TG_REDEN": -8, "TW_VERHARDING": -8, "Shape_Length": 103.49423852, "TW_NAAM": null, "index_right": 8, "id": 986176, "projectnummer": "2026042195", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-03-27", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-11", "vvo_huidige_toestand": "Kontich", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "pveJYC0vQE-wbIX1oWFeHw", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026042195", "uuid": "d2WWcgJySai4JY1uOG403Q", "projectNaam": "SERTSU KIFLU_verbouwing", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[4.43510042951663, 51.13573295476643], [4.435658997938693, 51.13592203032924], [4.436088783976419, 51.13546477550527]]]}}]};
+    const DATA_STAATSBLAD = [{"date": "19 juni 2015", "title": "Gemeente Zele Openbaar onderzoek Bericht betreffende de vaststelling van het rooilijn- en onteigeningsplan voor de ontsluitingsweg in het bedrijventerrein", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2015-06-19&numac_search=2015715542&page=1&lg_txt=N&caller=list&2015715542=0&view_numac=&text1=Kontich&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2015715542"}, {"date": "12 maart 2015", "title": "Bericht voorgeschreven bij artikel 3quater van het besluit van de Regent van 23 augustus 1948 tot regeling van de rechtspleging voor de afdeling bestuursrechtspraak van de Raad van State Stefan", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2015-03-12&numac_search=2015018082&page=1&lg_txt=N&caller=list&2015018082=1&view_numac=&text1=Kontich&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2015018082"}, {"date": "28 november 2014", "title": "Definitieve aanvaarding rooilijn- en onteigeningsplan. - Goedkeuring. - GR16.06.2014 KONTICH. - Het ontwerp van rooilijn- en onteigeningsplan met tabel van grondinnemingen voor het deel van de", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2014-11-28&numac_search=2014036833&page=1&lg_txt=N&caller=list&2014036833=4&view_numac=&text1=Kontich&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2014036833"}, {"date": "28 november 2014", "title": "Definitieve aanvaarding rooilijn- en onteigeningsplan. - Goedkeuring. - GR16.06.2014 KONTICH. - Het ontwerp van rooilijn- en onteigeningsplan met tabel van grondinnemingen voor het deel van de", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2014-11-28&numac_search=2014036832&page=1&lg_txt=N&caller=list&2014036832=5&view_numac=&text1=Kontich&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2014036832"}, {"date": "14 april 2014", "title": "Gemeente KontichBekendmaking Ontwerp rooilijn- en onteigeningsplan voor het deel van de Koningin Astridlaan tussen de huisnummers 60 en 72. Een openbaar onderzoek zal gehouden worden van 15 april", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2014-04-14&numac_search=2014713112&page=1&lg_txt=N&caller=list&2014713112=2&view_numac=&text1=Kontich&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2014713112"}, {"date": "24 maart 2014", "title": "Gemeente Kontich Bekendmaking Ontwerp rooilijn- en onteigeningsplan Nachtegaalstraat tussen N1 en", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2014-03-24&numac_search=2014710467&page=1&lg_txt=N&caller=list&2014710467=3&view_numac=&text1=Kontich&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2014710467"}, {"date": "10 oktober 2006", "title": "Ruimtelijke ordening Grimbergen : BPA nr. 22 \u00ab Prinsenbos \u00bb Bij besluit van 14 september 2006 van de Vlaamse minister van Financi\u00ebn en Begroting en Ruimtelijke Ordening is goedgekeurd de eerste", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2006-10-10&numac_search=2006036582&page=1&lg_txt=N&caller=list&2006036582=6&view_numac=&text1=Kontich&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2006036582"}];
+            
+
+    window.onload = () => {
+        const content = document.getElementById('content-area');
+        content.innerHTML = "";
+        resultLayer.clearLayers();
+
+        // 1. Dossiers
+        let omgevingsHtml = '<div class="section-title">Omgevingsonderzoeken</div>';
+        if (typeof DATA_DOSSIERS !== 'undefined' && DATA_DOSSIERS && DATA_DOSSIERS.features) {
+            const leafletGeo = L.geoJSON(DATA_DOSSIERS, {
+                style: { color: '#3498db', weight: 2, fillOpacity: 0.3 },
+                onEachFeature: (f, l) => {
+                    const p = f.properties;
+                    const nr = p.projectnummer || p.PROJECTNUMMER || 'N/A';
+                    const type = p.omschrijving_projecttype || p.OMSCHRIJVING_PROJECTTYPE || 'Geen info';
+                    const naam = p.projectNaam || p.PROJECTNAAM || 'Geen naam';
+                    const omschrijving = p.handeling_omschrijving || p.HANDELING_OMSCHRIJVING || '';
+                    const url = p.loket_url || p.LOKET_URL || '#';
+
+                    l.bindPopup(`
+                        <div style="font-size: 13px; line-height: 1.4;">
+                            <strong>Project: ${nr}</strong><br>
+                            <b>Naam:</b> ${naam}<br>
+                            ${omschrijving ? `<b>Handeling:</b> ${omschrijving}<br>` : ''}
+                            <hr style="margin: 8px 0;">
+                            <a href="${url}" target="_blank" style="color: #3498db; font-weight: bold; text-decoration: none;">Open Omgevingsloket -></a>
+                        </div>
+                    `);
+                    
+                    omgevingsHtml += `
+                        <div class="card card-omgeving" onclick="zoomToFeature('${nr}')">
+                            <h4>Project ${nr}</h4>
+                            <p><b>Type:</b> ${type}</p>
+                            <p><b>Naam:</b> ${naam}</p>
+                            ${omschrijving ? `<p class="omschrijving">${omschrijving}</p>` : ''}
+                            <a href="${url}" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
+                        </div>`;
+                }
+            }).addTo(resultLayer);
+            if (DATA_DOSSIERS.features.length > 0) map.fitBounds(leafletGeo.getBounds());
+            window.currentLayers = leafletGeo;
+        }
+
+        // 2. Wegen
+        if (typeof DATA_WEGEN !== 'undefined' && DATA_WEGEN && DATA_WEGEN.features) {
+            L.geoJSON(DATA_WEGEN, { 
+                style: { color: '#e74c3c', weight: 3, dashArray: '5, 5' },
+                onEachFeature: (f, l) => {
+                    const p = f.properties;
+                    let rawJur = p.TW_JUR_STATUUT || p.tw_jur_statuut;
+                    let jurInfo = (rawJur == 2 || rawJur == "2") ? "weg met rooilijn" : "feitelijke weg";
+                    let abwVal = p.TW_ABW || p.tw_abw || "Geen info";
+
+                    l.bindPopup(`
+                        <div style="font-size: 13px;">
+                            <b>Wegsegment</b><br>
+                            <b>weginfo:</b> ${jurInfo}<br>
+                            <b>Atlas der Buurtwegen:</b> ${abwVal}
+                        </div>
+                    `);
+                }
+            }).addTo(resultLayer);
+        }
+
+        // 3. Staatsblad
+        let staatsbladHtml = '<div class="section-title">Belgisch Staatsblad</div>';
+        if (typeof DATA_STAATSBLAD !== 'undefined' && DATA_STAATSBLAD && DATA_STAATSBLAD.length > 0) {
+            DATA_STAATSBLAD.forEach(item => {
+                staatsbladHtml += `
+                    <div class="card card-staatsblad">
+                        <h4>${item.date}</h4>
+                        <p>${item.title}</p>
+                        ${item.onderwerp ? `<p><small><b>Onderwerp:</b> ${item.onderwerp}</small></p>` : ''}
+                        <a href="${item.link}" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                    </div>`;
+            });
+        } else {
+            staatsbladHtml += "<p>Geen publicaties gevonden.</p>";
+        }
+        content.innerHTML = omgevingsHtml + staatsbladHtml;
+    };
+
+    function zoomToFeature(id) {
+        if (!window.currentLayers) return;
+        window.currentLayers.eachLayer(layer => {
+            const p = layer.feature.properties;
+            if ((p.projectnummer || p.PROJECTNUMMER) == id) {
+                map.setView(layer.getBounds().getCenter(), 17);
+                layer.openPopup();
+            }
+        });
+    }
+</script>
+</body>
+</html>

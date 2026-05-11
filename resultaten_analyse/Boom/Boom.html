@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>Gemeente Rapport</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { display: flex; height: 100vh; margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; background-color: #f0f0f0; }
+        #sidebar { width: 450px; background: #ffffff; border-right: 1px solid #ddd; display: flex; flex-direction: column; z-index: 1000; }
+        #sidebar-header { padding: 0; background: #2c3e50; color: white; }
+        #sidebar-header h3 { padding: 20px 20px 5px 20px; margin: 0; }
+        
+        .btn-follow-container { padding: 0 20px 15px 20px; background: #2c3e50; }
+        .btn-follow { 
+            background-color: #27ae60; 
+            color: white; 
+            border: none; 
+            padding: 8px 15px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 0.85rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+        .btn-follow:hover { background-color: #2ecc71; }
+
+        #content-area { flex-grow: 1; overflow-y: auto; padding: 15px; background: #f9f9f9; }
+        .section-title { font-size: 1.2rem; font-weight: bold; color: #2c3e50; margin: 20px 0 10px 0; border-bottom: 2px solid #3498db; padding-bottom: 5px; }
+        .card { background: white; border-radius: 8px; padding: 12px; margin-bottom: 12px; border-left: 5px solid #3498db; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .card-omgeving { border-left-color: #3498db; cursor: pointer; transition: transform 0.1s; }
+        .card-omgeving:hover { transform: scale(1.01); }
+        .card-staatsblad { border-left-color: #e67e22; }
+        .card h4 { margin: 0 0 5px 0; font-size: 1rem; color: #2c3e50; }
+        .card p { margin: 3px 0; font-size: 0.85rem; color: #555; line-height: 1.3; }
+        .card .omschrijving { font-style: italic; color: #777; margin-top: 5px; border-top: 1px solid #eee; padding-top: 5px; }
+        .btn-link { display: inline-block; margin-top: 8px; color: #3498db; text-decoration: none; font-weight: bold; font-size: 0.8rem; }
+        #map { flex-grow: 1; height: 100%; }
+    </style>
+</head>
+<body>
+<div id="sidebar">
+    <div id="sidebar-header">
+        <h3>Omgevings-Dashboard</h3>
+        <h2 id="muni-title" style="margin: 0; padding: 0 20px 10px 20px; color: #3498db; background: #2c3e50; font-size: 1.4rem;">Boom</h2>
+        <div class="btn-follow-container">
+            <button class="btn-follow" onclick="followThisPage()">
+                Volg wijzigingen op deze pagina
+            </button>
+        </div>
+    </div>
+    <div id="content-area"></div>
+</div>
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    const map = L.map('map').setView([50.9, 4.4], 9);
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OSM' }).addTo(map);
+    const resultLayer = L.layerGroup().addTo(map);
+
+    // 2. WMS Configuratie (Provincie Vlaams-Brabant)
+    const trageWegenBrabant = L.tileLayer.wms('https://geoservices.vlaamsbrabant.be/TrageWegen/MapServer/WMSServer', {
+        layers: '0', 
+        format: 'image/png',
+        transparent: true,
+        version: '1.1.1',
+        attribution: '© Provincie Vlaams-Brabant'
+    });
+
+    const overlays = {
+        "Dossiers en Wegen": resultLayer,
+        "Tragewegenregister": trageWegenBrabant
+    };
+    L.control.layers(null, overlays).addTo(map);
+
+    function followThisPage() {
+        const currentUrl = window.location.href;
+        const followUrl = "https://www.followthatpage.com/add?url=" + encodeURIComponent(currentUrl);
+        navigator.clipboard.writeText(currentUrl).then(() => {
+            window.open(followUrl, '_blank');
+        });
+    }
+
+    
+    const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"id": 881682, "projectnummer": "2025044901", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Bouwen of herbouwen; Het reli\u00ebf van de bodem aanmerkelijk wijzigen; Hoogstammige bomen vellen die geen deel uitmaken van een bos; Nieuwbouw of aanleggen; Slopen van niet vrijstaande gebouwen of constructies; Verbouwen en/of uitbreiden met functiewijziging en met wijziging van aantal woongelegenheden", "aanvrager": "INVESTPRO PROJECTS (0872573792); Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2025-12-26", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-11", "vvo_huidige_toestand": "Boom", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "o8Nl95cfSWmx0LBpw3qxdQ", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2025044901", "uuid": "xQ2IsDF2T1SbIN5q9yisdg", "projectNaam": "SYMFONIE - Duplicaat van 2024061079", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2025044901"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[4.365247471196061, 51.08976535094215], [4.365250376762777, 51.08986776967708], [4.36525040518814, 51.08986978317439], [4.365250788936178, 51.089896875499775], [4.365251243774699, 51.08992856111566], [4.365252084842502, 51.08994605338731], [4.365253082722432, 51.08996677265039], [4.365254422918612, 51.08999151891455], [4.365258657393889, 51.090069434139586], [4.365256987422989, 51.09006947904402], [4.365269252750378, 51.09023121523409], [4.365269309798442, 51.090231970296585], [4.365272007453054, 51.09023189844981], [4.365275686950249, 51.09028244268873], [4.365399665297047, 51.09027393313599], [4.365399094703867, 51.090267982522285], [4.365479310918857, 51.0902624112351], [4.365710125120074, 51.09024638898984], [4.365847819967418, 51.09023683653488], [4.365960536231114, 51.09023365655247], [4.366084100186475, 51.09023017102466], [4.366135426967028, 51.090228715684304], [4.366199471251444, 51.0902269099589], [4.36619640342002, 51.09020372773548], [4.366259777069731, 51.09019553990221], [4.366313245001208, 51.090188628301405], [4.366288139751051, 51.09015089284651], [4.366270513291916, 51.09012440251767], [4.366336455806448, 51.090121616964844], [4.366354597133109, 51.09012085317864], [4.366350046793465, 51.09004355821866], [4.366381033990291, 51.09004283056928], [4.366339457747232, 51.08999772405213], [4.366295540875407, 51.08995009162503], [4.36673951313151, 51.08979105816582], [4.366823325848022, 51.089761036400716], [4.367013174384438, 51.08969302879146], [4.366885776250163, 51.089545134452834], [4.366854761791744, 51.089509124905526], [4.366815069644935, 51.08946265226535], [4.366775134958921, 51.08941532567], [4.366633973121789, 51.0894658861912], [4.366044087471115, 51.08967719587246], [4.366031185111823, 51.08966487197222], [4.36600072760343, 51.0896352083218], [4.365974608965715, 51.08960975151015], [4.365965088691586, 51.089612465966574], [4.365687929756766, 51.08969158934216], [4.365565221898844, 51.089726625248495], [4.365434734871868, 51.089763881093404], [4.365429039865531, 51.089764303441214], [4.365407044950584, 51.089764428791874], [4.365247471196061, 51.08976535094215]]]]}}]};
+    const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"gml_id": "F_TrageWegen.86186", "OBJECTID": 86186, "WS_OIDN": 0.0, "LBLSTATUS": null, "LBLMORF": null, "LBLWEGCAT": null, "LBLBEHEER": null, "WV_LBLTYPE": null, "WB_BREEDTE": null, "TRAGE_WEG": 1, "TW_ID": "11005_725", "TW_BREEDTE": 0, "TW_EIGENAAR": -7, "TW_DAT_INVENTARISATIE": "2017-05-21T00:00:00", "TW_JUR_STATUUT": 2, "TW_ZICHTBAAR": 2, "TW_NIET_ZB_REDEN": -8, "TW_TOEGANKELIJK": 2, "TW_NIET_TG_REDEN": -8, "TW_VERHARDING": -8, "Shape_Length": 125.96371667, "LSTRNM": null, "RSTRNM": null, "TW_ABW": "BOO_0047_1", "TW_NAAM": null, "index_right": 0, "id": 881682, "projectnummer": "2025044901", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Bouwen of herbouwen; Het reli\u00ebf van de bodem aanmerkelijk wijzigen; Hoogstammige bomen vellen die geen deel uitmaken van een bos; Nieuwbouw of aanleggen; Slopen van niet vrijstaande gebouwen of constructies; Verbouwen en/of uitbreiden met functiewijziging en met wijziging van aantal woongelegenheden", "aanvrager": "INVESTPRO PROJECTS (0872573792); Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2025-12-26", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-11", "vvo_huidige_toestand": "Boom", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "o8Nl95cfSWmx0LBpw3qxdQ", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2025044901", "uuid": "xQ2IsDF2T1SbIN5q9yisdg", "projectNaam": "SYMFONIE - Duplicaat van 2024061079", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[4.367044888100039, 51.090074826680755], [4.366510118584001, 51.089427681220386], [4.366348028608902, 51.08922351038025], [4.366591192761588, 51.08913992926004]]]}}]};
+    const DATA_STAATSBLAD = [{"date": "26 februari 2026", "title": "6 februari 2026. - Besluit van de Vlaamse Regering tot wijziging van het besluit van de Vlaamse Regering van 16 juli 2010 tot bepaling van stedenbouwkundige handelingen waarvoor geen omgevingsvergunning nodig is en van het besluit van de Vlaamse Regering van 7 mei 2021 tot uitvoering van diverse bepalingen uit de wet van 28 december 1967 betreffende de onbevaarbare waterlopen en tot wijziging van het besluit van de Vlaamse Regering van 12 december 2008 tot uitvoering van titel XVI van het decreet van 5 april 1995 houdende algemene bepalingen inzake milieubeleid, wat betreft het toezicht op de naleving van de wet van 28 december 1967 betreffende de onbevaarbare waterlopen", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2026-02-26&numac_search=2026001335&page=1&lg_txt=N&caller=list&2026001335=0&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2026001335"}, {"date": "17 december 2024", "title": "25 april 2024. - Besluit van de Brusselse Hoofdstedelijke Regering tot Goedkeuring van het Richtplan van Aanleg \"Mediapark\"", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2024-12-17&numac_search=2024010128&page=1&lg_txt=N&caller=list&2024010128=1&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2024010128"}, {"date": "14 augustus 2024", "title": "7 juni 2024. - Besluit van de Vlaamse Regering tot wijziging van het besluit van de Vlaamse Regering van 16 juli 2010 tot bepaling van stedenbouwkundige handelingen waarvoor geen omgevingsvergunning nodig is", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2024-08-14&numac_search=2024007306&page=1&lg_txt=N&caller=list&2024007306=2&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2024007306"}, {"date": "08 maart 2022", "title": "Gemeente Boom Bij besluit van 17 februari 2022, heeft de gemeenteraad van het lokaal Bestuur Boom het grafisch plan tot gedeeltelijke opheffing van de gemeentewegen", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2022-03-08&numac_search=2022700664&page=1&lg_txt=N&caller=list&2022700664=0&view_numac=&text1=Boom&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en", "onderwerp": "grafisch plan tot opheffing", "numac": "2022700664"}, {"date": "20 december 2021", "title": "Gemeente Boom Bij besluit van 18 november 2021, heeft de gemeenteraad van het lokaal Bestuur Boom, het rooilijnplan Vlierlaan 1-4 voorlopig vastgesteld", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2021-12-20&numac_search=2021703446&page=1&lg_txt=N&caller=list&2021703446=3&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2021703446"}, {"date": "09 juli 2021", "title": "1 juli 2021. - Besluit van de Regering tot wijziging van het reglementaire deel van het Wetboek van Ruimtelijke Ontwikkeling", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2021-07-09&numac_search=2021203314&page=1&lg_txt=N&caller=list&2021203314=4&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2021203314"}, {"date": "04 juni 2021", "title": "Gemeente Boom Bij besluit van 20 mei 2021 heeft de gemeenteraad van het lokaal Bestuur Boom het grafisch plan tot gedeeltelijke opheffing van de gemeentewegen", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2021-06-04&numac_search=2021701795&page=1&lg_txt=N&caller=list&2021701795=1&view_numac=&text1=Boom&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en", "onderwerp": "grafisch plan tot opheffing", "numac": "2021701795"}, {"date": "09 februari 2021", "title": "Gemeente Boom Bekendmaking definitieve vaststelling gedeeltelijke afschaffing van buurtwegen 31 en 32 te Boom Bij besluit van 17 december 2020", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2021-02-09&numac_search=2021700386&page=1&lg_txt=N&caller=list&2021700386=2&view_numac=&text1=Boom&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en", "onderwerp": "grafisch plan tot opheffing", "numac": "2021700386"}, {"date": "24 september 2020", "title": "Gemeente Boom Bij besluit van 17 september 2020 heeft de gemeenteraad van het lokaal Bestuur Boom het grafisch plan tot gedeeltelijke opheffing van de gemeentewegen", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2020-09-24&numac_search=2020702811&page=1&lg_txt=N&caller=list&2020702811=3&view_numac=&text1=Boom&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en", "onderwerp": "grafisch plan tot opheffing", "numac": "2020702811"}, {"date": "14 november 2019", "title": "9 mei 2019. - Besluit van de Waalse Regering tot wijziging van het reglementair deel van het Wetboek van Ruimtelijke Ontwikkeling", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2019-11-14&numac_search=2019015240&page=1&lg_txt=N&caller=list&2019015240=5&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2019015240"}, {"date": "03 april 2017", "title": "22 december 2016. - Besluit van de Waalse Regering tot vorming van het reglementair deel van het Wetboek van Ruimtelijke Ontwikkeling", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2017-04-03&numac_search=2017070033&page=1&lg_txt=N&caller=list&2017070033=6&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2017070033"}, {"date": "14 november 2016", "title": "20 juli 2016. - Decreet tot opheffing van het decreet van 24 april 2014 tot opheffing van de artikelen 1 tot 128 en 129quater tot 184 van het Waalse Wetboek van Ruimtelijke Ordening, Stedenbouw, Patrimonium en Energie, tot opheffing van de artikelen 1 tot 128 en 129quater tot 184 van het Waalse Wetboek van Ruimtelijke Ordening, Stedenbouw en Patrimonium en tot vorming van het Wetboek van Ruimtelijke Ontwikkeling (1)", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2016-11-14&numac_search=2016205561&page=1&lg_txt=N&caller=list&2016205561=7&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2016205561"}, {"date": "19 september 2016", "title": "15 juli 2016. - Besluit van de Vlaamse Regering houdende wijziging van diverse bepalingen van het besluit van de Vlaamse Regering van 16 juli 2010 tot bepaling van handelingen waarvoor geen stedenbouwkundige vergunning nodig is, van diverse bepalingen van het besluit van de Vlaamse Regering van 16 juli 2010 betreffende de meldingsplichtige handelingen ter uitvoering van de Vlaamse Codex Ruimtelijke Ordening en van artikel 10 van het besluit van de Vlaamse Regering van 5 juli 2013 houdende vaststelling van een gewestelijke stedenbouwkundige verordening inzake hemelwaterputten, infiltratievoorzieningen, buffervoorzieningen en gescheiden lozing van afvalwater en hemelwater", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2016-09-19&numac_search=2016036341&page=1&lg_txt=N&caller=list&2016036341=8&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2016036341"}, {"date": "15 september 2014", "title": "24 april 2014. - Decreet tot opheffing van de artikelen 1 tot 128 en 129quater tot 184 van het Waalse Wetboek van Ruimtelijke Ordening, Stedenbouw, Patrimonium en Energie en tot vorming van het Wetboek van Ruimtelijke Ontwikkeling (1)", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2014-09-15&numac_search=2014205556&page=1&lg_txt=N&caller=list&2014205556=9&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2014205556"}, {"date": "29 november 2013", "title": "2 mei 2013. - Besluit van de Brusselse Hoofdstedelijke Regering tot goedkeuring van het gedeeltelijke wijziging van het gewestelijk bestemmingsplan dat op 3 mei 2001 werd opgesteld", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2013-11-29&numac_search=2013031894&page=1&lg_txt=N&caller=list&2013031894=10&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2013031894"}, {"date": "04 september 2009", "title": "18 juni 2009. - Besluit van de Waalse Regering betreffende de handelingen en de werken bedoeld in artikel 84, \u00a7 2, van het Waalse Wetboek van Ruimtelijke Ordening, Stedenbouw, Patrimonium en Energie, de samenstelling van de aanvragen voor stedenbouwkundige vergunningen en de procedure die van toepassing is voor de energieprestatie van gebouwen", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2009-09-04&numac_search=2009203976&page=1&lg_txt=N&caller=list&2009203976=11&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2009203976"}, {"date": "10 februari 2009", "title": "14 november 2008. - Ministeri\u00eble omzendbrief betreffende de bescherming van waardevolle bomen en heggen, de aanplanting van regionale soorten in landelijke gebieden en aanplantingen binnen een isoleringsstelsel", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2009-02-10&numac_search=2009200428&page=1&lg_txt=N&caller=list&2009200428=12&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2009200428"}, {"date": "19 december 2006", "title": "21 november 2006. - Besluit van de Regering van het Brussels Hoofdstedelijk Gewest tot goedkeuring van de Titels I tot VIII van de Gewestelijke Stedenbouwkundige Verordening, van toepassing op het volledige grondgebied van het Brussels Hoofdstedelijk Gewest", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2006-12-19&numac_search=2006031598&page=1&lg_txt=N&caller=list&2006031598=13&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2006031598"}, {"date": "01 juli 2004", "title": "29 april 2004. - Besluit van de Brusselse Hoofdstedelijke Regering tot vaststelling van de samenstelling van het dossier van de aanvragen om verkavelingsvergunning en om stedenbouwkundig attest met het oog op verkaveling", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2004-07-01&numac_search=2004031297&page=1&lg_txt=N&caller=list&2004031297=14&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2004031297"}, {"date": "15 mei 2003", "title": "11 april 2003. - Besluit van de Brusselse Hoofdstedelijke Regering tot vastlegging van de Titels I tot VII van de Gewestelijke Stedenbouwkundige Verordening die van toepassing is op het grondgebied van het Brussels Hoofdstedelijk Gewest", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2003-05-15&numac_search=2003031237&page=1&lg_txt=N&caller=list&2003031237=15&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2003031237"}, {"date": "15 oktober 2002", "title": "12 september 2002. - Besluit van de Regering van het Brussels Hoofdstedelijk Gewest met betrekking tot het Gewestelijk Ontwikkelingsplan", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2002-10-15&numac_search=2002031492&page=1&lg_txt=N&caller=list&2002031492=17&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2002031492"}, {"date": "18 juli 2002", "title": "Departement Leefmilieu en Infrastructuur Ruimtelijke ordening. - Rooilijnen BOOM. - Bij besluit van 27 juni 2002 van de Vlaamse minister van Financi\u00ebn en Begroting, Innovatie", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2002-07-18&numac_search=2002035884&page=1&lg_txt=N&caller=list&2002035884=16&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2002035884"}, {"date": "16 oktober 2001", "title": "20 september 2001. - Besluit van de Brusselse Hoofdstedelijke Regering tot vaststelling van het ontwerp van gewestelijk ontwikkelingsplan", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2001-10-16&numac_search=2001031353&page=1&lg_txt=N&caller=list&2001031353=18&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2001031353"}, {"date": "14 juni 2001", "title": "3 mei 2001. - Besluit van de Brusselse Hoofdstedelijke Regering tot goedkeuring van het gewestelijk bestemmingsplan (1)", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2001-06-14&numac_search=2001031033&page=1&lg_txt=N&caller=list&2001031033=19&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2001031033"}, {"date": "30 oktober 1999", "title": "28 oktober 1999. - Besluit van het Brussels Hoofdstedelijk Gewest ter goedkeuring van het prioritair actieprogramma \u00ab Crystal \u00bb gelegen op het grondgebied van de gemeente Sint-Jans-Molenbeek", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=1999-10-30&numac_search=1999031453&page=1&lg_txt=N&caller=list&1999031453=21&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "1999031453"}, {"date": "09 juli 1999", "title": "3 juni 1999. - Besluit van de Brusselse Hoofdstedelijke Regering tot vastlegging van Titels I tot VII van de Gewestelijke stedenbouwkundige verordening die van toepassing is op het grondgebied van het Brussels Hoofdstedelijk Gewest", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=1999-07-09&numac_search=1999031282&page=1&lg_txt=N&caller=list&1999031282=22&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "1999031282"}, {"date": "08 juni 1999", "title": "18 mei 1999. - Decreet houdende de organisatie van de ruimtelijke ordening (1)", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=1999-06-08&numac_search=1999035652&page=1&lg_txt=N&caller=list&1999035652=20&view_numac=&text1=Boom&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "1999035652"}];
+            
+
+    window.onload = () => {
+        const content = document.getElementById('content-area');
+        content.innerHTML = "";
+        resultLayer.clearLayers();
+
+        // 1. Dossiers
+        let omgevingsHtml = '<div class="section-title">Omgevingsonderzoeken</div>';
+        if (typeof DATA_DOSSIERS !== 'undefined' && DATA_DOSSIERS && DATA_DOSSIERS.features) {
+            const leafletGeo = L.geoJSON(DATA_DOSSIERS, {
+                style: { color: '#3498db', weight: 2, fillOpacity: 0.3 },
+                onEachFeature: (f, l) => {
+                    const p = f.properties;
+                    const nr = p.projectnummer || p.PROJECTNUMMER || 'N/A';
+                    const type = p.omschrijving_projecttype || p.OMSCHRIJVING_PROJECTTYPE || 'Geen info';
+                    const naam = p.projectNaam || p.PROJECTNAAM || 'Geen naam';
+                    const omschrijving = p.handeling_omschrijving || p.HANDELING_OMSCHRIJVING || '';
+                    const url = p.loket_url || p.LOKET_URL || '#';
+
+                    l.bindPopup(`
+                        <div style="font-size: 13px; line-height: 1.4;">
+                            <strong>Project: ${nr}</strong><br>
+                            <b>Naam:</b> ${naam}<br>
+                            ${omschrijving ? `<b>Handeling:</b> ${omschrijving}<br>` : ''}
+                            <hr style="margin: 8px 0;">
+                            <a href="${url}" target="_blank" style="color: #3498db; font-weight: bold; text-decoration: none;">Open Omgevingsloket -></a>
+                        </div>
+                    `);
+                    
+                    omgevingsHtml += `
+                        <div class="card card-omgeving" onclick="zoomToFeature('${nr}')">
+                            <h4>Project ${nr}</h4>
+                            <p><b>Type:</b> ${type}</p>
+                            <p><b>Naam:</b> ${naam}</p>
+                            ${omschrijving ? `<p class="omschrijving">${omschrijving}</p>` : ''}
+                            <a href="${url}" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
+                        </div>`;
+                }
+            }).addTo(resultLayer);
+            if (DATA_DOSSIERS.features.length > 0) map.fitBounds(leafletGeo.getBounds());
+            window.currentLayers = leafletGeo;
+        }
+
+        // 2. Wegen
+        if (typeof DATA_WEGEN !== 'undefined' && DATA_WEGEN && DATA_WEGEN.features) {
+            L.geoJSON(DATA_WEGEN, { 
+                style: { color: '#e74c3c', weight: 3, dashArray: '5, 5' },
+                onEachFeature: (f, l) => {
+                    const p = f.properties;
+                    let rawJur = p.TW_JUR_STATUUT || p.tw_jur_statuut;
+                    let jurInfo = (rawJur == 2 || rawJur == "2") ? "weg met rooilijn" : "feitelijke weg";
+                    let abwVal = p.TW_ABW || p.tw_abw || "Geen info";
+
+                    l.bindPopup(`
+                        <div style="font-size: 13px;">
+                            <b>Wegsegment</b><br>
+                            <b>weginfo:</b> ${jurInfo}<br>
+                            <b>Atlas der Buurtwegen:</b> ${abwVal}
+                        </div>
+                    `);
+                }
+            }).addTo(resultLayer);
+        }
+
+        // 3. Staatsblad
+        let staatsbladHtml = '<div class="section-title">Belgisch Staatsblad</div>';
+        if (typeof DATA_STAATSBLAD !== 'undefined' && DATA_STAATSBLAD && DATA_STAATSBLAD.length > 0) {
+            DATA_STAATSBLAD.forEach(item => {
+                staatsbladHtml += `
+                    <div class="card card-staatsblad">
+                        <h4>${item.date}</h4>
+                        <p>${item.title}</p>
+                        ${item.onderwerp ? `<p><small><b>Onderwerp:</b> ${item.onderwerp}</small></p>` : ''}
+                        <a href="${item.link}" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                    </div>`;
+            });
+        } else {
+            staatsbladHtml += "<p>Geen publicaties gevonden.</p>";
+        }
+        content.innerHTML = omgevingsHtml + staatsbladHtml;
+    };
+
+    function zoomToFeature(id) {
+        if (!window.currentLayers) return;
+        window.currentLayers.eachLayer(layer => {
+            const p = layer.feature.properties;
+            if ((p.projectnummer || p.PROJECTNUMMER) == id) {
+                map.setView(layer.getBounds().getCenter(), 17);
+                layer.openPopup();
+            }
+        });
+    }
+</script>
+</body>
+</html>

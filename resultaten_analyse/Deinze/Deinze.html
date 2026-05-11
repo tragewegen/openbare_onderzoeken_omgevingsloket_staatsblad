@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>Gemeente Rapport</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { display: flex; height: 100vh; margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; background-color: #f0f0f0; }
+        #sidebar { width: 450px; background: #ffffff; border-right: 1px solid #ddd; display: flex; flex-direction: column; z-index: 1000; }
+        #sidebar-header { padding: 0; background: #2c3e50; color: white; }
+        #sidebar-header h3 { padding: 20px 20px 5px 20px; margin: 0; }
+        
+        .btn-follow-container { padding: 0 20px 15px 20px; background: #2c3e50; }
+        .btn-follow { 
+            background-color: #27ae60; 
+            color: white; 
+            border: none; 
+            padding: 8px 15px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 0.85rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+        .btn-follow:hover { background-color: #2ecc71; }
+
+        #content-area { flex-grow: 1; overflow-y: auto; padding: 15px; background: #f9f9f9; }
+        .section-title { font-size: 1.2rem; font-weight: bold; color: #2c3e50; margin: 20px 0 10px 0; border-bottom: 2px solid #3498db; padding-bottom: 5px; }
+        .card { background: white; border-radius: 8px; padding: 12px; margin-bottom: 12px; border-left: 5px solid #3498db; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .card-omgeving { border-left-color: #3498db; cursor: pointer; transition: transform 0.1s; }
+        .card-omgeving:hover { transform: scale(1.01); }
+        .card-staatsblad { border-left-color: #e67e22; }
+        .card h4 { margin: 0 0 5px 0; font-size: 1rem; color: #2c3e50; }
+        .card p { margin: 3px 0; font-size: 0.85rem; color: #555; line-height: 1.3; }
+        .card .omschrijving { font-style: italic; color: #777; margin-top: 5px; border-top: 1px solid #eee; padding-top: 5px; }
+        .btn-link { display: inline-block; margin-top: 8px; color: #3498db; text-decoration: none; font-weight: bold; font-size: 0.8rem; }
+        #map { flex-grow: 1; height: 100%; }
+    </style>
+</head>
+<body>
+<div id="sidebar">
+    <div id="sidebar-header">
+        <h3>Omgevings-Dashboard</h3>
+        <h2 id="muni-title" style="margin: 0; padding: 0 20px 10px 20px; color: #3498db; background: #2c3e50; font-size: 1.4rem;">Deinze</h2>
+        <div class="btn-follow-container">
+            <button class="btn-follow" onclick="followThisPage()">
+                Volg wijzigingen op deze pagina
+            </button>
+        </div>
+    </div>
+    <div id="content-area"></div>
+</div>
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    const map = L.map('map').setView([50.9, 4.4], 9);
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OSM' }).addTo(map);
+    const resultLayer = L.layerGroup().addTo(map);
+
+    // 2. WMS Configuratie (Provincie Vlaams-Brabant)
+    const trageWegenBrabant = L.tileLayer.wms('https://geoservices.vlaamsbrabant.be/TrageWegen/MapServer/WMSServer', {
+        layers: '0', 
+        format: 'image/png',
+        transparent: true,
+        version: '1.1.1',
+        attribution: '© Provincie Vlaams-Brabant'
+    });
+
+    const overlays = {
+        "Dossiers en Wegen": resultLayer,
+        "Tragewegenregister": trageWegenBrabant
+    };
+    L.control.layers(null, overlays).addTo(map);
+
+    function followThisPage() {
+        const currentUrl = window.location.href;
+        const followUrl = "https://www.followthatpage.com/add?url=" + encodeURIComponent(currentUrl);
+        navigator.clipboard.writeText(currentUrl).then(() => {
+            window.open(followUrl, '_blank');
+        });
+    }
+
+    
+    const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"id": 957487, "projectnummer": "2025156907", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Een grond gebruiken, aanleggen of inrichten; Nieuwbouw of aanleggen", "aanvrager": "De Smet Samy (0504894797); Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-01-08", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-11", "vvo_huidige_toestand": "Deinze", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "ep--kRSKRAywSlQWU6RUDA", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2025156907", "uuid": "YJZvNZVjQhGlmztAr4UpSw", "projectNaam": "24-18507 Samy Renting", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2025156907"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[3.580444993316544, 50.98780441882763], [3.58049148771461, 50.9878125600876], [3.5805016981981, 50.98781435445595], [3.580505262036651, 50.98781501657949], [3.580507036608734, 50.987815361076464], [3.580507107664125, 50.98781537054181], [3.580552910043132, 50.98782401056421], [3.580559710928752, 50.9878252876722], [3.580711046454781, 50.98785382693586], [3.580741181139598, 50.98779467902912], [3.580707562193301, 50.9877865431381], [3.580733596353564, 50.98772900390142], [3.580806824464623, 50.987748174452854], [3.580824868868857, 50.98771264230074], [3.580922099683146, 50.98752131020362], [3.58094641034376, 50.98747562570938], [3.58101298743127, 50.98735058478398], [3.581038773006234, 50.987306114749046], [3.581043569488534, 50.98729783142206], [3.581084595003275, 50.987227051772955], [3.582297157912882, 50.98747705966276], [3.582338911120552, 50.98748595062263], [3.582606818340897, 50.98713071626642], [3.582943581028819, 50.986729770076025], [3.583262030650221, 50.98631385883801], [3.583256101880488, 50.98631069088907], [3.583046047156518, 50.98619889651572], [3.582719335803776, 50.986061511581156], [3.582692153501703, 50.986050084062036], [3.582180145946798, 50.98604384181209], [3.582008225511921, 50.98603541151119], [3.581691847577553, 50.98600560886745], [3.581472638540793, 50.98598130956806], [3.581077400059052, 50.98593039162947], [3.580934539656486, 50.98591487255687], [3.580904301444399, 50.98591158676902], [3.580890154210091, 50.985950866740424], [3.580886868856109, 50.98596415841818], [3.580682577051345, 50.98678982033634], [3.580571961616247, 50.98722847557691], [3.580564784716562, 50.987255513319695], [3.580445008464243, 50.987804364991206], [3.580444993316544, 50.98780441882763]]]]}}]};
+    const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"gml_id": "F_TrageWegen.8468", "OBJECTID": 8468, "WS_OIDN": null, "LBLSTATUS": "buiten gebruik", "LBLMORF": null, "LBLWEGCAT": null, "LSTRNM": null, "RSTRNM": null, "LBLBEHEER": null, "WV_LBLTYPE": null, "WB_BREEDTE": null, "TRAGE_WEG": 1, "TW_ID": "44011_6053", "TW_BREEDTE": -9, "TW_EIGENAAR": -8, "TW_DAT_INVENTARISATIE": "2010-05-27T00:00:00", "TW_JUR_STATUUT": 2, "TW_ZICHTBAAR": 2, "TW_NIET_ZB_REDEN": -8, "TW_TOEGANKELIJK": 2, "TW_NIET_TG_REDEN": -8, "TW_VERHARDING": -8, "Shape_Length": 538.7126965, "TW_NAAM": null, "TW_ABW": "011_27_1", "index_right": 5, "id": 957487, "projectnummer": "2025156907", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Een grond gebruiken, aanleggen of inrichten; Nieuwbouw of aanleggen", "aanvrager": "De Smet Samy (0504894797); Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-01-08", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-11", "vvo_huidige_toestand": "Deinze", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "ep--kRSKRAywSlQWU6RUDA", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2025156907", "uuid": "YJZvNZVjQhGlmztAr4UpSw", "projectNaam": "24-18507 Samy Renting", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[3.584829892274783, 50.98380679533863], [3.584672154673703, 50.98416838269701], [3.584140797661943, 50.98498300458344], [3.583833443427404, 50.98546652242479], [3.583546286143236, 50.98584008159595], [3.583484308110888, 50.9859231064854], [3.583405458521908, 50.98602687926376], [3.583133193065976, 50.98638778852943], [3.582859087740604, 50.986748685769264], [3.582273875794606, 50.98748645473657], [3.581705205788963, 50.988222012890226]]]}}]};
+    const DATA_STAATSBLAD = [{"date": "10 juli 2024", "title": "Stad Deinze Het college van burgemeester en schepenen, brengt overeenkomstig artikel 17 van het Decreet houdende de Gemeentewegen d.d. 3 mei 2019", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2024-07-10&numac_search=2024702109&page=1&lg_txt=N&caller=list&2024702109=0&view_numac=&text1=Deinze&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en", "onderwerp": "grafisch plan tot opheffing", "numac": "2024702109"}, {"date": "20 juni 2024", "title": "Stad Deinze Het college van burgemeester en schepenen brengt, overeenkomstig artikel 17 van het Decreet houdende de Gemeentewegen d.d. 3 mei 2019", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2024-06-20&numac_search=2024701920&page=1&lg_txt=N&caller=list&2024701920=1&view_numac=&text1=Deinze&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en", "onderwerp": "grafisch plan tot opheffing", "numac": "2024701920"}, {"date": "20 februari 2023", "title": "Stad Deinze Op 26 januari 2023", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2023-02-20&numac_search=2023700531&page=1&lg_txt=N&caller=list&2023700531=0&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2023700531"}, {"date": "03 februari 2023", "title": "Stad Deinze Het College van Burgemeester en Schepenen brengt, overeenkomstig artikel 17 van het decreet houdende de gemeentewegen van 3 mei 2019", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2023-02-03&numac_search=2023700315&page=1&lg_txt=N&caller=list&2023700315=1&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2023700315"}, {"date": "08 november 2022", "title": "Stad Deinze Het college van burgemeester en schepenen van de Stad Deinze brengt ter kennis van het publiek, overeenkomstig de bepalingen van het decreet van 3 mei 2019 houdende de gemeentewegen", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2022-11-08&numac_search=2022703123&page=1&lg_txt=N&caller=list&2022703123=2&view_numac=&text1=Deinze&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en", "onderwerp": "grafisch plan tot opheffing", "numac": "2022703123"}, {"date": "31 augustus 2022", "title": "Stad Deinze Het college van burgemeester en schepenen brengt, overeenkomstig artikel 17 van het Decreet houdende de Gemeentewegen, d.d. 3 mei 2019, ter kennis van de bevolking dat de gemeenteraad", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2022-08-31&numac_search=2022702525&page=1&lg_txt=N&caller=list&2022702525=3&view_numac=&text1=Deinze&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en", "onderwerp": "grafisch plan tot opheffing", "numac": "2022702525"}, {"date": "09 december 2019", "title": "Bericht voorgeschreven bij artikel 3quater van het besluit van de Regent van 23 augustus 1948 tot regeling van de rechtspleging voor de afdeling bestuursrechtspraak van de Raad van State De NV PIENS", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2019-12-09&numac_search=2019015638&page=1&lg_txt=N&caller=list&2019015638=5&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2019015638"}, {"date": "12 september 2019", "title": "Stad Deinze Bekendmaking Het college van burgemeester en schepenen brengt", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2019-09-12&numac_search=2019703311&page=1&lg_txt=N&caller=list&2019703311=2&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2019703311"}, {"date": "26 juni 2019", "title": "Stad Deinze Het college van burgemeester en schepenen brengt ter algemene kennis dat de gemeenteraad in zitting d.d. 20 juni 2019 beslist heeft een openbaar onderzoek te houden over het voorlopig", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2019-06-26&numac_search=2019702566&page=1&lg_txt=N&caller=list&2019702566=3&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2019702566"}, {"date": "04 juni 2019", "title": "Stad Deinze Het College van Burgemeester en Schepenen brengt ter algemene kennis dat de gemeenteraad in zitting, d.d. 23 mei 2019", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2019-06-04&numac_search=2019702279&page=1&lg_txt=N&caller=list&2019702279=4&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2019702279"}, {"date": "24 oktober 2018", "title": "Stad Deinze Het college van burgemeester en schepenen brengt ter algemene kennis dat de gemeenteraad in zitting d.d. 30 augustus 2018", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2018-10-24&numac_search=2018708719&page=1&lg_txt=N&caller=list&2018708719=6&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2018708719"}, {"date": "10 februari 2017", "title": "Stad Deinze Het College van Burgemeester en Schepenen brengt ter algemene kennis dat de gemeenteraad in zitting", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2017-02-10&numac_search=2017701026&page=1&lg_txt=N&caller=list&2017701026=7&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2017701026"}, {"date": "21 september 2016", "title": "Stad Deinze Bekendmaking van het onderzoek Het College van Burgemeester en Schepenen van de Stad Deinze brengt ter kennis van de bevolking dat", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2016-09-21&numac_search=2016708104&page=1&lg_txt=N&caller=list&2016708104=8&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2016708104"}, {"date": "18 april 2016", "title": "Stad Deinze Het College van Burgemeester en Schepenen van de Stad Deinze brengt ter kennis van de bevolking dat, overeenkomstig de bepalingen van artikel 9", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2016-04-18&numac_search=2016703507&page=1&lg_txt=N&caller=list&2016703507=9&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2016703507"}, {"date": "15 april 2016", "title": "Definitieve vaststelling rooilijn- en innemingsplan DEINZE. - Overeenkomstig artikel 10 van het decreet van 8 mei 2009 houdende vaststelling en de realisatie van de rooilijnen wordt ter kennis", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2016-04-15&numac_search=2016035634&page=1&lg_txt=N&caller=list&2016035634=10&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2016035634"}, {"date": "28 december 2015", "title": "Stad Deinze Bekendmaking van het onderzoek Het College van Burgemeester en Schepenen van de Stad Deinze brengt ter kennis van de bevolking dat, overeenkomstig de bepalingen van artikel 9", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2015-12-28&numac_search=2015726461&page=1&lg_txt=N&caller=list&2015726461=11&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2015726461"}, {"date": "29 juni 2015", "title": "Stad Deinze Bekendmaking openbaar onderzoek Op 23 juni 2015, heeft de gemeenteraad van de stad Deinze het rooilijn- en innemingsplan, opgemaakt d.d. 21/05/2015, door bedigd landmeter K. Smith", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2015-06-29&numac_search=2015716408&page=1&lg_txt=N&caller=list&2015716408=12&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2015716408"}, {"date": "24 september 2009", "title": "Stad Deinze Ontwerp rooilijn- en innemingsplan Leieweg (voetweg nr. 17)  Bekendmaking van het onderzoek  Het college van burgemeester en schepenen van de stad Deinze brengt ter kennis van de", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2009-09-24&numac_search=2009734847&page=1&lg_txt=N&caller=list&2009734847=13&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2009734847"}, {"date": "17 juli 2009", "title": "Decreet van 18 mei 1999 houdende organisatie van de ruimtelijke ordening Stad Deinze Ontwerp rooilijn- en innemingsplan gedeelte Karmstraat (buurtweg nr. 12) Bekendmaking van het", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2009-07-17&numac_search=2009729756&page=1&lg_txt=N&caller=list&2009729756=14&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2009729756"}, {"date": "06 maart 2007", "title": "Ruimtelijke Ordening", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2007-03-06&numac_search=2007035317&page=1&lg_txt=N&caller=list&2007035317=15&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2007035317"}, {"date": "28 september 2006", "title": "Ruimtelijke ordening STADEN. - Bij besluit van 30 augustus 2006 van de Vlaamse minister van Financi\u00ebn en Begroting en Ruimtelijke Ordening : - is goedgekeurd het bijgaand rooilijn- en", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2006-09-28&numac_search=2006036497&page=1&lg_txt=N&caller=list&2006036497=16&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2006036497"}, {"date": "16 mei 2006", "title": "Ruimtelijke ordening, Woonbeleid en Onroerend Erfgoed Besluiten betreffende de provoncies, steden", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2006-05-16&numac_search=2006035742&page=1&lg_txt=N&caller=list&2006035742=17&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2006035742"}, {"date": "14 maart 2005", "title": "Ruimtelijke ordening ASSE : Rooilijn- en onteigeningsplan buurt- en voetweg nr. 35 Bij besluit van 2 februari 2005 van de Vlaamse minister van Financi\u00ebn en Begroting en Ruimtelijke Ordening :  - is", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2005-03-14&numac_search=2005035282&page=1&lg_txt=N&caller=list&2005035282=18&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2005035282"}, {"date": "29 maart 2000", "title": "Departement Leefmilieu en Infrastructuur Gewestplan Oudenaarde. - Definitieve vaststelling van het ontwerpplan tot gedeeltelijke wijziging van het gewestplan Oudenaarde op het grondgebied van de", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2000-03-29&numac_search=1999036515&page=1&lg_txt=N&caller=list&1999036515=19&view_numac=&text1=Deinze&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "1999036515"}];
+            
+
+    window.onload = () => {
+        const content = document.getElementById('content-area');
+        content.innerHTML = "";
+        resultLayer.clearLayers();
+
+        // 1. Dossiers
+        let omgevingsHtml = '<div class="section-title">Omgevingsonderzoeken</div>';
+        if (typeof DATA_DOSSIERS !== 'undefined' && DATA_DOSSIERS && DATA_DOSSIERS.features) {
+            const leafletGeo = L.geoJSON(DATA_DOSSIERS, {
+                style: { color: '#3498db', weight: 2, fillOpacity: 0.3 },
+                onEachFeature: (f, l) => {
+                    const p = f.properties;
+                    const nr = p.projectnummer || p.PROJECTNUMMER || 'N/A';
+                    const type = p.omschrijving_projecttype || p.OMSCHRIJVING_PROJECTTYPE || 'Geen info';
+                    const naam = p.projectNaam || p.PROJECTNAAM || 'Geen naam';
+                    const omschrijving = p.handeling_omschrijving || p.HANDELING_OMSCHRIJVING || '';
+                    const url = p.loket_url || p.LOKET_URL || '#';
+
+                    l.bindPopup(`
+                        <div style="font-size: 13px; line-height: 1.4;">
+                            <strong>Project: ${nr}</strong><br>
+                            <b>Naam:</b> ${naam}<br>
+                            ${omschrijving ? `<b>Handeling:</b> ${omschrijving}<br>` : ''}
+                            <hr style="margin: 8px 0;">
+                            <a href="${url}" target="_blank" style="color: #3498db; font-weight: bold; text-decoration: none;">Open Omgevingsloket -></a>
+                        </div>
+                    `);
+                    
+                    omgevingsHtml += `
+                        <div class="card card-omgeving" onclick="zoomToFeature('${nr}')">
+                            <h4>Project ${nr}</h4>
+                            <p><b>Type:</b> ${type}</p>
+                            <p><b>Naam:</b> ${naam}</p>
+                            ${omschrijving ? `<p class="omschrijving">${omschrijving}</p>` : ''}
+                            <a href="${url}" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
+                        </div>`;
+                }
+            }).addTo(resultLayer);
+            if (DATA_DOSSIERS.features.length > 0) map.fitBounds(leafletGeo.getBounds());
+            window.currentLayers = leafletGeo;
+        }
+
+        // 2. Wegen
+        if (typeof DATA_WEGEN !== 'undefined' && DATA_WEGEN && DATA_WEGEN.features) {
+            L.geoJSON(DATA_WEGEN, { 
+                style: { color: '#e74c3c', weight: 3, dashArray: '5, 5' },
+                onEachFeature: (f, l) => {
+                    const p = f.properties;
+                    let rawJur = p.TW_JUR_STATUUT || p.tw_jur_statuut;
+                    let jurInfo = (rawJur == 2 || rawJur == "2") ? "weg met rooilijn" : "feitelijke weg";
+                    let abwVal = p.TW_ABW || p.tw_abw || "Geen info";
+
+                    l.bindPopup(`
+                        <div style="font-size: 13px;">
+                            <b>Wegsegment</b><br>
+                            <b>weginfo:</b> ${jurInfo}<br>
+                            <b>Atlas der Buurtwegen:</b> ${abwVal}
+                        </div>
+                    `);
+                }
+            }).addTo(resultLayer);
+        }
+
+        // 3. Staatsblad
+        let staatsbladHtml = '<div class="section-title">Belgisch Staatsblad</div>';
+        if (typeof DATA_STAATSBLAD !== 'undefined' && DATA_STAATSBLAD && DATA_STAATSBLAD.length > 0) {
+            DATA_STAATSBLAD.forEach(item => {
+                staatsbladHtml += `
+                    <div class="card card-staatsblad">
+                        <h4>${item.date}</h4>
+                        <p>${item.title}</p>
+                        ${item.onderwerp ? `<p><small><b>Onderwerp:</b> ${item.onderwerp}</small></p>` : ''}
+                        <a href="${item.link}" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                    </div>`;
+            });
+        } else {
+            staatsbladHtml += "<p>Geen publicaties gevonden.</p>";
+        }
+        content.innerHTML = omgevingsHtml + staatsbladHtml;
+    };
+
+    function zoomToFeature(id) {
+        if (!window.currentLayers) return;
+        window.currentLayers.eachLayer(layer => {
+            const p = layer.feature.properties;
+            if ((p.projectnummer || p.PROJECTNUMMER) == id) {
+                map.setView(layer.getBounds().getCenter(), 17);
+                layer.openPopup();
+            }
+        });
+    }
+</script>
+</body>
+</html>

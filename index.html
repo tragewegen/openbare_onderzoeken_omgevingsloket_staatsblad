@@ -1,166 +1,125 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <title>Dashboard Trage Wegen & Omgeving</title>
+    <title>Omgevings-Dashboard | Selectie</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        body { display: flex; height: 100vh; margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
-        
-        #sidebar { 
-            width: 380px; background: #ffffff; border-right: 1px solid #ddd; 
-            display: flex; flex-direction: column; box-shadow: 2px 0 5px rgba(0,0,0,0.05); 
+        body { 
+            margin: 0; 
+            font-family: 'Segoe UI', sans-serif; 
+            background-color: #f4f7f6; 
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-
-        #sidebar-header { padding: 20px; background: #2c3e50; color: white; }
-        
-        .search-container { padding: 20px; border-bottom: 1px solid #eee; }
+        header { 
+            background: #2c3e50; 
+            color: white; 
+            padding: 50px 20px; 
+            text-align: center; 
+            width: 100%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .container { 
+            max-width: 800px; 
+            width: 90%;
+            margin: -30px auto 40px auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .selection-box { 
+            text-align: center; 
+            padding-bottom: 30px; 
+            border-bottom: 1px solid #eee; 
+            margin-bottom: 30px;
+        }
+        label { 
+            display: block; 
+            margin-bottom: 15px; 
+            font-weight: bold; 
+            color: #2c3e50; 
+            font-size: 1.1rem;
+        }
         input#gemeenteSearch { 
-            width: 100%; padding: 12px; border: 2px solid #3498db; border-radius: 6px;
-            box-sizing: border-box; font-size: 1rem;
+            width: 100%; 
+            max-width: 500px; 
+            padding: 15px; 
+            border: 2px solid #3498db; 
+            border-radius: 8px; 
+            font-size: 1.1rem;
+            outline: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-
-        #dossier-list { flex-grow: 1; overflow-y: auto; padding: 20px; background: #f9f9f9; }
-        .no-data { color: #e74c3c; font-weight: bold; text-align: center; margin-top: 20px; padding: 15px; background: #fdeaea; border-radius: 6px; }
-        
-        .dossier-card { 
-            background: white; border-radius: 8px; padding: 15px; margin-bottom: 15px;
-            border-left: 5px solid #3498db; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer;
-        }
-        .dossier-card:hover { transform: translateY(-2px); transition: 0.2s; }
-        
-        /* Stijl voor de omschrijving in de zijbalk */
-        .omschrijving-tekst {
-            display: block;
-            margin-top: 8px;
-            font-size: 0.85rem;
-            color: #444;
-            font-style: italic;
-            line-height: 1.2;
-        }
-
-        #map { flex-grow: 1; }
+        .content-block { padding: 10px; }
+        .content-block h2 { color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; margin-top: 0; }
+        footer { text-align: center; font-size: 0.85rem; color: #7f8c8d; padding: 30px; }
     </style>
 </head>
 <body>
 
-<div id="sidebar">
-    <div id="sidebar-header">
-        <h3>🔍 Analyse omgevingsloket</h3>
-    </div>
-    
-    <div class="search-container">
-        <label for="gemeenteSearch" style="display:block; margin-bottom: 8px; font-weight: bold;">Zoek gemeente:</label>
-        <input list="gemeenten-list" id="gemeenteSearch" placeholder="Typ een gemeentenaam..." onchange="handleSelection()">
-        <datalist id="gemeenten-list"></datalist>
+<header>
+    <h1>🌍 Dashboard</h1>
+    <p>Selecteer een gemeente voor meer info</p>
+</header>
+
+<div class="container">
+    <div class="selection-box">
+        <label for="gemeenteSearch">Welke gemeente wilt u bekijken?</label>
+        <input list="gemeenten-list" id="gemeenteSearch" placeholder="Begin met typen..." oninput="checkSelection()">
+        <datalist id="gemeenten-list">
+            <option value="Aalst"><option value="Aalter"><option value="Aarschot"><option value="Aartselaar"><option value="Affligem"><option value="Alken"><option value="Alveringem"><option value="Antwerpen"><option value="Anzegem"><option value="Ardooie"><option value="Arendonk"><option value="As"><option value="Asse"><option value="Assenede"><option value="Avelgem"><option value="Baarle-Hertog"><option value="Balen"><option value="Beernem"><option value="Beerse"><option value="Beersel"><option value="Begijnendijk"><option value="Bekkevoort"><option value="Beringen"><option value="Berlaar"><option value="Berlare"><option value="Bertem"><option value="Bever"><option value="Beveren-Kruibeke-Zwijndrecht"><option value="Bierbeek"><option value="Bilzen-Hoeselt"><option value="Blankenberge"><option value="Bocholt"><option value="Boechout"><option value="Bonheiden"><option value="Boom"><option value="Boortmeerbeek"><option value="Bornem"><option value="Boutersem"><option value="Brakel"><option value="Brasschaat"><option value="Brecht"><option value="Bredene"><option value="Bree"><option value="Brugge"><option value="Buggenhout"><option value="Damme"><option value="De Haan"><option value="De Panne"><option value="Deerlijk"><option value="Deinze"><option value="Denderleeuw"><option value="Dendermonde"><option value="Dentergem"><option value="Dessel"><option value="Destelbergen"><option value="Diepenbeek"><option value="Diest"><option value="Diksmuide"><option value="Dilbeek"><option value="Dilsen-Stokkem"><option value="Drogenbos"><option value="Duffel"><option value="Edegem"><option value="Eeklo"><option value="Erpe-Mere"><option value="Essen"><option value="Evergem"><option value="Gavere"><option value="Geel"><option value="Geetbets"><option value="Genk"><option value="Gent"><option value="Geraardsbergen"><option value="Gingelom"><option value="Gistel"><option value="Glabbeek"><option value="Grimbergen"><option value="Grobbendonk"><option value="Haacht"><option value="Haaltert"><option value="Halen"><option value="Halle"><option value="Hamme"><option value="Hamont-Achel"><option value="Harelbeke"><option value="Hasselt"><option value="Hechtel-Eksel"><option value="Heers"><option value="Heist-op-den-Berg"><option value="Hemiksem"><option value="Herent"><option value="Herentals"><option value="Herenthout"><option value="Herk-de-Stad"><option value="Herselt"><option value="Herstappe"><option value="Herzele"><option value="Heusden-Zolder"><option value="Heuvelland"><option value="Hoegaarden"><option value="Hoeilaart"><option value="Holsbeek"><option value="Hooglede"><option value="Hoogstraten"><option value="Horebeke"><option value="Houthalen-Helchteren"><option value="Houthulst"><option value="Hove"><option value="Huldenberg"><option value="Hulshout"><option value="Ichtegem"><option value="Ieper"><option value="Ingelmunster"><option value="Izegem"><option value="Jabbeke"><option value="Kalmthout"><option value="Kampenhout"><option value="Kapelle-op-den-Bos"><option value="Kapellen"><option value="Kaprijke"><option value="Kasterlee"><option value="Keerbergen"><option value="Kinrooi"><option value="Kluisbergen"><option value="Knokke-Heist"><option value="Koekelare"><option value="Koksijde"><option value="Kontich"><option value="Kortemark"><option value="Kortenaken"><option value="Kortenberg"><option value="Kortrijk"><option value="Kraainem"><option value="Kruisem"><option value="Kuurne"><option value="Laakdal"><option value="Laarne"><option value="Lanaken"><option value="Landen"><option value="Langemark-Poelkapelle"><option value="Lebbeke"><option value="Lede"><option value="Ledegem"><option value="Lendelede"><option value="Lennik"><option value="Leopoldsburg"><option value="Leuven"><option value="Lichtervelde"><option value="Liedekerke"><option value="Lier"><option value="Lierde"><option value="Lievegem"><option value="Lille"><option value="Linkebeek"><option value="Lint"><option value="Linter"><option value="Lo-Reninge"><option value="Lochristi"><option value="Lokeren"><option value="Lommel"><option value="Londerzeel"><option value="Lubbeek"><option value="Lummen"><option value="Maarkedal"><option value="Maaseik"><option value="Maasmechelen"><option value="Machelen"><option value="Maldegem"><option value="Malle"><option value="Mechelen"><option value="Meerhout"><option value="Meise"><option value="Menen"><option value="Merchtem"><option value="Merelbeke-Melle"><option value="Merksplas"><option value="Mesen"><option value="Middelkerke"><option value="Mol"><option value="Moorslede"><option value="Mortsel"><option value="Nazareth-De Pinte"><option value="Niel"><option value="Nieuwerkerken"><option value="Nieuwpoort"><option value="Nijlen"><option value="Ninove"><option value="Olen"><option value="Oostende"><option value="Oosterzele"><option value="Oostkamp"><option value="Oostrozebeke"><option value="Opwijk"><option value="Oud-Heverlee"><option value="Oud-Turnhout"><option value="Oudenaarde"><option value="Oudenburg"><option value="Oudsbergen"><option value="Overijse"><option value="Pajottegem"><option value="Peer"><option value="Pelt"><option value="Pepingen"><option value="Pittem"><option value="Poperinge"><option value="Putte"><option value="Puurs-Sint-Amands"><option value="Ranst"><option value="Ravels"><option value="Retie"><option value="Riemst"><option value="Rijkevorsel"><option value="Roeselare"><option value="Ronse"><option value="Roosdaal"><option value="Rotselaar"><option value="Rumst"><option value="Schelle"><option value="Scherpenheuvel-Zichem"><option value="Schilde"><option value="Schoten"><option value="Sint-Genesius-Rode"><option value="Sint-Gillis-Waas"><option value="Sint-Katelijne-Waver"><option value="Sint-Laureins"><option value="Sint-Lievens-Houtem"><option value="Sint-Martens-Latem"><option value="Sint-Niklaas"><option value="Sint-Pieters-Leeuw"><option value="Sint-Truiden"><option value="Spiere-Helkijn"><option value="Stabroek"><option value="Staden"><option value="Steenokkerzeel"><option value="Stekene"><option value="Temse"><option value="Ternat"><option value="Tervuren"><option value="Tessenderlo-Ham"><option value="Tielt"><option value="Tielt-Winge"><option value="Tienen"><option value="Tongeren-Borgloon"><option value="Torhout"><option value="Tremelo"><option value="Turnhout"><option value="Veurne"><option value="Vilvoorde"><option value="Vleteren"><option value="Voeren"><option value="Vorselaar"><option value="Vosselaar"><option value="Waasmunster"><option value="Waregem"><option value="Wellen"><option value="Wemmel"><option value="Wervik"><option value="Westerlo"><option value="Wetteren"><option value="Wevelgem"><option value="Wezembeek-Oppem"><option value="Wichelen"><option value="Wielsbeke"><option value="Wijnegem"><option value="Willebroek"><option value="Wingene"><option value="Wommelgem"><option value="Wortegem-Petegem"><option value="Wuustwezel"><option value="Zandhoven"><option value="Zaventem"><option value="Zedelgem"><option value="Zele"><option value="Zelzate"><option value="Zemst"><option value="Zoersel"><option value="Zonhoven"><option value="Zonnebeke"><option value="Zottegem"><option value="Zoutleeuw"><option value="Zuienkerke"><option value="Zulte"><option value="Zutendaal"><option value="Zwalm"><option value="Zwevegem">
+        </datalist>
     </div>
 
-    <div id="dossier-list">
-        <p style="color: #7f8c8d;">Selecteer een gemeente om de resultaten te bekijken.</p>
+    <div class="content-block">
+        <h2>Informatie & Instructies</h2>
+        <p>
+            Dit dashboard combineert data uit het omgevingsloket en het staatsblad om een overzicht te bieden van lopende openbare onderzoeken die mogelijks betrekking hebben op trage wegen.
+        </p>
+        <p>
+            <b>Hoe werkt het?</b><br>
+            Typ de naam van een gemeente in de zoekbalk hierboven. Zodra u een gemeente selecteert uit de lijst, wordt er automatisch een nieuw tabblad geopend met het specifieke dashboard voor die gemeente.<br>
+            Je krijgt een overzichtje van lopende openbare onderzoeken en een overzichtje van de laatste publicaties in het Belgisch staatsblad met betrekking tot wijzigingen van rooilijnplannen.
+        </p>
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+        <p>
+            <b>Op de hoogte blijven van nieuwe dossiers</b><br>
+            Wil je een mailtje krijgen van zodra er wijzigingen zijn bij een bepaalde gemeente? Op de betreffende pagina van de gemeente kan je op een knop klikken die je doorverwijst naar de website <a href="https://followthatpage.com/">https://followthatpage.com/</a> <br>
+        </p>
     </div>
 </div>
 
-<div id="map"></div>
+<footer>
+    &copy; 2026 Trage Wegen
+</footer>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    const map = L.map('map').setView([51.0, 3.7], 9);
-    
-    // Standaard achtergrondlaag
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap'
-    }).addTo(map);
+    // De volledige lijst met gemeenten
+    const alleGemeenten = ["Aalst", "Aalter", "Aarschot", "Aartselaar", "Affligem", "Alken", "Alveringem", "Antwerpen", "Anzegem", "Ardooie", "Arendonk", "As", "Asse", "Assenede", "Avelgem", "Baarle-Hertog", "Balen", "Beernem", "Beerse", "Beersel", "Begijnendijk", "Bekkevoort", "Beringen", "Berlaar", "Berlare", "Bertem", "Bever", "Beveren-Kruibeke-Zwijndrecht", "Bierbeek", "Bilzen-Hoeselt", "Blankenberge", "Bocholt", "Boechout", "Bonheiden", "Boom", "Boortmeerbeek", "Bornem", "Boutersem", "Brakel", "Brasschaat", "Brecht", "Bredene", "Bree", "Brugge", "Buggenhout", "Damme", "De Haan", "De Panne", "Deerlijk", "Deinze", "Denderleeuw", "Dendermonde", "Dentergem", "Dessel", "Destelbergen", "Diepenbeek", "Diest", "Diksmuide", "Dilbeek", "Dilsen-Stokkem", "Drogenbos", "Duffel", "Edegem", "Eeklo", "Erpe-Mere", "Essen", "Evergem", "Gavere", "Geel", "Geetbets", "Genk", "Gent", "Geraardsbergen", "Gingelom", "Gistel", "Glabbeek", "Grimbergen", "Grobbendonk", "Haacht", "Haaltert", "Halen", "Halle", "Hamme", "Hamont-Achel", "Harelbeke", "Hasselt", "Hechtel-Eksel", "Heers", "Heist-op-den-Berg", "Hemiksem", "Herent", "Herentals", "Herenthout", "Herk-de-Stad", "Herselt", "Herstappe", "Herzele", "Heusden-Zolder", "Heuvelland", "Hoegaarden", "Hoeilaart", "Holsbeek", "Hooglede", "Hoogstraten", "Horebeke", "Houthalen-Helchteren", "Houthulst", "Hove", "Huldenberg", "Hulshout", "Ichtegem", "Ieper", "Ingelmunster", "Izegem", "Jabbeke", "Kalmthout", "Kampenhout", "Kapelle-op-den-Bos", "Kapellen", "Kaprijke", "Kasterlee", "Keerbergen", "Kinrooi", "Kluisbergen", "Knokke-Heist", "Koekelare", "Koksijde", "Kontich", "Kortemark", "Kortenaken", "Kortenberg", "Kortrijk", "Kraainem", "Kruisem", "Kuurne", "Laakdal", "Laarne", "Lanaken", "Landen", "Langemark-Poelkapelle", "Lebbeke", "Lede", "Ledegem", "Lendelede", "Lennik", "Leopoldsburg", "Leuven", "Lichtervelde", "Liedekerke", "Lier", "Lierde", "Lievegem", "Lille", "Linkebeek", "Lint", "Linter", "Lo-Reninge", "Lochristi", "Lokeren", "Lommel", "Londerzeel", "Lubbeek", "Lummen", "Maarkedal", "Maaseik", "Maasmechelen", "Machelen", "Maldegem", "Malle", "Mechelen", "Meerhout", "Meise", "Menen", "Merchtem", "Merelbeke-Melle", "Merksplas", "Mesen", "Middelkerke", "Mol", "Moorslede", "Mortsel", "Nazareth-De Pinte", "Niel", "Nieuwerkerken", "Nieuwpoort", "Nijlen", "Ninove", "Olen", "Oostende", "Oosterzele", "Oostkamp", "Oostrozebeke", "Opwijk", "Oud-Heverlee", "Oud-Turnhout", "Oudenaarde", "Oudenburg", "Oudsbergen", "Overijse", "Pajottegem", "Peer", "Pelt", "Pepingen", "Pittem", "Poperinge", "Putte", "Puurs-Sint-Amands", "Ranst", "Ravels", "Retie", "Riemst", "Rijkevorsel", "Roeselare", "Ronse", "Roosdaal", "Rotselaar", "Rumst", "Schelle", "Scherpenheuvel-Zichem", "Schilde", "Schoten", "Sint-Genesius-Rode", "Sint-Gillis-Waas", "Sint-Katelijne-Waver", "Sint-Laureins", "Sint-Lievens-Houtem", "Sint-Martens-Latem", "Sint-Niklaas", "Sint-Pieters-Leeuw", "Sint-Truiden", "Spiere-Helkijn", "Stabroek", "Staden", "Steenokkerzeel", "Stekene", "Temse", "Ternat", "Tervuren", "Tessenderlo-Ham", "Tielt", "Tielt-Winge", "Tienen", "Tongeren-Borgloon", "Torhout", "Tremelo", "Turnhout", "Veurne", "Vilvoorde", "Vleteren", "Voeren", "Vorselaar", "Vosselaar", "Waasmunster", "Waregem", "Wellen", "Wemmel", "Wervik", "Westerlo", "Wetteren", "Wevelgem", "Wezembeek-Oppem", "Wichelen", "Wielsbeke", "Wijnegem", "Willebroek", "Wingene", "Wommelgem", "Wortegem-Petegem", "Wuustwezel", "Zandhoven", "Zaventem", "Zedelgem", "Zele", "Zelzate", "Zemst", "Zoersel", "Zonhoven", "Zonnebeke", "Zottegem", "Zoutleeuw", "Zuienkerke", "Zulte", "Zutendaal", "Zwalm", "Zwevegem"];
 
-    // Toevoegen van de WMS achtergrondlaag voor Trage Wegen
-    L.tileLayer.wms('https://geoservices.vlaamsbrabant.be/TrageWegen/MapServer/WMSServer', {
-        layers: 'F_TrageWegen',
-        format: 'image/png',
-        transparent: true,
-        attribution: '© Provincie Vlaams-Brabant'
-    }).addTo(map);
-
-    let layerGroup = L.layerGroup().addTo(map);
-
-    // 1. Laad ALLE gemeentenamen in de datalist en sorteer ze alfabetisch
-    fetch('resultaten_analyse/alle_gemeenten.json')
-        .then(res => res.json())
-        .then(namen => {
-            const list = document.getElementById('gemeenten-list');
-            // Alfabetisch sorteren
-            namen.sort().forEach(n => {
-                const opt = document.createElement('option');
-                opt.value = n;
-                list.appendChild(opt);
-            });
-        })
-        .catch(e => console.error("Kon gemeentelijst niet laden:", e));
-
-    function handleSelection() {
+    function checkSelection() {
         const input = document.getElementById('gemeenteSearch');
-        const gNaam = input.value;
-        if (!gNaam) return;
-
-        // Maak de naam "veilig"
-        const safeName = gNaam.replace(/ /g, "_").replace(/'/g, "");
-        loadMunicipality(safeName);
-    }
-
-    function loadMunicipality(folder) {
-        const list = document.getElementById('dossier-list');
-        layerGroup.clearLayers();
-        list.innerHTML = '<i>Bezig met laden...</i>';
-
-        const pathDossiers = `resultaten_analyse/${folder}/matches_dossiers.geojson`;
-        const pathWegen = `resultaten_analyse/${folder}/matches_wegen.geojson`;
-
-        // Probeer dossiers te laden
-        fetch(pathDossiers)
-            .then(res => {
-                if (!res.ok) throw new Error("404");
-                return res.json();
-            })
-            .then(data => {
-                list.innerHTML = ''; // Maak leeg
-                
-                const geo = L.geoJSON(data, {
-                    style: { color: '#3498db', weight: 2, fillOpacity: 0.4 },
-                    onEachFeature: (f, l) => {
-                        const p = f.properties;
-                        // Toon handeling_omschrijving in de popup op de kaart
-                        const popupContent = `
-                            <b>Project ${p.projectnummer}</b><br>
-                            <i>${p.handeling_omschrijving || 'Geen omschrijving beschikbaar'}</i><br><br>
-                            <a href="${p.loket_url}" target="_blank">Bekijk in Loket</a>
-                        `;
-                        l.bindPopup(popupContent);
-                        
-                        // Maak kaartje in sidebar inclusief handeling_omschrijving
-                        const card = document.createElement('div');
-                        card.className = 'dossier-card';
-                        card.innerHTML = `
-                            <strong>Project ${p.projectnummer}</strong><br>
-                            <small>${p.adres || 'Geen adres'}</small>
-                            <span class="omschrijving-tekst">${p.handeling_omschrijving || 'Geen omschrijving beschikbaar'}</span>
-                        `;
-                        card.onclick = () => { map.fitBounds(l.getBounds()); l.openPopup(); };
-                        list.appendChild(card);
-                    }
-                }).addTo(layerGroup);
-                
-                map.fitBounds(geo.getBounds());
-
-                // Laad ook de wegen als de dossiers gelukt zijn
-                fetch(pathWegen).then(r => r.json()).then(wData => {
-                    L.geoJSON(wData, { style: { color: '#e74c3c', weight: 3, dashArray: '5, 8' } }).addTo(layerGroup);
-                }).catch(() => {});
-            })
-            .catch(err => {
-                // Foutafhandeling bij ontbrekende gegevens
-                list.innerHTML = `<div class="no-data">geen dossiers gevonden</div>`;
-                map.setView([51.0, 3.7], 9);
-            });
+        const val = input.value;
+        
+        if (alleGemeenten.includes(val)) {
+            // Formatteer de naam terug naar de mapnaam (spaties -> underscores)
+            // We verwijderen ook eventuele afkappingstekens voor de veiligheid
+            const folder = val.replace(/ /g, "_").replace(/'/g, "");
+            const targetUrl = "resultaten_analyse/" + folder + "/" + folder + ".html";
+            
+            // Open in nieuw venster
+            window.open(targetUrl, '_blank');
+            
+            // Maak invoerveld leeg
+            input.value = "";
+        }
     }
 </script>
+
 </body>
 </html>

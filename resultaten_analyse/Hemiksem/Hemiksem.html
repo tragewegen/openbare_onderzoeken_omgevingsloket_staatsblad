@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>Gemeente Rapport</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { display: flex; height: 100vh; margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; background-color: #f0f0f0; }
+        #sidebar { width: 450px; background: #ffffff; border-right: 1px solid #ddd; display: flex; flex-direction: column; z-index: 1000; }
+        #sidebar-header { padding: 0; background: #2c3e50; color: white; }
+        #sidebar-header h3 { padding: 20px 20px 5px 20px; margin: 0; }
+        
+        .btn-follow-container { padding: 0 20px 15px 20px; background: #2c3e50; }
+        .btn-follow { 
+            background-color: #27ae60; 
+            color: white; 
+            border: none; 
+            padding: 8px 15px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 0.85rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+        .btn-follow:hover { background-color: #2ecc71; }
+
+        #content-area { flex-grow: 1; overflow-y: auto; padding: 15px; background: #f9f9f9; }
+        .section-title { font-size: 1.2rem; font-weight: bold; color: #2c3e50; margin: 20px 0 10px 0; border-bottom: 2px solid #3498db; padding-bottom: 5px; }
+        .card { background: white; border-radius: 8px; padding: 12px; margin-bottom: 12px; border-left: 5px solid #3498db; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .card-omgeving { border-left-color: #3498db; cursor: pointer; transition: transform 0.1s; }
+        .card-omgeving:hover { transform: scale(1.01); }
+        .card-staatsblad { border-left-color: #e67e22; }
+        .card h4 { margin: 0 0 5px 0; font-size: 1rem; color: #2c3e50; }
+        .card p { margin: 3px 0; font-size: 0.85rem; color: #555; line-height: 1.3; }
+        .card .omschrijving { font-style: italic; color: #777; margin-top: 5px; border-top: 1px solid #eee; padding-top: 5px; }
+        .btn-link { display: inline-block; margin-top: 8px; color: #3498db; text-decoration: none; font-weight: bold; font-size: 0.8rem; }
+        #map { flex-grow: 1; height: 100%; }
+    </style>
+</head>
+<body>
+<div id="sidebar">
+    <div id="sidebar-header">
+        <h3>Omgevings-Dashboard</h3>
+        <h2 id="muni-title" style="margin: 0; padding: 0 20px 10px 20px; color: #3498db; background: #2c3e50; font-size: 1.4rem;">Hemiksem</h2>
+        <div class="btn-follow-container">
+            <button class="btn-follow" onclick="followThisPage()">
+                Volg wijzigingen op deze pagina
+            </button>
+        </div>
+    </div>
+    <div id="content-area"></div>
+</div>
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    const map = L.map('map').setView([50.9, 4.4], 9);
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OSM' }).addTo(map);
+    const resultLayer = L.layerGroup().addTo(map);
+
+    // 2. WMS Configuratie (Provincie Vlaams-Brabant)
+    const trageWegenBrabant = L.tileLayer.wms('https://geoservices.vlaamsbrabant.be/TrageWegen/MapServer/WMSServer', {
+        layers: '0', 
+        format: 'image/png',
+        transparent: true,
+        version: '1.1.1',
+        attribution: '© Provincie Vlaams-Brabant'
+    });
+
+    const overlays = {
+        "Dossiers en Wegen": resultLayer,
+        "Tragewegenregister": trageWegenBrabant
+    };
+    L.control.layers(null, overlays).addTo(map);
+
+    function followThisPage() {
+        const currentUrl = window.location.href;
+        const followUrl = "https://www.followthatpage.com/add?url=" + encodeURIComponent(currentUrl);
+        navigator.clipboard.writeText(currentUrl).then(() => {
+            window.open(followUrl, '_blank');
+        });
+    }
+
+    
+    const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"id": 923119, "projectnummer": "2025106701", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Nieuwbouw of aanleggen", "aanvrager": "DE VLAAMSE WATERWEG (0216173309); Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-02-11", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-11", "vvo_huidige_toestand": "Departement Omgeving", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "NMm3twQbRVi_xC2KhWzVgA", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2025106701", "uuid": "WiGeM_xBQWeNcWK2t2hl8w", "projectNaam": "Uitbreiding Schelderadarketen tot Wintam - Realisatie radartorens", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2025106701"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[4.325444996274595, 51.13091987700021], [4.325492606348901, 51.13098721949788], [4.325616609498902, 51.13095250488452], [4.32554866830719, 51.130856418259725], [4.325476878652736, 51.130876518061996], [4.325497209591358, 51.13090526225043], [4.325444996274595, 51.13091987700021]]]]}}, {"type": "Feature", "properties": {"id": 923120, "projectnummer": "2025106701", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Nieuwbouw of aanleggen", "aanvrager": "DE VLAAMSE WATERWEG (0216173309); Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-02-11", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-11", "vvo_huidige_toestand": "Departement Omgeving", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "Va-XpyEZRse1OArfC3yQ7g", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2025106701", "uuid": "WiGeM_xBQWeNcWK2t2hl8w", "projectNaam": "Uitbreiding Schelderadarketen tot Wintam - Realisatie radartorens", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2025106701"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[4.324530625777637, 51.17596683431879], [4.324530532016234, 51.17606737113972], [4.324730167735371, 51.17606744453635], [4.324730261066751, 51.17596690771524], [4.324530625777637, 51.17596683431879]]]]}}, {"type": "Feature", "properties": {"id": 923116, "projectnummer": "2025106701", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Nieuwbouw of aanleggen", "aanvrager": "DE VLAAMSE WATERWEG (0216173309); Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-02-11", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-11", "vvo_huidige_toestand": "Departement Omgeving", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "1Ro6eSyKSh6b9IvoAyHAdw", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2025106701", "uuid": "WiGeM_xBQWeNcWK2t2hl8w", "projectNaam": "Uitbreiding Schelderadarketen tot Wintam - Realisatie radartorens", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2025106701"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[4.373053475544916, 51.20398748851309], [4.373155181052319, 51.20402046277745], [4.373207684727278, 51.203956570631696], [4.373105965013028, 51.203923587423844], [4.373053475544916, 51.20398748851309]]]]}}, {"type": "Feature", "properties": {"id": 923117, "projectnummer": "2025106701", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Nieuwbouw of aanleggen", "aanvrager": "DE VLAAMSE WATERWEG (0216173309); Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-02-11", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-11", "vvo_huidige_toestand": "Departement Omgeving", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "5N5e15efRbmibhTZlBncWw", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2025106701", "uuid": "WiGeM_xBQWeNcWK2t2hl8w", "projectNaam": "Uitbreiding Schelderadarketen tot Wintam - Realisatie radartorens", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2025106701"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[4.337586127075581, 51.19784879245403], [4.337675303585809, 51.19790561353989], [4.337691450145911, 51.197913554506584], [4.337770022735219, 51.19786519873895], [4.337666817842091, 51.19779911599521], [4.337586127075581, 51.19784879245403]]]]}}, {"type": "Feature", "properties": {"id": 923118, "projectnummer": "2025106701", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Nieuwbouw of aanleggen", "aanvrager": "DE VLAAMSE WATERWEG (0216173309); Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-02-11", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-11", "vvo_huidige_toestand": "Departement Omgeving", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "DcDNsRTsRRGBBoocx809fw", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2025106701", "uuid": "WiGeM_xBQWeNcWK2t2hl8w", "projectNaam": "Uitbreiding Schelderadarketen tot Wintam - Realisatie radartorens", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2025106701"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[4.33271888826031, 51.15548179543896], [4.332718617681503, 51.15540494272523], [4.33260863149318, 51.15540490975329], [4.332608571440742, 51.155484009521004], [4.332690314400645, 51.15548403403589], [4.332691059388032, 51.15565157299068], [4.332719631676697, 51.155651545591574], [4.33271888826031, 51.15548179543896]]]]}}]};
+    const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"gml_id": "F_TrageWegen.56525", "OBJECTID": 56525, "WS_OIDN": 1022473.0, "LBLSTATUS": "in gebruik", "LBLMORF": "wandel- of fietsweg, niet toegankelijk voor andere voertuigen", "LBLWEGCAT": "niet gekend", "LSTRNM": "", "RSTRNM": "", "LBLBEHEER": "Gemeente Zwijndrecht", "WV_LBLTYPE": "weg met losse verharding", "WB_BREEDTE": null, "TRAGE_WEG": 1, "TW_ID": "11056_301", "TW_BREEDTE": 3, "TW_EIGENAAR": -7, "TW_DAT_INVENTARISATIE": "2018-10-28T00:00:00", "TW_JUR_STATUUT": -8, "TW_ABW": null, "TW_ZICHTBAAR": 1, "TW_NIET_ZB_REDEN": -9, "TW_TOEGANKELIJK": -8, "TW_NIET_TG_REDEN": -8, "TW_VERHARDING": 12, "Shape_Length": 327.91596404, "TW_NAAM": "Scheldepad", "index_right": 3, "id": 923117, "projectnummer": "2025106701", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Nieuwbouw of aanleggen", "aanvrager": "DE VLAAMSE WATERWEG (0216173309); Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-02-11", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-11", "vvo_huidige_toestand": "Departement Omgeving", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "5N5e15efRbmibhTZlBncWw", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2025106701", "uuid": "WiGeM_xBQWeNcWK2t2hl8w", "projectNaam": "Uitbreiding Schelderadarketen tot Wintam - Realisatie radartorens", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[4.337863546639431, 51.197918410129176], [4.337652451231871, 51.19777767390539], [4.337232465361891, 51.197510075478235], [4.336829208029985, 51.1972553289688], [4.336316309244762, 51.19693864356728], [4.336031838478656, 51.196763911835816], [4.334775095357339, 51.195862290383666], [4.334669705755136, 51.19578668106488], [4.334650641923785, 51.195773004206885]]]}}]};
+    const DATA_STAATSBLAD = [{"date": "26 januari 2024", "title": "Gemeente Hemiksem Rooilijn aan de Heuvelstraat N Annaplein Het college van burgemeester en schepenen van de gemeente Hemiksem", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2024-01-26&numac_search=2024700243&page=1&lg_txt=N&caller=list&2024700243=0&view_numac=&text1=Hemiksem&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2024700243"}];
+            
+
+    window.onload = () => {
+        const content = document.getElementById('content-area');
+        content.innerHTML = "";
+        resultLayer.clearLayers();
+
+        // 1. Dossiers
+        let omgevingsHtml = '<div class="section-title">Omgevingsonderzoeken</div>';
+        if (typeof DATA_DOSSIERS !== 'undefined' && DATA_DOSSIERS && DATA_DOSSIERS.features) {
+            const leafletGeo = L.geoJSON(DATA_DOSSIERS, {
+                style: { color: '#3498db', weight: 2, fillOpacity: 0.3 },
+                onEachFeature: (f, l) => {
+                    const p = f.properties;
+                    const nr = p.projectnummer || p.PROJECTNUMMER || 'N/A';
+                    const type = p.omschrijving_projecttype || p.OMSCHRIJVING_PROJECTTYPE || 'Geen info';
+                    const naam = p.projectNaam || p.PROJECTNAAM || 'Geen naam';
+                    const omschrijving = p.handeling_omschrijving || p.HANDELING_OMSCHRIJVING || '';
+                    const url = p.loket_url || p.LOKET_URL || '#';
+
+                    l.bindPopup(`
+                        <div style="font-size: 13px; line-height: 1.4;">
+                            <strong>Project: ${nr}</strong><br>
+                            <b>Naam:</b> ${naam}<br>
+                            ${omschrijving ? `<b>Handeling:</b> ${omschrijving}<br>` : ''}
+                            <hr style="margin: 8px 0;">
+                            <a href="${url}" target="_blank" style="color: #3498db; font-weight: bold; text-decoration: none;">Open Omgevingsloket -></a>
+                        </div>
+                    `);
+                    
+                    omgevingsHtml += `
+                        <div class="card card-omgeving" onclick="zoomToFeature('${nr}')">
+                            <h4>Project ${nr}</h4>
+                            <p><b>Type:</b> ${type}</p>
+                            <p><b>Naam:</b> ${naam}</p>
+                            ${omschrijving ? `<p class="omschrijving">${omschrijving}</p>` : ''}
+                            <a href="${url}" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
+                        </div>`;
+                }
+            }).addTo(resultLayer);
+            if (DATA_DOSSIERS.features.length > 0) map.fitBounds(leafletGeo.getBounds());
+            window.currentLayers = leafletGeo;
+        }
+
+        // 2. Wegen
+        if (typeof DATA_WEGEN !== 'undefined' && DATA_WEGEN && DATA_WEGEN.features) {
+            L.geoJSON(DATA_WEGEN, { 
+                style: { color: '#e74c3c', weight: 3, dashArray: '5, 5' },
+                onEachFeature: (f, l) => {
+                    const p = f.properties;
+                    let rawJur = p.TW_JUR_STATUUT || p.tw_jur_statuut;
+                    let jurInfo = (rawJur == 2 || rawJur == "2") ? "weg met rooilijn" : "feitelijke weg";
+                    let abwVal = p.TW_ABW || p.tw_abw || "Geen info";
+
+                    l.bindPopup(`
+                        <div style="font-size: 13px;">
+                            <b>Wegsegment</b><br>
+                            <b>weginfo:</b> ${jurInfo}<br>
+                            <b>Atlas der Buurtwegen:</b> ${abwVal}
+                        </div>
+                    `);
+                }
+            }).addTo(resultLayer);
+        }
+
+        // 3. Staatsblad
+        let staatsbladHtml = '<div class="section-title">Belgisch Staatsblad</div>';
+        if (typeof DATA_STAATSBLAD !== 'undefined' && DATA_STAATSBLAD && DATA_STAATSBLAD.length > 0) {
+            DATA_STAATSBLAD.forEach(item => {
+                staatsbladHtml += `
+                    <div class="card card-staatsblad">
+                        <h4>${item.date}</h4>
+                        <p>${item.title}</p>
+                        ${item.onderwerp ? `<p><small><b>Onderwerp:</b> ${item.onderwerp}</small></p>` : ''}
+                        <a href="${item.link}" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                    </div>`;
+            });
+        } else {
+            staatsbladHtml += "<p>Geen publicaties gevonden.</p>";
+        }
+        content.innerHTML = omgevingsHtml + staatsbladHtml;
+    };
+
+    function zoomToFeature(id) {
+        if (!window.currentLayers) return;
+        window.currentLayers.eachLayer(layer => {
+            const p = layer.feature.properties;
+            if ((p.projectnummer || p.PROJECTNUMMER) == id) {
+                map.setView(layer.getBounds().getCenter(), 17);
+                layer.openPopup();
+            }
+        });
+    }
+</script>
+</body>
+</html>

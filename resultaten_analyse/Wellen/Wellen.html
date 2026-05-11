@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>Gemeente Rapport</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { display: flex; height: 100vh; margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; background-color: #f0f0f0; }
+        #sidebar { width: 450px; background: #ffffff; border-right: 1px solid #ddd; display: flex; flex-direction: column; z-index: 1000; }
+        #sidebar-header { padding: 0; background: #2c3e50; color: white; }
+        #sidebar-header h3 { padding: 20px 20px 5px 20px; margin: 0; }
+        
+        .btn-follow-container { padding: 0 20px 15px 20px; background: #2c3e50; }
+        .btn-follow { 
+            background-color: #27ae60; 
+            color: white; 
+            border: none; 
+            padding: 8px 15px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 0.85rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+        .btn-follow:hover { background-color: #2ecc71; }
+
+        #content-area { flex-grow: 1; overflow-y: auto; padding: 15px; background: #f9f9f9; }
+        .section-title { font-size: 1.2rem; font-weight: bold; color: #2c3e50; margin: 20px 0 10px 0; border-bottom: 2px solid #3498db; padding-bottom: 5px; }
+        .card { background: white; border-radius: 8px; padding: 12px; margin-bottom: 12px; border-left: 5px solid #3498db; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .card-omgeving { border-left-color: #3498db; cursor: pointer; transition: transform 0.1s; }
+        .card-omgeving:hover { transform: scale(1.01); }
+        .card-staatsblad { border-left-color: #e67e22; }
+        .card h4 { margin: 0 0 5px 0; font-size: 1rem; color: #2c3e50; }
+        .card p { margin: 3px 0; font-size: 0.85rem; color: #555; line-height: 1.3; }
+        .card .omschrijving { font-style: italic; color: #777; margin-top: 5px; border-top: 1px solid #eee; padding-top: 5px; }
+        .btn-link { display: inline-block; margin-top: 8px; color: #3498db; text-decoration: none; font-weight: bold; font-size: 0.8rem; }
+        #map { flex-grow: 1; height: 100%; }
+    </style>
+</head>
+<body>
+<div id="sidebar">
+    <div id="sidebar-header">
+        <h3>Omgevings-Dashboard</h3>
+        <h2 id="muni-title" style="margin: 0; padding: 0 20px 10px 20px; color: #3498db; background: #2c3e50; font-size: 1.4rem;">Wellen</h2>
+        <div class="btn-follow-container">
+            <button class="btn-follow" onclick="followThisPage()">
+                Volg wijzigingen op deze pagina
+            </button>
+        </div>
+    </div>
+    <div id="content-area"></div>
+</div>
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    const map = L.map('map').setView([50.9, 4.4], 9);
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OSM' }).addTo(map);
+    const resultLayer = L.layerGroup().addTo(map);
+
+    // 2. WMS Configuratie (Provincie Vlaams-Brabant)
+    const trageWegenBrabant = L.tileLayer.wms('https://geoservices.vlaamsbrabant.be/TrageWegen/MapServer/WMSServer', {
+        layers: '0', 
+        format: 'image/png',
+        transparent: true,
+        version: '1.1.1',
+        attribution: '© Provincie Vlaams-Brabant'
+    });
+
+    const overlays = {
+        "Dossiers en Wegen": resultLayer,
+        "Tragewegenregister": trageWegenBrabant
+    };
+    L.control.layers(null, overlays).addTo(map);
+
+    function followThisPage() {
+        const currentUrl = window.location.href;
+        const followUrl = "https://www.followthatpage.com/add?url=" + encodeURIComponent(currentUrl);
+        navigator.clipboard.writeText(currentUrl).then(() => {
+            window.open(followUrl, '_blank');
+        });
+    }
+
+    
+    const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": []};
+    const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": []};
+    const DATA_STAATSBLAD = [{"date": "26 mei 2021", "title": "Gemeente Wellen Bekendmaking gedeeltelijke opheffing Sentier nr. 154 Per gemeenteraadsbesluit van 26 maart 2021 werd besloten tot de opheffing van sentier nr. 154. Het grafisch plan werd definitief", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2021-05-26&numac_search=2021701692&page=1&lg_txt=N&caller=list&2021701692=0&view_numac=&text1=Wellen&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en", "onderwerp": "grafisch plan tot opheffing", "numac": "2021701692"}, {"date": "14 maart 2005", "title": "Ruimtelijke ordening ASSE : Rooilijn- en onteigeningsplan buurt- en voetweg nr. 35 Bij besluit van 2 februari 2005 van de Vlaamse minister van Financi\u00ebn en Begroting en Ruimtelijke Ordening :  - is", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2005-03-14&numac_search=2005035282&page=1&lg_txt=N&caller=list&2005035282=0&view_numac=&text1=Wellen&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2005035282"}, {"date": "21 mei 2004", "title": "Ruimtelijke ordeningDE HAAN. - Bij besluit van 27 april 2004 van de Vlaamse minister van Financi\u00ebn en Begroting, Ruimtelijke Ordening", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=2004-05-21&numac_search=2004035753&page=1&lg_txt=N&caller=list&2004035753=0&view_numac=&text1=Wellen&text2=wijziging+rooilijn&choix1=en&choix2=en", "onderwerp": "wijziging rooilijn", "numac": "2004035753"}, {"date": "19 november 1999", "title": "Departement Leefmilieu en Infrastructuur Ruimtelijke Ordening. - Rooilijnen. - Onteigeningen HAALTERT. - Bij besluit van 22 juni 1999 van de minister vice-president van de Vlaamse regering en Vlaams", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-11&pd_search=1999-11-19&numac_search=1999036258&page=1&lg_txt=N&caller=list&1999036258=2&view_numac=&text1=Wellen&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "1999036258"}];
+            
+
+    window.onload = () => {
+        const content = document.getElementById('content-area');
+        content.innerHTML = "";
+        resultLayer.clearLayers();
+
+        // 1. Dossiers
+        let omgevingsHtml = '<div class="section-title">Omgevingsonderzoeken</div>';
+        if (typeof DATA_DOSSIERS !== 'undefined' && DATA_DOSSIERS && DATA_DOSSIERS.features) {
+            const leafletGeo = L.geoJSON(DATA_DOSSIERS, {
+                style: { color: '#3498db', weight: 2, fillOpacity: 0.3 },
+                onEachFeature: (f, l) => {
+                    const p = f.properties;
+                    const nr = p.projectnummer || p.PROJECTNUMMER || 'N/A';
+                    const type = p.omschrijving_projecttype || p.OMSCHRIJVING_PROJECTTYPE || 'Geen info';
+                    const naam = p.projectNaam || p.PROJECTNAAM || 'Geen naam';
+                    const omschrijving = p.handeling_omschrijving || p.HANDELING_OMSCHRIJVING || '';
+                    const url = p.loket_url || p.LOKET_URL || '#';
+
+                    l.bindPopup(`
+                        <div style="font-size: 13px; line-height: 1.4;">
+                            <strong>Project: ${nr}</strong><br>
+                            <b>Naam:</b> ${naam}<br>
+                            ${omschrijving ? `<b>Handeling:</b> ${omschrijving}<br>` : ''}
+                            <hr style="margin: 8px 0;">
+                            <a href="${url}" target="_blank" style="color: #3498db; font-weight: bold; text-decoration: none;">Open Omgevingsloket -></a>
+                        </div>
+                    `);
+                    
+                    omgevingsHtml += `
+                        <div class="card card-omgeving" onclick="zoomToFeature('${nr}')">
+                            <h4>Project ${nr}</h4>
+                            <p><b>Type:</b> ${type}</p>
+                            <p><b>Naam:</b> ${naam}</p>
+                            ${omschrijving ? `<p class="omschrijving">${omschrijving}</p>` : ''}
+                            <a href="${url}" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
+                        </div>`;
+                }
+            }).addTo(resultLayer);
+            if (DATA_DOSSIERS.features.length > 0) map.fitBounds(leafletGeo.getBounds());
+            window.currentLayers = leafletGeo;
+        }
+
+        // 2. Wegen
+        if (typeof DATA_WEGEN !== 'undefined' && DATA_WEGEN && DATA_WEGEN.features) {
+            L.geoJSON(DATA_WEGEN, { 
+                style: { color: '#e74c3c', weight: 3, dashArray: '5, 5' },
+                onEachFeature: (f, l) => {
+                    const p = f.properties;
+                    let rawJur = p.TW_JUR_STATUUT || p.tw_jur_statuut;
+                    let jurInfo = (rawJur == 2 || rawJur == "2") ? "weg met rooilijn" : "feitelijke weg";
+                    let abwVal = p.TW_ABW || p.tw_abw || "Geen info";
+
+                    l.bindPopup(`
+                        <div style="font-size: 13px;">
+                            <b>Wegsegment</b><br>
+                            <b>weginfo:</b> ${jurInfo}<br>
+                            <b>Atlas der Buurtwegen:</b> ${abwVal}
+                        </div>
+                    `);
+                }
+            }).addTo(resultLayer);
+        }
+
+        // 3. Staatsblad
+        let staatsbladHtml = '<div class="section-title">Belgisch Staatsblad</div>';
+        if (typeof DATA_STAATSBLAD !== 'undefined' && DATA_STAATSBLAD && DATA_STAATSBLAD.length > 0) {
+            DATA_STAATSBLAD.forEach(item => {
+                staatsbladHtml += `
+                    <div class="card card-staatsblad">
+                        <h4>${item.date}</h4>
+                        <p>${item.title}</p>
+                        ${item.onderwerp ? `<p><small><b>Onderwerp:</b> ${item.onderwerp}</small></p>` : ''}
+                        <a href="${item.link}" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                    </div>`;
+            });
+        } else {
+            staatsbladHtml += "<p>Geen publicaties gevonden.</p>";
+        }
+        content.innerHTML = omgevingsHtml + staatsbladHtml;
+    };
+
+    function zoomToFeature(id) {
+        if (!window.currentLayers) return;
+        window.currentLayers.eachLayer(layer => {
+            const p = layer.feature.properties;
+            if ((p.projectnummer || p.PROJECTNUMMER) == id) {
+                map.setView(layer.getBounds().getCenter(), 17);
+                layer.openPopup();
+            }
+        });
+    }
+</script>
+</body>
+</html>
