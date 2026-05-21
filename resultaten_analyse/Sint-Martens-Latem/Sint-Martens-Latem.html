@@ -48,14 +48,52 @@
 <div id="sidebar">
     <div id="sidebar-header">
         <h3>Omgevings-Dashboard</h3>
-        <h2 id="muni-title" style="margin: 0; padding: 0 20px 10px 20px; color: #3498db; background: #2c3e50; font-size: 1.4rem;">Sint-Martens-Latem</h2>
+        <h2 id="muni-title" style="margin: 0; padding: 0 20px 15px 20px; color: #3498db; background: #2c3e50; font-size: 1.4rem;">Sint-Martens-Latem</h2>
+        
         <div class="btn-follow-container">
             <button class="btn-follow" onclick="followThisPage()">
                 Volg wijzigingen op deze pagina
             </button>
         </div>
     </div>
-    <div id="content-area"></div>
+    <div id="content-area"><div class="section-title">Omgevingsonderzoeken</div>
+                <div class="card card-omgeving" onclick="zoomToFeature('2026054567')">
+                    <h4>Project 2026054567</h4>
+                    <p><b>Type:</b> Aanvraag omgevingsproject</p>
+                    <p><b>Naam:</b> Renovatie woning + uitbreiding, verkleining schuur + aanleg zwembad & poolhouse</p>
+                    <p class="omschrijving">Hoogstammige bomen vellen die geen deel uitmaken van een bos; Nieuwbouw van bijgebouwen en niet overdekte lage constructie; Verbouwen en/of uitbreiden van bijgebouwen en niet overdekte lage constructies; Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden</p>
+                    <a href="https://omgevingsloketinzage.omgeving.vlaanderen.be/2026054567" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
+                </div><div class="section-title">Belgisch Staatsblad</div>
+                <div class="card card-staatsblad">
+                    <h4>17 januari 2022</h4>
+                    <p>Gemeente Sint-Martens-Latem Het college van burgemeester en schepenen van de gemeente Sint-Martens-Latem maakt bekend dat het rooilijnplan van Pijkenaas voorlopig werd vastgesteld door de</p>
+                    <p><small><b>Onderwerp:</b> rooilijn</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-20&pd_search=2022-01-17&numac_search=2022700140&page=1&lg_txt=N&caller=list&2022700140=0&view_numac=&text1=Sint-Martens-Latem&text2=rooilijn&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div>
+                <div class="card card-staatsblad">
+                    <h4>01 oktober 2021</h4>
+                    <p>Gemeente Sint-Martens-Latem Het college van burgemeester en schepenen van de gemeente Sint-Martens-Latem maakt bekend dat het rooilijnplan van de Elsakkerweg voorlopig werd vastgesteld door de</p>
+                    <p><small><b>Onderwerp:</b> rooilijn</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-20&pd_search=2021-10-01&numac_search=2021702784&page=1&lg_txt=N&caller=list&2021702784=1&view_numac=&text1=Sint-Martens-Latem&text2=rooilijn&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div>
+                <div class="card card-staatsblad">
+                    <h4>15 juli 2020</h4>
+                    <p>Gemeente Sint-Martens-Latem Het college van burgemeester en schepenen van de gemeente Sint-Martens-Latem maakt bekend dat het rooilijnplan van een deel van Turrebos voorlopig werd vastgesteld door</p>
+                    <p><small><b>Onderwerp:</b> rooilijn</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-20&pd_search=2020-07-15&numac_search=2020702219&page=1&lg_txt=N&caller=list&2020702219=2&view_numac=&text1=Sint-Martens-Latem&text2=rooilijn&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div>
+                <div class="card card-staatsblad">
+                    <h4>16 juni 2020</h4>
+                    <p>Gemeente Sint-Martens-Latem Het college van burgemeester en schepenen van de gemeente Sint-Martens-Latem maakt bekend dat het rooilijnplan van de Elsakkerweg voorlopig werd vastgesteld door de</p>
+                    <p><small><b>Onderwerp:</b> rooilijn</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-20&pd_search=2020-06-16&numac_search=2020701858&page=1&lg_txt=N&caller=list&2020701858=3&view_numac=&text1=Sint-Martens-Latem&text2=rooilijn&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div>
+                <div class="card card-staatsblad">
+                    <h4>07 mei 2020</h4>
+                    <p>Gemeente Sint-Martens-Latem Het college van burgemeester en schepenen van de gemeente Sint-Martens-Latem maakt bekend dat het rooilijnplan van de Bogaertstraat voorlopig werd vastgesteld door de</p>
+                    <p><small><b>Onderwerp:</b> rooilijn</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-20&pd_search=2020-05-07&numac_search=2020701437&page=1&lg_txt=N&caller=list&2020701437=4&view_numac=&text1=Sint-Martens-Latem&text2=rooilijn&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div></div>
 </div>
 <div id="map"></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -64,7 +102,7 @@
     const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OSM' }).addTo(map);
     const resultLayer = L.layerGroup().addTo(map);
 
-    // 2. WMS Configuratie (Provincie Vlaams-Brabant)
+    // WMS Configuratie (Provincie Vlaams-Brabant)
     const trageWegenBrabant = L.tileLayer.wms('https://geoservices.vlaamsbrabant.be/TrageWegen/MapServer/WMSServer', {
         layers: '0', 
         format: 'image/png',
@@ -88,25 +126,19 @@
     }
 
     
-    const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"id": 993106, "projectnummer": "2026054567", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Hoogstammige bomen vellen die geen deel uitmaken van een bos; Nieuwbouw van bijgebouwen en niet overdekte lage constructie; Verbouwen en/of uitbreiden van bijgebouwen en niet overdekte lage constructies; Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-04-30", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-18", "vvo_huidige_toestand": "Sint-Martens-Latem", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "W8GJJ3c1TZ-68sqXfLv76Q", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026054567", "uuid": "vrogBJn8RfaqFky_p18wSQ", "projectNaam": "Renovatie woning + uitbreiding, verkleining schuur + aanleg zwembad & poolhouse", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2026054567"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[3.608090240463034, 50.997672986258486], [3.608176094617297, 50.99768825668471], [3.608502649151347, 50.997804424898796], [3.608506445225132, 50.99780577087127], [3.608506665156717, 50.997805385739284], [3.60854974096835, 50.99773091548506], [3.608607737133093, 50.997630642552416], [3.608672870631066, 50.99751803700844], [3.608975069773611, 50.99759960766584], [3.608975479827857, 50.99759891811401], [3.609073206316908, 50.99743796992377], [3.609073279285558, 50.99743786251954], [3.609675208187063, 50.996481881804826], [3.609051609481169, 50.996253444861985], [3.609022932580059, 50.996242948819486], [3.608873944857295, 50.996491457375114], [3.608809715465932, 50.996590584522664], [3.608721509116225, 50.99672671981138], [3.60848171182465, 50.99709679213943], [3.608381860199574, 50.99724375634189], [3.608090240463034, 50.997672986258486]]]]}}]};
-    const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"gml_id": "F_TrageWegen.9628", "OBJECTID": 9628, "WS_OIDN": null, "LBLSTATUS": "buiten gebruik", "LBLMORF": null, "LBLWEGCAT": null, "LSTRNM": null, "RSTRNM": null, "LBLBEHEER": null, "WV_LBLTYPE": null, "WB_BREEDTE": null, "TRAGE_WEG": 1, "TW_ID": "44064_7835", "TW_BREEDTE": -9, "TW_EIGENAAR": -8, "TW_DAT_INVENTARISATIE": "2010-04-15T00:00:00", "TW_JUR_STATUUT": 2, "TW_ZICHTBAAR": 2, "TW_NIET_ZB_REDEN": -8, "TW_TOEGANKELIJK": 2, "TW_NIET_TG_REDEN": 1, "TW_VERHARDING": -8, "Shape_Length": 119.44671259, "TW_ABW": "046_20_1", "TW_NAAM": null, "index_right": 2, "id": 993106, "projectnummer": "2026054567", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Hoogstammige bomen vellen die geen deel uitmaken van een bos; Nieuwbouw van bijgebouwen en niet overdekte lage constructie; Verbouwen en/of uitbreiden van bijgebouwen en niet overdekte lage constructies; Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-04-30", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-18", "vvo_huidige_toestand": "Sint-Martens-Latem", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "W8GJJ3c1TZ-68sqXfLv76Q", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026054567", "uuid": "vrogBJn8RfaqFky_p18wSQ", "projectNaam": "Renovatie woning + uitbreiding, verkleining schuur + aanleg zwembad & poolhouse", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[3.608813296855057, 50.99649616312565], [3.609163373739453, 50.996015236269415], [3.609523291343874, 50.99552039209074]]]}}]};
-    const DATA_STAATSBLAD = [{"date": "17 januari 2022", "title": "Gemeente Sint-Martens-Latem Het college van burgemeester en schepenen van de gemeente Sint-Martens-Latem maakt bekend dat het rooilijnplan van Pijkenaas voorlopig werd vastgesteld door de", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-19&pd_search=2022-01-17&numac_search=2022700140&page=1&lg_txt=N&caller=list&2022700140=0&view_numac=&text1=Sint-Martens-Latem&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2022700140"}, {"date": "01 oktober 2021", "title": "Gemeente Sint-Martens-Latem Het college van burgemeester en schepenen van de gemeente Sint-Martens-Latem maakt bekend dat het rooilijnplan van de Elsakkerweg voorlopig werd vastgesteld door de", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-19&pd_search=2021-10-01&numac_search=2021702784&page=1&lg_txt=N&caller=list&2021702784=1&view_numac=&text1=Sint-Martens-Latem&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2021702784"}, {"date": "15 juli 2020", "title": "Gemeente Sint-Martens-Latem Het college van burgemeester en schepenen van de gemeente Sint-Martens-Latem maakt bekend dat het rooilijnplan van een deel van Turrebos voorlopig werd vastgesteld door", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-19&pd_search=2020-07-15&numac_search=2020702219&page=1&lg_txt=N&caller=list&2020702219=2&view_numac=&text1=Sint-Martens-Latem&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2020702219"}, {"date": "16 juni 2020", "title": "Gemeente Sint-Martens-Latem Het college van burgemeester en schepenen van de gemeente Sint-Martens-Latem maakt bekend dat het rooilijnplan van de Elsakkerweg voorlopig werd vastgesteld door de", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-19&pd_search=2020-06-16&numac_search=2020701858&page=1&lg_txt=N&caller=list&2020701858=3&view_numac=&text1=Sint-Martens-Latem&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2020701858"}, {"date": "07 mei 2020", "title": "Gemeente Sint-Martens-Latem Het college van burgemeester en schepenen van de gemeente Sint-Martens-Latem maakt bekend dat het rooilijnplan van de Bogaertstraat voorlopig werd vastgesteld door de", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-19&pd_search=2020-05-07&numac_search=2020701437&page=1&lg_txt=N&caller=list&2020701437=4&view_numac=&text1=Sint-Martens-Latem&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2020701437"}];
-            
+const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"id": 993373, "projectnummer": "2026054567", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Hoogstammige bomen vellen die geen deel uitmaken van een bos; Nieuwbouw van bijgebouwen en niet overdekte lage constructie; Verbouwen en/of uitbreiden van bijgebouwen en niet overdekte lage constructies; Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-04-30", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-20", "vvo_huidige_toestand": "Sint-Martens-Latem", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "W8GJJ3c1TZ-68sqXfLv76Q", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026054567", "uuid": "vrogBJn8RfaqFky_p18wSQ", "projectNaam": "Renovatie woning + uitbreiding, verkleining schuur + aanleg zwembad & poolhouse", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2026054567"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[3.608090240463034, 50.997672986258486], [3.608176094617297, 50.99768825668471], [3.608502649151347, 50.997804424898796], [3.608506445225132, 50.99780577087127], [3.608506665156717, 50.997805385739284], [3.60854974096835, 50.99773091548506], [3.608607737133093, 50.997630642552416], [3.608672870631066, 50.99751803700844], [3.608975069773611, 50.99759960766584], [3.608975479827857, 50.99759891811401], [3.609073206316908, 50.99743796992377], [3.609073279285558, 50.99743786251954], [3.609675208187063, 50.996481881804826], [3.609051609481169, 50.996253444861985], [3.609022932580059, 50.996242948819486], [3.608873944857295, 50.996491457375114], [3.608809715465932, 50.996590584522664], [3.608721509116225, 50.99672671981138], [3.60848171182465, 50.99709679213943], [3.608381860199574, 50.99724375634189], [3.608090240463034, 50.997672986258486]]]]}}]};
+const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"gml_id": "F_TrageWegen.9628", "OBJECTID": 9628, "WS_OIDN": null, "LBLSTATUS": "buiten gebruik", "LBLMORF": null, "LBLWEGCAT": null, "LSTRNM": null, "RSTRNM": null, "LBLBEHEER": null, "WV_LBLTYPE": null, "WB_BREEDTE": null, "TRAGE_WEG": 1, "TW_ID": "44064_7835", "TW_BREEDTE": -9, "TW_EIGENAAR": -8, "TW_DAT_INVENTARISATIE": "2010-04-15T00:00:00", "TW_JUR_STATUUT": 2, "TW_ZICHTBAAR": 2, "TW_NIET_ZB_REDEN": -8, "TW_TOEGANKELIJK": 2, "TW_NIET_TG_REDEN": 1, "TW_VERHARDING": -8, "Shape_Length": 119.44671259, "TW_ABW": "046_20_1", "TW_NAAM": null, "index_right": 1, "id": 993373, "projectnummer": "2026054567", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Hoogstammige bomen vellen die geen deel uitmaken van een bos; Nieuwbouw van bijgebouwen en niet overdekte lage constructie; Verbouwen en/of uitbreiden van bijgebouwen en niet overdekte lage constructies; Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-04-30", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-20", "vvo_huidige_toestand": "Sint-Martens-Latem", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "W8GJJ3c1TZ-68sqXfLv76Q", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026054567", "uuid": "vrogBJn8RfaqFky_p18wSQ", "projectNaam": "Renovatie woning + uitbreiding, verkleining schuur + aanleg zwembad & poolhouse", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[3.608813296855057, 50.99649616312565], [3.609163373739453, 50.996015236269415], [3.609523291343874, 50.99552039209074]]]}}]};
+        
 
     window.onload = () => {
-        const content = document.getElementById('content-area');
-        content.innerHTML = "";
         resultLayer.clearLayers();
 
-        // 1. Dossiers
-        let omgevingsHtml = '<div class="section-title">Omgevingsonderzoeken</div>';
         if (typeof DATA_DOSSIERS !== 'undefined' && DATA_DOSSIERS && DATA_DOSSIERS.features) {
             const leafletGeo = L.geoJSON(DATA_DOSSIERS, {
                 style: { color: '#3498db', weight: 2, fillOpacity: 0.3 },
                 onEachFeature: (f, l) => {
                     const p = f.properties;
                     const nr = p.projectnummer || p.PROJECTNUMMER || 'N/A';
-                    const type = p.omschrijving_projecttype || p.OMSCHRIJVING_PROJECTTYPE || 'Geen info';
                     const naam = p.projectNaam || p.PROJECTNAAM || 'Geen naam';
                     const omschrijving = p.handeling_omschrijving || p.HANDELING_OMSCHRIJVING || '';
                     const url = p.loket_url || p.LOKET_URL || '#';
@@ -120,22 +152,12 @@
                             <a href="${url}" target="_blank" style="color: #3498db; font-weight: bold; text-decoration: none;">Open Omgevingsloket -></a>
                         </div>
                     `);
-                    
-                    omgevingsHtml += `
-                        <div class="card card-omgeving" onclick="zoomToFeature('${nr}')">
-                            <h4>Project ${nr}</h4>
-                            <p><b>Type:</b> ${type}</p>
-                            <p><b>Naam:</b> ${naam}</p>
-                            ${omschrijving ? `<p class="omschrijving">${omschrijving}</p>` : ''}
-                            <a href="${url}" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
-                        </div>`;
                 }
             }).addTo(resultLayer);
             if (DATA_DOSSIERS.features.length > 0) map.fitBounds(leafletGeo.getBounds());
             window.currentLayers = leafletGeo;
         }
 
-        // 2. Wegen
         if (typeof DATA_WEGEN !== 'undefined' && DATA_WEGEN && DATA_WEGEN.features) {
             L.geoJSON(DATA_WEGEN, { 
                 style: { color: '#e74c3c', weight: 3, dashArray: '5, 5' },
@@ -155,23 +177,6 @@
                 }
             }).addTo(resultLayer);
         }
-
-        // 3. Staatsblad
-        let staatsbladHtml = '<div class="section-title">Belgisch Staatsblad</div>';
-        if (typeof DATA_STAATSBLAD !== 'undefined' && DATA_STAATSBLAD && DATA_STAATSBLAD.length > 0) {
-            DATA_STAATSBLAD.forEach(item => {
-                staatsbladHtml += `
-                    <div class="card card-staatsblad">
-                        <h4>${item.date}</h4>
-                        <p>${item.title}</p>
-                        ${item.onderwerp ? `<p><small><b>Onderwerp:</b> ${item.onderwerp}</small></p>` : ''}
-                        <a href="${item.link}" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
-                    </div>`;
-            });
-        } else {
-            staatsbladHtml += "<p>Geen publicaties gevonden.</p>";
-        }
-        content.innerHTML = omgevingsHtml + staatsbladHtml;
     };
 
     function zoomToFeature(id) {
@@ -179,7 +184,11 @@
         window.currentLayers.eachLayer(layer => {
             const p = layer.feature.properties;
             if ((p.projectnummer || p.PROJECTNUMMER) == id) {
-                map.setView(layer.getBounds().getCenter(), 17);
+                if (typeof layer.getBounds === 'function') {
+                    map.setView(layer.getBounds().getCenter(), 17);
+                } else if (typeof layer.getLatLng === 'function') {
+                    map.setView(layer.getLatLng(), 17);
+                }
                 layer.openPopup();
             }
         });

@@ -48,14 +48,40 @@
 <div id="sidebar">
     <div id="sidebar-header">
         <h3>Omgevings-Dashboard</h3>
-        <h2 id="muni-title" style="margin: 0; padding: 0 20px 10px 20px; color: #3498db; background: #2c3e50; font-size: 1.4rem;">Maarkedal</h2>
+        <h2 id="muni-title" style="margin: 0; padding: 0 20px 15px 20px; color: #3498db; background: #2c3e50; font-size: 1.4rem;">Maarkedal</h2>
+        
         <div class="btn-follow-container">
             <button class="btn-follow" onclick="followThisPage()">
                 Volg wijzigingen op deze pagina
             </button>
         </div>
     </div>
-    <div id="content-area"></div>
+    <div id="content-area"><div class="section-title">Omgevingsonderzoeken</div>
+                <div class="card card-omgeving" onclick="zoomToFeature('2026027443')">
+                    <h4>Project 2026027443</h4>
+                    <p><b>Type:</b> Aanvraag omgevingsproject</p>
+                    <p><b>Naam:</b> 2406 GHESQUIERE </p>
+                    <p class="omschrijving">Bouwen of herbouwen; Verwijderen van vrijstaande gebouwen</p>
+                    <a href="https://omgevingsloketinzage.omgeving.vlaanderen.be/2026027443" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
+                </div><div class="section-title">Belgisch Staatsblad</div>
+                <div class="card card-staatsblad">
+                    <h4>09 februari 2023</h4>
+                    <p>Gemeente Maarkedal In uitvoering van artikel 21 van het Gemeentewegendecreet van 3 mei 2019</p>
+                    <p><small><b>Onderwerp:</b> grafisch plan tot opheffing</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-20&pd_search=2023-02-09&numac_search=2023700401&page=1&lg_txt=N&caller=list&2023700401=0&view_numac=&text1=Maarkedal&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div>
+                <div class="card card-staatsblad">
+                    <h4>14 november 2022</h4>
+                    <p>Gemeente Maarkedal Bij besluit van de gemeenteraad van Maarkedal van 27 september 2022</p>
+                    <p><small><b>Onderwerp:</b> grafisch plan tot opheffing</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-20&pd_search=2022-11-14&numac_search=2022703146&page=1&lg_txt=N&caller=list&2022703146=1&view_numac=&text1=Maarkedal&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div>
+                <div class="card card-staatsblad">
+                    <h4>29 maart 2000</h4>
+                    <p>Departement Leefmilieu en Infrastructuur Gewestplan Oudenaarde. - Definitieve vaststelling van het ontwerpplan tot gedeeltelijke wijziging van het gewestplan Oudenaarde op het grondgebied van de</p>
+                    <p><small><b>Onderwerp:</b> rooilijn</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-20&pd_search=2000-03-29&numac_search=1999036515&page=1&lg_txt=N&caller=list&1999036515=0&view_numac=&text1=Maarkedal&text2=rooilijn&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div></div>
 </div>
 <div id="map"></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -64,7 +90,7 @@
     const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OSM' }).addTo(map);
     const resultLayer = L.layerGroup().addTo(map);
 
-    // 2. WMS Configuratie (Provincie Vlaams-Brabant)
+    // WMS Configuratie (Provincie Vlaams-Brabant)
     const trageWegenBrabant = L.tileLayer.wms('https://geoservices.vlaamsbrabant.be/TrageWegen/MapServer/WMSServer', {
         layers: '0', 
         format: 'image/png',
@@ -88,25 +114,19 @@
     }
 
     
-    const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"id": 977410, "projectnummer": "2026027443", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Bouwen of herbouwen; Verwijderen van vrijstaande gebouwen", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-02-28", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-18", "vvo_huidige_toestand": "Maarkedal", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "iuREVmbeRCST0Lzekm94FA", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026027443", "uuid": "3jI82MKSQw6I99k0RvBzTQ", "projectNaam": "2406 GHESQUIERE ", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2026027443"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[3.690464881666796, 50.79591261816594], [3.690465876220216, 50.79592826653595], [3.690496949407396, 50.795954247584994], [3.690522601268287, 50.795964662534594], [3.690548789134559, 50.795975287348526], [3.690576908634984, 50.79597194386174], [3.690593760476508, 50.7959699376516], [3.69071590050252, 50.7959554148237], [3.691146629897048, 50.795904180112856], [3.69131014602176, 50.795884726479656], [3.691318174000221, 50.79588377496361], [3.691593606684606, 50.795850484478834], [3.691710037388376, 50.79583641311069], [3.691844584792057, 50.795820153748615], [3.691839964544224, 50.79581297103271], [3.691772546267837, 50.79570827977722], [3.691980988951218, 50.79560356259819], [3.692171842579834, 50.79575261243607], [3.692178253114042, 50.795757611905344], [3.69219415428444, 50.79575462906008], [3.692337917619807, 50.795714913429116], [3.692379714449229, 50.795697480146956], [3.692479019123074, 50.79565606951455], [3.692514907940761, 50.795641110326684], [3.692546473118223, 50.79562794217878], [3.692588139961678, 50.79559682528028], [3.692601901828686, 50.79557982361182], [3.692637339525644, 50.79553600385808], [3.692668516964583, 50.79549746363765], [3.692559987171553, 50.795349545589126], [3.692509638974271, 50.79528091321493], [3.692505382302763, 50.79528298334076], [3.692006145484985, 50.795526034094145], [3.691603717210519, 50.794973468487946], [3.691575466066964, 50.79499785707398], [3.691568054779981, 50.795004269104865], [3.691374570537651, 50.795194360193896], [3.691308494174471, 50.79522235996673], [3.691259788819873, 50.79526746017022], [3.691244176648222, 50.79528191581184], [3.691219136155312, 50.79532762918648], [3.691011492876924, 50.795330411908004], [3.69058018883056, 50.795336198269766], [3.690579834119958, 50.79533620520848], [3.690552173334936, 50.79548505467881], [3.690523533035443, 50.795613257408164], [3.69046823467197, 50.79589549361002], [3.690464881666796, 50.79591261816594]]]]}}]};
-    const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"gml_id": "F_TrageWegen.27076", "OBJECTID": 27076, "WS_OIDN": null, "LBLSTATUS": "buiten gebruik", "LBLMORF": null, "LBLWEGCAT": null, "LSTRNM": null, "RSTRNM": null, "LBLBEHEER": null, "WV_LBLTYPE": null, "WB_BREEDTE": null, "TRAGE_WEG": 1, "TW_ID": "45064_190", "TW_BREEDTE": -8, "TW_EIGENAAR": -8, "TW_DAT_INVENTARISATIE": null, "TW_JUR_STATUUT": 2, "TW_ABW": "210_111_1", "TW_ZICHTBAAR": 2, "TW_NIET_ZB_REDEN": 3, "TW_TOEGANKELIJK": 2, "TW_NIET_TG_REDEN": -7, "TW_VERHARDING": -8, "Shape_Length": 147.67729863, "TW_NAAM": null, "index_right": 0, "id": 977410, "projectnummer": "2026027443", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Bouwen of herbouwen; Verwijderen van vrijstaande gebouwen", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-02-28", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-18", "vvo_huidige_toestand": "Maarkedal", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "iuREVmbeRCST0Lzekm94FA", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026027443", "uuid": "3jI82MKSQw6I99k0RvBzTQ", "projectNaam": "2406 GHESQUIERE ", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[3.690526385728222, 50.79532103651403], [3.690949550481771, 50.79534365129822], [3.691555389373593, 50.79548312529128], [3.69253288978018, 50.795679440431584]]]}}, {"type": "Feature", "properties": {"gml_id": "F_TrageWegen.27166", "OBJECTID": 27166, "WS_OIDN": null, "LBLSTATUS": "buiten gebruik", "LBLMORF": null, "LBLWEGCAT": null, "LSTRNM": null, "RSTRNM": null, "LBLBEHEER": null, "WV_LBLTYPE": null, "WB_BREEDTE": null, "TRAGE_WEG": 1, "TW_ID": "45064_280", "TW_BREEDTE": -8, "TW_EIGENAAR": -8, "TW_DAT_INVENTARISATIE": null, "TW_JUR_STATUUT": 2, "TW_ABW": "210_112_1", "TW_ZICHTBAAR": 2, "TW_NIET_ZB_REDEN": 3, "TW_TOEGANKELIJK": 2, "TW_NIET_TG_REDEN": -7, "TW_VERHARDING": -8, "Shape_Length": 268.74856194, "TW_NAAM": null, "index_right": 0, "id": 977410, "projectnummer": "2026027443", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Bouwen of herbouwen; Verwijderen van vrijstaande gebouwen", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-02-28", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-18", "vvo_huidige_toestand": "Maarkedal", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "iuREVmbeRCST0Lzekm94FA", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026027443", "uuid": "3jI82MKSQw6I99k0RvBzTQ", "projectNaam": "2406 GHESQUIERE ", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[3.690949550481771, 50.79534365129822], [3.69105408035916, 50.7951959157419], [3.691143625377177, 50.79507242856723], [3.691351702838437, 50.79484416515479], [3.691407295606408, 50.794538532790504], [3.691374623395667, 50.79439463782049], [3.691774640294906, 50.79416979982067], [3.691513129198767, 50.79391796381443], [3.691163249524838, 50.7935810151779], [3.690849374920566, 50.79328367772625]]]}}]};
-    const DATA_STAATSBLAD = [{"date": "09 februari 2023", "title": "Gemeente Maarkedal In uitvoering van artikel 21 van het Gemeentewegendecreet van 3 mei 2019", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-19&pd_search=2023-02-09&numac_search=2023700401&page=1&lg_txt=N&caller=list&2023700401=0&view_numac=&text1=Maarkedal&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en", "onderwerp": "grafisch plan tot opheffing", "numac": "2023700401"}, {"date": "14 november 2022", "title": "Gemeente Maarkedal Bij besluit van de gemeenteraad van Maarkedal van 27 september 2022", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-19&pd_search=2022-11-14&numac_search=2022703146&page=1&lg_txt=N&caller=list&2022703146=1&view_numac=&text1=Maarkedal&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en", "onderwerp": "grafisch plan tot opheffing", "numac": "2022703146"}, {"date": "29 maart 2000", "title": "Departement Leefmilieu en Infrastructuur Gewestplan Oudenaarde. - Definitieve vaststelling van het ontwerpplan tot gedeeltelijke wijziging van het gewestplan Oudenaarde op het grondgebied van de", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-19&pd_search=2000-03-29&numac_search=1999036515&page=1&lg_txt=N&caller=list&1999036515=0&view_numac=&text1=Maarkedal&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "1999036515"}];
-            
+const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"id": 977516, "projectnummer": "2026027443", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Bouwen of herbouwen; Verwijderen van vrijstaande gebouwen", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-02-28", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-20", "vvo_huidige_toestand": "Maarkedal", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "iuREVmbeRCST0Lzekm94FA", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026027443", "uuid": "3jI82MKSQw6I99k0RvBzTQ", "projectNaam": "2406 GHESQUIERE ", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2026027443"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[3.690464881666796, 50.79591261816594], [3.690465876220216, 50.79592826653595], [3.690496949407396, 50.795954247584994], [3.690522601268287, 50.795964662534594], [3.690548789134559, 50.795975287348526], [3.690576908634984, 50.79597194386174], [3.690593760476508, 50.7959699376516], [3.69071590050252, 50.7959554148237], [3.691146629897048, 50.795904180112856], [3.69131014602176, 50.795884726479656], [3.691318174000221, 50.79588377496361], [3.691593606684606, 50.795850484478834], [3.691710037388376, 50.79583641311069], [3.691844584792057, 50.795820153748615], [3.691839964544224, 50.79581297103271], [3.691772546267837, 50.79570827977722], [3.691980988951218, 50.79560356259819], [3.692171842579834, 50.79575261243607], [3.692178253114042, 50.795757611905344], [3.69219415428444, 50.79575462906008], [3.692337917619807, 50.795714913429116], [3.692379714449229, 50.795697480146956], [3.692479019123074, 50.79565606951455], [3.692514907940761, 50.795641110326684], [3.692546473118223, 50.79562794217878], [3.692588139961678, 50.79559682528028], [3.692601901828686, 50.79557982361182], [3.692637339525644, 50.79553600385808], [3.692668516964583, 50.79549746363765], [3.692559987171553, 50.795349545589126], [3.692509638974271, 50.79528091321493], [3.692505382302763, 50.79528298334076], [3.692006145484985, 50.795526034094145], [3.691603717210519, 50.794973468487946], [3.691575466066964, 50.79499785707398], [3.691568054779981, 50.795004269104865], [3.691374570537651, 50.795194360193896], [3.691308494174471, 50.79522235996673], [3.691259788819873, 50.79526746017022], [3.691244176648222, 50.79528191581184], [3.691219136155312, 50.79532762918648], [3.691011492876924, 50.795330411908004], [3.69058018883056, 50.795336198269766], [3.690579834119958, 50.79533620520848], [3.690552173334936, 50.79548505467881], [3.690523533035443, 50.795613257408164], [3.69046823467197, 50.79589549361002], [3.690464881666796, 50.79591261816594]]]]}}]};
+const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"gml_id": "F_TrageWegen.27076", "OBJECTID": 27076, "WS_OIDN": null, "LBLSTATUS": "buiten gebruik", "LBLMORF": null, "LBLWEGCAT": null, "LSTRNM": null, "RSTRNM": null, "LBLBEHEER": null, "WV_LBLTYPE": null, "WB_BREEDTE": null, "TRAGE_WEG": 1, "TW_ID": "45064_190", "TW_BREEDTE": -8, "TW_EIGENAAR": -8, "TW_DAT_INVENTARISATIE": null, "TW_JUR_STATUUT": 2, "TW_ABW": "210_111_1", "TW_ZICHTBAAR": 2, "TW_NIET_ZB_REDEN": 3, "TW_TOEGANKELIJK": 2, "TW_NIET_TG_REDEN": -7, "TW_VERHARDING": -8, "Shape_Length": 147.67729863, "TW_NAAM": null, "index_right": 1, "id": 977516, "projectnummer": "2026027443", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Bouwen of herbouwen; Verwijderen van vrijstaande gebouwen", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-02-28", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-20", "vvo_huidige_toestand": "Maarkedal", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "iuREVmbeRCST0Lzekm94FA", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026027443", "uuid": "3jI82MKSQw6I99k0RvBzTQ", "projectNaam": "2406 GHESQUIERE ", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[3.690526385728222, 50.79532103651403], [3.690949550481771, 50.79534365129822], [3.691555389373593, 50.79548312529128], [3.69253288978018, 50.795679440431584]]]}}, {"type": "Feature", "properties": {"gml_id": "F_TrageWegen.27166", "OBJECTID": 27166, "WS_OIDN": null, "LBLSTATUS": "buiten gebruik", "LBLMORF": null, "LBLWEGCAT": null, "LSTRNM": null, "RSTRNM": null, "LBLBEHEER": null, "WV_LBLTYPE": null, "WB_BREEDTE": null, "TRAGE_WEG": 1, "TW_ID": "45064_280", "TW_BREEDTE": -8, "TW_EIGENAAR": -8, "TW_DAT_INVENTARISATIE": null, "TW_JUR_STATUUT": 2, "TW_ABW": "210_112_1", "TW_ZICHTBAAR": 2, "TW_NIET_ZB_REDEN": 3, "TW_TOEGANKELIJK": 2, "TW_NIET_TG_REDEN": -7, "TW_VERHARDING": -8, "Shape_Length": 268.74856194, "TW_NAAM": null, "index_right": 1, "id": 977516, "projectnummer": "2026027443", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Bouwen of herbouwen; Verwijderen van vrijstaande gebouwen", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-02-28", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-20", "vvo_huidige_toestand": "Maarkedal", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "iuREVmbeRCST0Lzekm94FA", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026027443", "uuid": "3jI82MKSQw6I99k0RvBzTQ", "projectNaam": "2406 GHESQUIERE ", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[3.690949550481771, 50.79534365129822], [3.69105408035916, 50.7951959157419], [3.691143625377177, 50.79507242856723], [3.691351702838437, 50.79484416515479], [3.691407295606408, 50.794538532790504], [3.691374623395667, 50.79439463782049], [3.691774640294906, 50.79416979982067], [3.691513129198767, 50.79391796381443], [3.691163249524838, 50.7935810151779], [3.690849374920566, 50.79328367772625]]]}}]};
+        
 
     window.onload = () => {
-        const content = document.getElementById('content-area');
-        content.innerHTML = "";
         resultLayer.clearLayers();
 
-        // 1. Dossiers
-        let omgevingsHtml = '<div class="section-title">Omgevingsonderzoeken</div>';
         if (typeof DATA_DOSSIERS !== 'undefined' && DATA_DOSSIERS && DATA_DOSSIERS.features) {
             const leafletGeo = L.geoJSON(DATA_DOSSIERS, {
                 style: { color: '#3498db', weight: 2, fillOpacity: 0.3 },
                 onEachFeature: (f, l) => {
                     const p = f.properties;
                     const nr = p.projectnummer || p.PROJECTNUMMER || 'N/A';
-                    const type = p.omschrijving_projecttype || p.OMSCHRIJVING_PROJECTTYPE || 'Geen info';
                     const naam = p.projectNaam || p.PROJECTNAAM || 'Geen naam';
                     const omschrijving = p.handeling_omschrijving || p.HANDELING_OMSCHRIJVING || '';
                     const url = p.loket_url || p.LOKET_URL || '#';
@@ -120,22 +140,12 @@
                             <a href="${url}" target="_blank" style="color: #3498db; font-weight: bold; text-decoration: none;">Open Omgevingsloket -></a>
                         </div>
                     `);
-                    
-                    omgevingsHtml += `
-                        <div class="card card-omgeving" onclick="zoomToFeature('${nr}')">
-                            <h4>Project ${nr}</h4>
-                            <p><b>Type:</b> ${type}</p>
-                            <p><b>Naam:</b> ${naam}</p>
-                            ${omschrijving ? `<p class="omschrijving">${omschrijving}</p>` : ''}
-                            <a href="${url}" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
-                        </div>`;
                 }
             }).addTo(resultLayer);
             if (DATA_DOSSIERS.features.length > 0) map.fitBounds(leafletGeo.getBounds());
             window.currentLayers = leafletGeo;
         }
 
-        // 2. Wegen
         if (typeof DATA_WEGEN !== 'undefined' && DATA_WEGEN && DATA_WEGEN.features) {
             L.geoJSON(DATA_WEGEN, { 
                 style: { color: '#e74c3c', weight: 3, dashArray: '5, 5' },
@@ -155,23 +165,6 @@
                 }
             }).addTo(resultLayer);
         }
-
-        // 3. Staatsblad
-        let staatsbladHtml = '<div class="section-title">Belgisch Staatsblad</div>';
-        if (typeof DATA_STAATSBLAD !== 'undefined' && DATA_STAATSBLAD && DATA_STAATSBLAD.length > 0) {
-            DATA_STAATSBLAD.forEach(item => {
-                staatsbladHtml += `
-                    <div class="card card-staatsblad">
-                        <h4>${item.date}</h4>
-                        <p>${item.title}</p>
-                        ${item.onderwerp ? `<p><small><b>Onderwerp:</b> ${item.onderwerp}</small></p>` : ''}
-                        <a href="${item.link}" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
-                    </div>`;
-            });
-        } else {
-            staatsbladHtml += "<p>Geen publicaties gevonden.</p>";
-        }
-        content.innerHTML = omgevingsHtml + staatsbladHtml;
     };
 
     function zoomToFeature(id) {
@@ -179,7 +172,11 @@
         window.currentLayers.eachLayer(layer => {
             const p = layer.feature.properties;
             if ((p.projectnummer || p.PROJECTNUMMER) == id) {
-                map.setView(layer.getBounds().getCenter(), 17);
+                if (typeof layer.getBounds === 'function') {
+                    map.setView(layer.getBounds().getCenter(), 17);
+                } else if (typeof layer.getLatLng === 'function') {
+                    map.setView(layer.getLatLng(), 17);
+                }
                 layer.openPopup();
             }
         });

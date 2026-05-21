@@ -48,14 +48,22 @@
 <div id="sidebar">
     <div id="sidebar-header">
         <h3>Omgevings-Dashboard</h3>
-        <h2 id="muni-title" style="margin: 0; padding: 0 20px 10px 20px; color: #3498db; background: #2c3e50; font-size: 1.4rem;">Pajottegem</h2>
+        <h2 id="muni-title" style="margin: 0; padding: 0 20px 15px 20px; color: #3498db; background: #2c3e50; font-size: 1.4rem;">Pajottegem</h2>
+        
         <div class="btn-follow-container">
             <button class="btn-follow" onclick="followThisPage()">
                 Volg wijzigingen op deze pagina
             </button>
         </div>
     </div>
-    <div id="content-area"></div>
+    <div id="content-area"><div class="section-title">Omgevingsonderzoeken</div>
+                <div class="card card-omgeving" onclick="zoomToFeature('2026010391')">
+                    <h4>Project 2026010391</h4>
+                    <p><b>Type:</b> Aanvraag omgevingsproject</p>
+                    <p><b>Naam:</b> 25-32900</p>
+                    <p class="omschrijving">Bouwen of herbouwen; Het reliëf van de bodem aanmerkelijk wijzigen; Hoogstammige bomen vellen die geen deel uitmaken van een bos; Nieuwbouw of aanleggen</p>
+                    <a href="https://omgevingsloketinzage.omgeving.vlaanderen.be/2026010391" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
+                </div><div class="section-title">Belgisch Staatsblad</div><p>Geen publicaties gevonden.</p></div>
 </div>
 <div id="map"></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -64,7 +72,7 @@
     const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OSM' }).addTo(map);
     const resultLayer = L.layerGroup().addTo(map);
 
-    // 2. WMS Configuratie (Provincie Vlaams-Brabant)
+    // WMS Configuratie (Provincie Vlaams-Brabant)
     const trageWegenBrabant = L.tileLayer.wms('https://geoservices.vlaamsbrabant.be/TrageWegen/MapServer/WMSServer', {
         layers: '0', 
         format: 'image/png',
@@ -88,25 +96,19 @@
     }
 
     
-    const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"id": 966489, "projectnummer": "2026010391", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Bouwen of herbouwen; Het reli\u00ebf van de bodem aanmerkelijk wijzigen; Hoogstammige bomen vellen die geen deel uitmaken van een bos; Nieuwbouw of aanleggen", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-02-16", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-18", "vvo_huidige_toestand": "Provincie Vlaams-Brabant", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "MKWCZJDCRF2iRKdz6wkYtA", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026010391", "uuid": "o0GNnWo3SUamylGfTGk0CA", "projectNaam": "25-32900", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2026010391"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[3.978488808047195, 50.75848855805742], [3.978598733919968, 50.75868558569202], [3.978612713819405, 50.75871065094135], [3.978628635035213, 50.75873919272727], [3.97863755932698, 50.75875518838048], [3.978703399821934, 50.75891208240518], [3.978703026404544, 50.758931535186434], [3.978699104466283, 50.7591384863334], [3.978695440460558, 50.75933137821237], [3.978693717163186, 50.75942153161964], [3.978691831898273, 50.759520988973684], [3.978688041894682, 50.759720541888385], [3.978688039070386, 50.75972088349302], [3.978687806420524, 50.75973359435659], [3.978687934125453, 50.75973357680168], [3.978707961472336, 50.75973009242713], [3.978712347370138, 50.75972932489835], [3.978733652133898, 50.759725620022], [3.978742168369296, 50.759724138051524], [3.978956010754532, 50.759686938874125], [3.979629400620972, 50.759569790122164], [3.97945268483986, 50.75940532777431], [3.979428492594887, 50.759382826792915], [3.979326745189423, 50.7592881405546], [3.980241350683765, 50.75889616047745], [3.980983657290305, 50.75857801259388], [3.981112808034301, 50.75868932031162], [3.981617862581714, 50.7584855078616], [3.981437729905211, 50.758393360489485], [3.981421701018163, 50.75835702453807], [3.981306132299438, 50.758095047284215], [3.981221814943252, 50.75790391426667], [3.981127160633598, 50.75768932846075], [3.981078922396085, 50.75757997833196], [3.98090569755178, 50.75766871066431], [3.980175330692082, 50.75804284145321], [3.980142809748892, 50.75801290537948], [3.979915335482326, 50.75811792585561], [3.979355757818094, 50.758376271141934], [3.979216657440582, 50.75844069786652], [3.979104339397258, 50.75832200037264], [3.978874366171198, 50.75838422785254], [3.978500711632016, 50.75848533435791], [3.978488808047195, 50.75848855805742]]]]}}]};
-    const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"gml_id": "F_TrageWegen.111742", "OBJECTID": 111742, "WS_OIDN": 0.0, "LBLSTATUS": "in gebruik", "LBLMORF": null, "LBLWEGCAT": null, "LSTRNM": null, "RSTRNM": null, "LBLBEHEER": null, "WV_LBLTYPE": null, "TRAGE_WEG": 1, "TW_ID": "23023_100198", "TW_BREEDTE": 2, "TW_EIGENAAR": -8, "TW_DAT_INVENTARISATIE": "2022-12-11T00:00:00", "TW_JUR_STATUUT": 2, "TW_ABW": null, "TW_NAAM": null, "TW_ZICHTBAAR": 1, "TW_NIET_ZB_REDEN": 0, "TW_TOEGANKELIJK": 1, "TW_NIET_TG_REDEN": 0, "TW_VERHARDING": 32, "Shape_Length": 68.23168496, "WB_BREEDTE": 0.0, "index_right": 1, "id": 966489, "projectnummer": "2026010391", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Bouwen of herbouwen; Het reli\u00ebf van de bodem aanmerkelijk wijzigen; Hoogstammige bomen vellen die geen deel uitmaken van een bos; Nieuwbouw of aanleggen", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-02-16", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-18", "vvo_huidige_toestand": "Provincie Vlaams-Brabant", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "MKWCZJDCRF2iRKdz6wkYtA", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026010391", "uuid": "o0GNnWo3SUamylGfTGk0CA", "projectNaam": "25-32900", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[3.97869152276178, 50.759738553828214], [3.979625846957767, 50.7595803243145]]]}}, {"type": "Feature", "properties": {"gml_id": "F_TrageWegen.111743", "OBJECTID": 111743, "WS_OIDN": 0.0, "LBLSTATUS": "in gebruik", "LBLMORF": null, "LBLWEGCAT": "niet van toepassing", "LSTRNM": null, "RSTRNM": null, "LBLBEHEER": null, "WV_LBLTYPE": null, "TRAGE_WEG": 1, "TW_ID": "23023_100199", "TW_BREEDTE": 2, "TW_EIGENAAR": -8, "TW_DAT_INVENTARISATIE": "2022-12-11T00:00:00", "TW_JUR_STATUUT": 2, "TW_ABW": null, "TW_NAAM": null, "TW_ZICHTBAAR": 1, "TW_NIET_ZB_REDEN": 0, "TW_TOEGANKELIJK": 1, "TW_NIET_TG_REDEN": 0, "TW_VERHARDING": 32, "Shape_Length": 158.27605422, "WB_BREEDTE": 0.0, "index_right": 1, "id": 966489, "projectnummer": "2026010391", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Bouwen of herbouwen; Het reli\u00ebf van de bodem aanmerkelijk wijzigen; Hoogstammige bomen vellen die geen deel uitmaken van een bos; Nieuwbouw of aanleggen", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-02-16", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-18", "vvo_huidige_toestand": "Provincie Vlaams-Brabant", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "MKWCZJDCRF2iRKdz6wkYtA", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026010391", "uuid": "o0GNnWo3SUamylGfTGk0CA", "projectNaam": "25-32900", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[3.981116434870723, 50.76063173043033], [3.980525655871995, 50.76028743859074], [3.979620612680714, 50.75957621117384]]]}}]};
-    const DATA_STAATSBLAD = [];
-            
+const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"id": 966554, "projectnummer": "2026010391", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Bouwen of herbouwen; Het reli\u00ebf van de bodem aanmerkelijk wijzigen; Hoogstammige bomen vellen die geen deel uitmaken van een bos; Nieuwbouw of aanleggen", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-02-16", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-20", "vvo_huidige_toestand": "Provincie Vlaams-Brabant", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "MKWCZJDCRF2iRKdz6wkYtA", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026010391", "uuid": "o0GNnWo3SUamylGfTGk0CA", "projectNaam": "25-32900", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2026010391"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[3.978488808047195, 50.75848855805742], [3.978598733919968, 50.75868558569202], [3.978612713819405, 50.75871065094135], [3.978628635035213, 50.75873919272727], [3.97863755932698, 50.75875518838048], [3.978703399821934, 50.75891208240518], [3.978703026404544, 50.758931535186434], [3.978699104466283, 50.7591384863334], [3.978695440460558, 50.75933137821237], [3.978693717163186, 50.75942153161964], [3.978691831898273, 50.759520988973684], [3.978688041894682, 50.759720541888385], [3.978688039070386, 50.75972088349302], [3.978687806420524, 50.75973359435659], [3.978687934125453, 50.75973357680168], [3.978707961472336, 50.75973009242713], [3.978712347370138, 50.75972932489835], [3.978733652133898, 50.759725620022], [3.978742168369296, 50.759724138051524], [3.978956010754532, 50.759686938874125], [3.979629400620972, 50.759569790122164], [3.97945268483986, 50.75940532777431], [3.979428492594887, 50.759382826792915], [3.979326745189423, 50.7592881405546], [3.980241350683765, 50.75889616047745], [3.980983657290305, 50.75857801259388], [3.981112808034301, 50.75868932031162], [3.981617862581714, 50.7584855078616], [3.981437729905211, 50.758393360489485], [3.981421701018163, 50.75835702453807], [3.981306132299438, 50.758095047284215], [3.981221814943252, 50.75790391426667], [3.981127160633598, 50.75768932846075], [3.981078922396085, 50.75757997833196], [3.98090569755178, 50.75766871066431], [3.980175330692082, 50.75804284145321], [3.980142809748892, 50.75801290537948], [3.979915335482326, 50.75811792585561], [3.979355757818094, 50.758376271141934], [3.979216657440582, 50.75844069786652], [3.979104339397258, 50.75832200037264], [3.978874366171198, 50.75838422785254], [3.978500711632016, 50.75848533435791], [3.978488808047195, 50.75848855805742]]]]}}]};
+const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"gml_id": "F_TrageWegen.111742", "OBJECTID": 111742, "WS_OIDN": 0.0, "LBLSTATUS": "in gebruik", "LBLMORF": null, "LBLWEGCAT": null, "LSTRNM": null, "RSTRNM": null, "LBLBEHEER": null, "WV_LBLTYPE": null, "TRAGE_WEG": 1, "TW_ID": "23023_100198", "TW_BREEDTE": 2, "TW_EIGENAAR": -8, "TW_DAT_INVENTARISATIE": "2022-12-11T00:00:00", "TW_JUR_STATUUT": 2, "TW_ABW": null, "TW_NAAM": null, "TW_ZICHTBAAR": 1, "TW_NIET_ZB_REDEN": 0, "TW_TOEGANKELIJK": 1, "TW_NIET_TG_REDEN": 0, "TW_VERHARDING": 32, "Shape_Length": 68.23168496, "WB_BREEDTE": 0.0, "index_right": 1, "id": 966554, "projectnummer": "2026010391", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Bouwen of herbouwen; Het reli\u00ebf van de bodem aanmerkelijk wijzigen; Hoogstammige bomen vellen die geen deel uitmaken van een bos; Nieuwbouw of aanleggen", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-02-16", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-20", "vvo_huidige_toestand": "Provincie Vlaams-Brabant", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "MKWCZJDCRF2iRKdz6wkYtA", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026010391", "uuid": "o0GNnWo3SUamylGfTGk0CA", "projectNaam": "25-32900", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[3.97869152276178, 50.759738553828214], [3.979625846957767, 50.7595803243145]]]}}, {"type": "Feature", "properties": {"gml_id": "F_TrageWegen.111743", "OBJECTID": 111743, "WS_OIDN": 0.0, "LBLSTATUS": "in gebruik", "LBLMORF": null, "LBLWEGCAT": "niet van toepassing", "LSTRNM": null, "RSTRNM": null, "LBLBEHEER": null, "WV_LBLTYPE": null, "TRAGE_WEG": 1, "TW_ID": "23023_100199", "TW_BREEDTE": 2, "TW_EIGENAAR": -8, "TW_DAT_INVENTARISATIE": "2022-12-11T00:00:00", "TW_JUR_STATUUT": 2, "TW_ABW": null, "TW_NAAM": null, "TW_ZICHTBAAR": 1, "TW_NIET_ZB_REDEN": 0, "TW_TOEGANKELIJK": 1, "TW_NIET_TG_REDEN": 0, "TW_VERHARDING": 32, "Shape_Length": 158.27605422, "WB_BREEDTE": 0.0, "index_right": 1, "id": 966554, "projectnummer": "2026010391", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Bouwen of herbouwen; Het reli\u00ebf van de bodem aanmerkelijk wijzigen; Hoogstammige bomen vellen die geen deel uitmaken van een bos; Nieuwbouw of aanleggen", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-02-16", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-20", "vvo_huidige_toestand": "Provincie Vlaams-Brabant", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "MKWCZJDCRF2iRKdz6wkYtA", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026010391", "uuid": "o0GNnWo3SUamylGfTGk0CA", "projectNaam": "25-32900", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[3.981116434870723, 50.76063173043033], [3.980525655871995, 50.76028743859074], [3.979620612680714, 50.75957621117384]]]}}]};
+        
 
     window.onload = () => {
-        const content = document.getElementById('content-area');
-        content.innerHTML = "";
         resultLayer.clearLayers();
 
-        // 1. Dossiers
-        let omgevingsHtml = '<div class="section-title">Omgevingsonderzoeken</div>';
         if (typeof DATA_DOSSIERS !== 'undefined' && DATA_DOSSIERS && DATA_DOSSIERS.features) {
             const leafletGeo = L.geoJSON(DATA_DOSSIERS, {
                 style: { color: '#3498db', weight: 2, fillOpacity: 0.3 },
                 onEachFeature: (f, l) => {
                     const p = f.properties;
                     const nr = p.projectnummer || p.PROJECTNUMMER || 'N/A';
-                    const type = p.omschrijving_projecttype || p.OMSCHRIJVING_PROJECTTYPE || 'Geen info';
                     const naam = p.projectNaam || p.PROJECTNAAM || 'Geen naam';
                     const omschrijving = p.handeling_omschrijving || p.HANDELING_OMSCHRIJVING || '';
                     const url = p.loket_url || p.LOKET_URL || '#';
@@ -120,22 +122,12 @@
                             <a href="${url}" target="_blank" style="color: #3498db; font-weight: bold; text-decoration: none;">Open Omgevingsloket -></a>
                         </div>
                     `);
-                    
-                    omgevingsHtml += `
-                        <div class="card card-omgeving" onclick="zoomToFeature('${nr}')">
-                            <h4>Project ${nr}</h4>
-                            <p><b>Type:</b> ${type}</p>
-                            <p><b>Naam:</b> ${naam}</p>
-                            ${omschrijving ? `<p class="omschrijving">${omschrijving}</p>` : ''}
-                            <a href="${url}" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
-                        </div>`;
                 }
             }).addTo(resultLayer);
             if (DATA_DOSSIERS.features.length > 0) map.fitBounds(leafletGeo.getBounds());
             window.currentLayers = leafletGeo;
         }
 
-        // 2. Wegen
         if (typeof DATA_WEGEN !== 'undefined' && DATA_WEGEN && DATA_WEGEN.features) {
             L.geoJSON(DATA_WEGEN, { 
                 style: { color: '#e74c3c', weight: 3, dashArray: '5, 5' },
@@ -155,23 +147,6 @@
                 }
             }).addTo(resultLayer);
         }
-
-        // 3. Staatsblad
-        let staatsbladHtml = '<div class="section-title">Belgisch Staatsblad</div>';
-        if (typeof DATA_STAATSBLAD !== 'undefined' && DATA_STAATSBLAD && DATA_STAATSBLAD.length > 0) {
-            DATA_STAATSBLAD.forEach(item => {
-                staatsbladHtml += `
-                    <div class="card card-staatsblad">
-                        <h4>${item.date}</h4>
-                        <p>${item.title}</p>
-                        ${item.onderwerp ? `<p><small><b>Onderwerp:</b> ${item.onderwerp}</small></p>` : ''}
-                        <a href="${item.link}" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
-                    </div>`;
-            });
-        } else {
-            staatsbladHtml += "<p>Geen publicaties gevonden.</p>";
-        }
-        content.innerHTML = omgevingsHtml + staatsbladHtml;
     };
 
     function zoomToFeature(id) {
@@ -179,7 +154,11 @@
         window.currentLayers.eachLayer(layer => {
             const p = layer.feature.properties;
             if ((p.projectnummer || p.PROJECTNUMMER) == id) {
-                map.setView(layer.getBounds().getCenter(), 17);
+                if (typeof layer.getBounds === 'function') {
+                    map.setView(layer.getBounds().getCenter(), 17);
+                } else if (typeof layer.getLatLng === 'function') {
+                    map.setView(layer.getLatLng(), 17);
+                }
                 layer.openPopup();
             }
         });

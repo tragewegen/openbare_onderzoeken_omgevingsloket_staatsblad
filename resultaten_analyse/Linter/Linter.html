@@ -48,14 +48,22 @@
 <div id="sidebar">
     <div id="sidebar-header">
         <h3>Omgevings-Dashboard</h3>
-        <h2 id="muni-title" style="margin: 0; padding: 0 20px 10px 20px; color: #3498db; background: #2c3e50; font-size: 1.4rem;">Linter</h2>
+        <h2 id="muni-title" style="margin: 0; padding: 0 20px 15px 20px; color: #3498db; background: #2c3e50; font-size: 1.4rem;">Linter</h2>
+        
         <div class="btn-follow-container">
             <button class="btn-follow" onclick="followThisPage()">
                 Volg wijzigingen op deze pagina
             </button>
         </div>
     </div>
-    <div id="content-area"></div>
+    <div id="content-area"><div class="section-title">Omgevingsonderzoeken</div>
+                <div class="card card-omgeving" onclick="zoomToFeature('2025139588')">
+                    <h4>Project 2025139588</h4>
+                    <p><b>Type:</b> Aanvraag omgevingsproject</p>
+                    <p><b>Naam:</b> Renovatie bestaande woning met uitbreiding+afbraak en herbouw bijgebouw</p>
+                    <p class="omschrijving">Het reliëf van de bodem aanmerkelijk wijzigen; Nieuwbouw van bijgebouwen en niet overdekte lage constructie; Slopen van niet vrijstaande gebouwen of constructies; Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden</p>
+                    <a href="https://omgevingsloketinzage.omgeving.vlaanderen.be/2025139588" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
+                </div><div class="section-title">Belgisch Staatsblad</div><p>Geen publicaties gevonden.</p></div>
 </div>
 <div id="map"></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -64,7 +72,7 @@
     const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OSM' }).addTo(map);
     const resultLayer = L.layerGroup().addTo(map);
 
-    // 2. WMS Configuratie (Provincie Vlaams-Brabant)
+    // WMS Configuratie (Provincie Vlaams-Brabant)
     const trageWegenBrabant = L.tileLayer.wms('https://geoservices.vlaamsbrabant.be/TrageWegen/MapServer/WMSServer', {
         layers: '0', 
         format: 'image/png',
@@ -88,25 +96,19 @@
     }
 
     
-    const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"id": 945125, "projectnummer": "2025139588", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Het reli\u00ebf van de bodem aanmerkelijk wijzigen; Nieuwbouw van bijgebouwen en niet overdekte lage constructie; Slopen van niet vrijstaande gebouwen of constructies; Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2025-11-18", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-18", "vvo_huidige_toestand": "Linter", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "ROblBAXjTYWxUsNG4vNiYw", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2025139588", "uuid": "6Y0WtO74RUyB4zOFCsPJyg", "projectNaam": "Renovatie bestaande woning met uitbreiding+afbraak en herbouw bijgebouw", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2025139588"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[5.015022785277305, 50.838718997785634], [5.01556959966263, 50.83907045924777], [5.015392175416041, 50.839144904066245], [5.015394625050683, 50.83914649074047], [5.015457193426628, 50.83918667166326], [5.015511754617154, 50.839221709607926], [5.016399442564106, 50.83979180617462], [5.016673625749701, 50.839678276122655], [5.01667783952493, 50.839667770624544], [5.016686431600844, 50.8396463361938], [5.01669380318185, 50.83960435766592], [5.016687080757159, 50.839594595889814], [5.016261079233581, 50.83897477141248], [5.016177540496032, 50.83885321362036], [5.016140346099372, 50.83886270573126], [5.0160207022056, 50.838881139896834], [5.015978303996534, 50.838853002132566], [5.015675042381857, 50.83865180292144], [5.015431684969782, 50.83849411583835], [5.015344831294519, 50.838437833246836], [5.015163483364668, 50.83859633673525], [5.015134079303862, 50.83862203922655], [5.015129435735679, 50.838626092313824], [5.015112109590544, 50.83864118302949], [5.015090574750886, 50.838659946853895], [5.015084177288589, 50.83866551092575], [5.015076363063018, 50.83867232341702], [5.015065490395324, 50.838681795805726], [5.015022785277305, 50.838718997785634]], [[5.016110535699737, 50.838940273291335], [5.016185110188322, 50.83891724260837], [5.016233365046626, 50.83897987802811], [5.016158790482329, 50.839002908741364], [5.016110535699737, 50.838940273291335]]]]}}]};
-    const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"gml_id": "F_TrageWegen.5859", "OBJECTID": 5859, "LBLSTATUS": "in gebruik", "TRAGE_WEG": 1, "TW_ID": "24133_831", "TW_BREEDTE": -8, "TW_EIGENAAR": -8, "TW_JUR_STATUUT": -7, "TW_ZICHTBAAR": 1, "TW_NIET_ZB_REDEN": -9, "TW_TOEGANKELIJK": -8, "TW_NIET_TG_REDEN": -8, "TW_VERHARDING": 20, "Shape_Length": 125.45003439, "WS_OIDN": 42957.0, "LBLMORF": "aardeweg", "LBLWEGCAT": "niet gekend", "LSTRNM": "", "RSTRNM": "", "LBLBEHEER": "Gemeente Linter", "WV_LBLTYPE": "weg met losse verharding", "WB_BREEDTE": -8.0, "TW_ABW": null, "TW_DAT_INVENTARISATIE": null, "index_right": 0, "id": 945125, "projectnummer": "2025139588", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Het reli\u00ebf van de bodem aanmerkelijk wijzigen; Nieuwbouw van bijgebouwen en niet overdekte lage constructie; Slopen van niet vrijstaande gebouwen of constructies; Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2025-11-18", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-18", "vvo_huidige_toestand": "Linter", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "ROblBAXjTYWxUsNG4vNiYw", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2025139588", "uuid": "6Y0WtO74RUyB4zOFCsPJyg", "projectNaam": "Renovatie bestaande woning met uitbreiding+afbraak en herbouw bijgebouw", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[5.016153170439211, 50.83889554138511], [5.016180229465346, 50.83887895834108], [5.016332687617679, 50.83878667059139], [5.016499654369593, 50.83868404496156], [5.016706602826799, 50.83855381477066], [5.016834341387345, 50.83847079680007], [5.01684974413149, 50.83846143402834], [5.016926957004488, 50.838414654995894], [5.016963603566786, 50.83838608015786], [5.017004645004332, 50.83835396594443], [5.017098206969387, 50.83826973439174], [5.017319870686148, 50.83805080842188]]]}}]};
-    const DATA_STAATSBLAD = [];
-            
+const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"id": 945160, "projectnummer": "2025139588", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Het reli\u00ebf van de bodem aanmerkelijk wijzigen; Nieuwbouw van bijgebouwen en niet overdekte lage constructie; Slopen van niet vrijstaande gebouwen of constructies; Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2025-11-18", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-20", "vvo_huidige_toestand": "Linter", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "ROblBAXjTYWxUsNG4vNiYw", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2025139588", "uuid": "6Y0WtO74RUyB4zOFCsPJyg", "projectNaam": "Renovatie bestaande woning met uitbreiding+afbraak en herbouw bijgebouw", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2025139588"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[5.015022785277305, 50.838718997785634], [5.01556959966263, 50.83907045924777], [5.015392175416041, 50.839144904066245], [5.015394625050683, 50.83914649074047], [5.015457193426628, 50.83918667166326], [5.015511754617154, 50.839221709607926], [5.016399442564106, 50.83979180617462], [5.016673625749701, 50.839678276122655], [5.01667783952493, 50.839667770624544], [5.016686431600844, 50.8396463361938], [5.01669380318185, 50.83960435766592], [5.016687080757159, 50.839594595889814], [5.016261079233581, 50.83897477141248], [5.016177540496032, 50.83885321362036], [5.016140346099372, 50.83886270573126], [5.0160207022056, 50.838881139896834], [5.015978303996534, 50.838853002132566], [5.015675042381857, 50.83865180292144], [5.015431684969782, 50.83849411583835], [5.015344831294519, 50.838437833246836], [5.015163483364668, 50.83859633673525], [5.015134079303862, 50.83862203922655], [5.015129435735679, 50.838626092313824], [5.015112109590544, 50.83864118302949], [5.015090574750886, 50.838659946853895], [5.015084177288589, 50.83866551092575], [5.015076363063018, 50.83867232341702], [5.015065490395324, 50.838681795805726], [5.015022785277305, 50.838718997785634]], [[5.016110535699737, 50.838940273291335], [5.016185110188322, 50.83891724260837], [5.016233365046626, 50.83897987802811], [5.016158790482329, 50.839002908741364], [5.016110535699737, 50.838940273291335]]]]}}]};
+const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"gml_id": "F_TrageWegen.5859", "OBJECTID": 5859, "LBLSTATUS": "in gebruik", "TRAGE_WEG": 1, "TW_ID": "24133_831", "TW_BREEDTE": -8, "TW_EIGENAAR": -8, "TW_JUR_STATUUT": -7, "TW_ZICHTBAAR": 1, "TW_NIET_ZB_REDEN": -9, "TW_TOEGANKELIJK": -8, "TW_NIET_TG_REDEN": -8, "TW_VERHARDING": 20, "Shape_Length": 125.45003439, "WS_OIDN": 42957.0, "LBLMORF": "aardeweg", "LBLWEGCAT": "niet gekend", "LSTRNM": "", "RSTRNM": "", "LBLBEHEER": "Gemeente Linter", "WV_LBLTYPE": "weg met losse verharding", "WB_BREEDTE": -8.0, "TW_ABW": null, "TW_DAT_INVENTARISATIE": null, "index_right": 0, "id": 945160, "projectnummer": "2025139588", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Het reli\u00ebf van de bodem aanmerkelijk wijzigen; Nieuwbouw van bijgebouwen en niet overdekte lage constructie; Slopen van niet vrijstaande gebouwen of constructies; Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2025-11-18", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-20", "vvo_huidige_toestand": "Linter", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "ROblBAXjTYWxUsNG4vNiYw", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2025139588", "uuid": "6Y0WtO74RUyB4zOFCsPJyg", "projectNaam": "Renovatie bestaande woning met uitbreiding+afbraak en herbouw bijgebouw", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[5.016153170439211, 50.83889554138511], [5.016180229465346, 50.83887895834108], [5.016332687617679, 50.83878667059139], [5.016499654369593, 50.83868404496156], [5.016706602826799, 50.83855381477066], [5.016834341387345, 50.83847079680007], [5.01684974413149, 50.83846143402834], [5.016926957004488, 50.838414654995894], [5.016963603566786, 50.83838608015786], [5.017004645004332, 50.83835396594443], [5.017098206969387, 50.83826973439174], [5.017319870686148, 50.83805080842188]]]}}]};
+        
 
     window.onload = () => {
-        const content = document.getElementById('content-area');
-        content.innerHTML = "";
         resultLayer.clearLayers();
 
-        // 1. Dossiers
-        let omgevingsHtml = '<div class="section-title">Omgevingsonderzoeken</div>';
         if (typeof DATA_DOSSIERS !== 'undefined' && DATA_DOSSIERS && DATA_DOSSIERS.features) {
             const leafletGeo = L.geoJSON(DATA_DOSSIERS, {
                 style: { color: '#3498db', weight: 2, fillOpacity: 0.3 },
                 onEachFeature: (f, l) => {
                     const p = f.properties;
                     const nr = p.projectnummer || p.PROJECTNUMMER || 'N/A';
-                    const type = p.omschrijving_projecttype || p.OMSCHRIJVING_PROJECTTYPE || 'Geen info';
                     const naam = p.projectNaam || p.PROJECTNAAM || 'Geen naam';
                     const omschrijving = p.handeling_omschrijving || p.HANDELING_OMSCHRIJVING || '';
                     const url = p.loket_url || p.LOKET_URL || '#';
@@ -120,22 +122,12 @@
                             <a href="${url}" target="_blank" style="color: #3498db; font-weight: bold; text-decoration: none;">Open Omgevingsloket -></a>
                         </div>
                     `);
-                    
-                    omgevingsHtml += `
-                        <div class="card card-omgeving" onclick="zoomToFeature('${nr}')">
-                            <h4>Project ${nr}</h4>
-                            <p><b>Type:</b> ${type}</p>
-                            <p><b>Naam:</b> ${naam}</p>
-                            ${omschrijving ? `<p class="omschrijving">${omschrijving}</p>` : ''}
-                            <a href="${url}" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
-                        </div>`;
                 }
             }).addTo(resultLayer);
             if (DATA_DOSSIERS.features.length > 0) map.fitBounds(leafletGeo.getBounds());
             window.currentLayers = leafletGeo;
         }
 
-        // 2. Wegen
         if (typeof DATA_WEGEN !== 'undefined' && DATA_WEGEN && DATA_WEGEN.features) {
             L.geoJSON(DATA_WEGEN, { 
                 style: { color: '#e74c3c', weight: 3, dashArray: '5, 5' },
@@ -155,23 +147,6 @@
                 }
             }).addTo(resultLayer);
         }
-
-        // 3. Staatsblad
-        let staatsbladHtml = '<div class="section-title">Belgisch Staatsblad</div>';
-        if (typeof DATA_STAATSBLAD !== 'undefined' && DATA_STAATSBLAD && DATA_STAATSBLAD.length > 0) {
-            DATA_STAATSBLAD.forEach(item => {
-                staatsbladHtml += `
-                    <div class="card card-staatsblad">
-                        <h4>${item.date}</h4>
-                        <p>${item.title}</p>
-                        ${item.onderwerp ? `<p><small><b>Onderwerp:</b> ${item.onderwerp}</small></p>` : ''}
-                        <a href="${item.link}" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
-                    </div>`;
-            });
-        } else {
-            staatsbladHtml += "<p>Geen publicaties gevonden.</p>";
-        }
-        content.innerHTML = omgevingsHtml + staatsbladHtml;
     };
 
     function zoomToFeature(id) {
@@ -179,7 +154,11 @@
         window.currentLayers.eachLayer(layer => {
             const p = layer.feature.properties;
             if ((p.projectnummer || p.PROJECTNUMMER) == id) {
-                map.setView(layer.getBounds().getCenter(), 17);
+                if (typeof layer.getBounds === 'function') {
+                    map.setView(layer.getBounds().getCenter(), 17);
+                } else if (typeof layer.getLatLng === 'function') {
+                    map.setView(layer.getLatLng(), 17);
+                }
                 layer.openPopup();
             }
         });

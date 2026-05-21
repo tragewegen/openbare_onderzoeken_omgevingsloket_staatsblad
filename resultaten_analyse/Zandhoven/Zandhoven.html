@@ -48,14 +48,45 @@
 <div id="sidebar">
     <div id="sidebar-header">
         <h3>Omgevings-Dashboard</h3>
-        <h2 id="muni-title" style="margin: 0; padding: 0 20px 10px 20px; color: #3498db; background: #2c3e50; font-size: 1.4rem;">Zandhoven</h2>
+        <h2 id="muni-title" style="margin: 0; padding: 0 20px 15px 20px; color: #3498db; background: #2c3e50; font-size: 1.4rem;">Zandhoven</h2>
+        
         <div class="btn-follow-container">
             <button class="btn-follow" onclick="followThisPage()">
                 Volg wijzigingen op deze pagina
             </button>
         </div>
     </div>
-    <div id="content-area"></div>
+    <div id="content-area"><div class="section-title">Omgevingsonderzoeken</div><div class="section-title">Belgisch Staatsblad</div>
+                <div class="card card-staatsblad">
+                    <h4>29 maart 2011</h4>
+                    <p>Ruimtelijke ordening. - Rooilijn- en innemingsplan. - Definitieve vaststelling ZANDHOVEN. - Gezien de beslissing van de gemeenteraad van 9 september 2010</p>
+                    <p><small><b>Onderwerp:</b> rooilijn</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-20&pd_search=2011-03-29&numac_search=2011035267&page=1&lg_txt=N&caller=list&2011035267=0&view_numac=&text1=Zandhoven&text2=rooilijn&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div>
+                <div class="card card-staatsblad">
+                    <h4>08 oktober 2010</h4>
+                    <p>Gemeente Zandhoven Het college van burgemeester en schepenen van Zandhoven maakt bekend dat een onderzoek de commodo en incommodo ingesteld wordt betreffende het besluit van de gemeenteraad de dato</p>
+                    <p><small><b>Onderwerp:</b> rooilijn</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-20&pd_search=2010-10-08&numac_search=2010736673&page=1&lg_txt=N&caller=list&2010736673=1&view_numac=&text1=Zandhoven&text2=rooilijn&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div>
+                <div class="card card-staatsblad">
+                    <h4>19 oktober 2004</h4>
+                    <p>Ruimtelijke ordening ANTWERPEN. - Bij besluit van 29 september 2004 van de Vlaamse minister van Financiën en Begroting en Ruimtelijke Ordening : - is goedgekeurd het bijgaand bijzonder plan van</p>
+                    <p><small><b>Onderwerp:</b> rooilijn</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-20&pd_search=2004-10-19&numac_search=2004036571&page=1&lg_txt=N&caller=list&2004036571=2&view_numac=&text1=Zandhoven&text2=rooilijn&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div>
+                <div class="card card-staatsblad">
+                    <h4>24 november 2003</h4>
+                    <p>Ruimtelijke ordening. - Plannen van aanleg   BIERBEEK. - Bij besluit van 5 november 2003 van de Vlaamse minister van Financiën en Begroting</p>
+                    <p><small><b>Onderwerp:</b> rooilijn</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-20&pd_search=2003-11-24&numac_search=2003201943&page=1&lg_txt=N&caller=list&2003201943=3&view_numac=&text1=Zandhoven&text2=rooilijn&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div>
+                <div class="card card-staatsblad">
+                    <h4>19 januari 2000</h4>
+                    <p>Departement Leefmilieu en Infrastructuur Ruimtelijke Ordening. - Rooilijnen. Onteigeningen HASSELT. - Bij besluit van 14 oktober 1999 van de Vlaamse minister van Economie</p>
+                    <p><small><b>Onderwerp:</b> rooilijn</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-20&pd_search=2000-01-19&numac_search=1999036374&page=1&lg_txt=N&caller=list&1999036374=4&view_numac=&text1=Zandhoven&text2=rooilijn&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div></div>
 </div>
 <div id="map"></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -64,7 +95,7 @@
     const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OSM' }).addTo(map);
     const resultLayer = L.layerGroup().addTo(map);
 
-    // 2. WMS Configuratie (Provincie Vlaams-Brabant)
+    // WMS Configuratie (Provincie Vlaams-Brabant)
     const trageWegenBrabant = L.tileLayer.wms('https://geoservices.vlaamsbrabant.be/TrageWegen/MapServer/WMSServer', {
         layers: '0', 
         format: 'image/png',
@@ -88,25 +119,19 @@
     }
 
     
-    const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": []};
-    const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": []};
-    const DATA_STAATSBLAD = [{"date": "29 maart 2011", "title": "Ruimtelijke ordening. - Rooilijn- en innemingsplan. - Definitieve vaststelling ZANDHOVEN. - Gezien de beslissing van de gemeenteraad van 9 september 2010", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-19&pd_search=2011-03-29&numac_search=2011035267&page=1&lg_txt=N&caller=list&2011035267=0&view_numac=&text1=Zandhoven&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2011035267"}, {"date": "08 oktober 2010", "title": "Gemeente Zandhoven Het college van burgemeester en schepenen van Zandhoven maakt bekend dat een onderzoek de commodo en incommodo ingesteld wordt betreffende het besluit van de gemeenteraad de dato", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-19&pd_search=2010-10-08&numac_search=2010736673&page=1&lg_txt=N&caller=list&2010736673=1&view_numac=&text1=Zandhoven&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2010736673"}, {"date": "19 oktober 2004", "title": "Ruimtelijke ordening ANTWERPEN. - Bij besluit van 29 september 2004 van de Vlaamse minister van Financi\u00ebn en Begroting en Ruimtelijke Ordening : - is goedgekeurd het bijgaand bijzonder plan van", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-19&pd_search=2004-10-19&numac_search=2004036571&page=1&lg_txt=N&caller=list&2004036571=2&view_numac=&text1=Zandhoven&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2004036571"}, {"date": "24 november 2003", "title": "Ruimtelijke ordening. - Plannen van aanleg   BIERBEEK. - Bij besluit van 5 november 2003 van de Vlaamse minister van Financi\u00ebn en Begroting", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-19&pd_search=2003-11-24&numac_search=2003201943&page=1&lg_txt=N&caller=list&2003201943=3&view_numac=&text1=Zandhoven&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2003201943"}, {"date": "19 januari 2000", "title": "Departement Leefmilieu en Infrastructuur Ruimtelijke Ordening. - Rooilijnen. Onteigeningen HASSELT. - Bij besluit van 14 oktober 1999 van de Vlaamse minister van Economie", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-19&pd_search=2000-01-19&numac_search=1999036374&page=1&lg_txt=N&caller=list&1999036374=4&view_numac=&text1=Zandhoven&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "1999036374"}];
-            
+const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": []};
+const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": []};
+        
 
     window.onload = () => {
-        const content = document.getElementById('content-area');
-        content.innerHTML = "";
         resultLayer.clearLayers();
 
-        // 1. Dossiers
-        let omgevingsHtml = '<div class="section-title">Omgevingsonderzoeken</div>';
         if (typeof DATA_DOSSIERS !== 'undefined' && DATA_DOSSIERS && DATA_DOSSIERS.features) {
             const leafletGeo = L.geoJSON(DATA_DOSSIERS, {
                 style: { color: '#3498db', weight: 2, fillOpacity: 0.3 },
                 onEachFeature: (f, l) => {
                     const p = f.properties;
                     const nr = p.projectnummer || p.PROJECTNUMMER || 'N/A';
-                    const type = p.omschrijving_projecttype || p.OMSCHRIJVING_PROJECTTYPE || 'Geen info';
                     const naam = p.projectNaam || p.PROJECTNAAM || 'Geen naam';
                     const omschrijving = p.handeling_omschrijving || p.HANDELING_OMSCHRIJVING || '';
                     const url = p.loket_url || p.LOKET_URL || '#';
@@ -120,22 +145,12 @@
                             <a href="${url}" target="_blank" style="color: #3498db; font-weight: bold; text-decoration: none;">Open Omgevingsloket -></a>
                         </div>
                     `);
-                    
-                    omgevingsHtml += `
-                        <div class="card card-omgeving" onclick="zoomToFeature('${nr}')">
-                            <h4>Project ${nr}</h4>
-                            <p><b>Type:</b> ${type}</p>
-                            <p><b>Naam:</b> ${naam}</p>
-                            ${omschrijving ? `<p class="omschrijving">${omschrijving}</p>` : ''}
-                            <a href="${url}" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
-                        </div>`;
                 }
             }).addTo(resultLayer);
             if (DATA_DOSSIERS.features.length > 0) map.fitBounds(leafletGeo.getBounds());
             window.currentLayers = leafletGeo;
         }
 
-        // 2. Wegen
         if (typeof DATA_WEGEN !== 'undefined' && DATA_WEGEN && DATA_WEGEN.features) {
             L.geoJSON(DATA_WEGEN, { 
                 style: { color: '#e74c3c', weight: 3, dashArray: '5, 5' },
@@ -155,23 +170,6 @@
                 }
             }).addTo(resultLayer);
         }
-
-        // 3. Staatsblad
-        let staatsbladHtml = '<div class="section-title">Belgisch Staatsblad</div>';
-        if (typeof DATA_STAATSBLAD !== 'undefined' && DATA_STAATSBLAD && DATA_STAATSBLAD.length > 0) {
-            DATA_STAATSBLAD.forEach(item => {
-                staatsbladHtml += `
-                    <div class="card card-staatsblad">
-                        <h4>${item.date}</h4>
-                        <p>${item.title}</p>
-                        ${item.onderwerp ? `<p><small><b>Onderwerp:</b> ${item.onderwerp}</small></p>` : ''}
-                        <a href="${item.link}" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
-                    </div>`;
-            });
-        } else {
-            staatsbladHtml += "<p>Geen publicaties gevonden.</p>";
-        }
-        content.innerHTML = omgevingsHtml + staatsbladHtml;
     };
 
     function zoomToFeature(id) {
@@ -179,7 +177,11 @@
         window.currentLayers.eachLayer(layer => {
             const p = layer.feature.properties;
             if ((p.projectnummer || p.PROJECTNUMMER) == id) {
-                map.setView(layer.getBounds().getCenter(), 17);
+                if (typeof layer.getBounds === 'function') {
+                    map.setView(layer.getBounds().getCenter(), 17);
+                } else if (typeof layer.getLatLng === 'function') {
+                    map.setView(layer.getLatLng(), 17);
+                }
                 layer.openPopup();
             }
         });

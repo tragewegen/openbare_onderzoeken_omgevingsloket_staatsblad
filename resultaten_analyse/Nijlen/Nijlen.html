@@ -48,14 +48,34 @@
 <div id="sidebar">
     <div id="sidebar-header">
         <h3>Omgevings-Dashboard</h3>
-        <h2 id="muni-title" style="margin: 0; padding: 0 20px 10px 20px; color: #3498db; background: #2c3e50; font-size: 1.4rem;">Nijlen</h2>
+        <h2 id="muni-title" style="margin: 0; padding: 0 20px 15px 20px; color: #3498db; background: #2c3e50; font-size: 1.4rem;">Nijlen</h2>
+        
         <div class="btn-follow-container">
             <button class="btn-follow" onclick="followThisPage()">
                 Volg wijzigingen op deze pagina
             </button>
         </div>
     </div>
-    <div id="content-area"></div>
+    <div id="content-area"><div class="section-title">Omgevingsonderzoeken</div>
+                <div class="card card-omgeving" onclick="zoomToFeature('2026040631')">
+                    <h4>Project 2026040631</h4>
+                    <p><b>Type:</b> Aanvraag omgevingsproject</p>
+                    <p><b>Naam:</b> Okkerse-Verbouwen van een woning in open bebouwing en bouw van een zwembad</p>
+                    <p class="omschrijving">Hoogstammige bomen vellen die geen deel uitmaken van een bos; Nieuwbouw van bijgebouwen, niet-overdekte lage constructies en andere handelingen; Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden; Verwijderen van vrijstaande bijgebouwen, niet-overdekte lage constructies of andere beperkte handelingen</p>
+                    <a href="https://omgevingsloketinzage.omgeving.vlaanderen.be/2026040631" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
+                </div><div class="section-title">Belgisch Staatsblad</div>
+                <div class="card card-staatsblad">
+                    <h4>15 december 2004</h4>
+                    <p>Departement Leefmilieu en Infrastructuur  Ruimtelijke ordening ANZEGEM. - Bij besluit van 19 november 2004 van de Vlaamse minister van Financiën en Begroting en Ruimtelijke Ordening : - is</p>
+                    <p><small><b>Onderwerp:</b> rooilijn</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-20&pd_search=2004-12-15&numac_search=2004036789&page=1&lg_txt=N&caller=list&2004036789=0&view_numac=&text1=Nijlen&text2=rooilijn&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div>
+                <div class="card card-staatsblad">
+                    <h4>17 maart 2004</h4>
+                    <p>Departement Leefmilieu en Infrastructuur Ruimtelijke ordening AALST. - Bij besluit van 20 februari 2004 van de Vlaamse minister van Financiën en Begroting, Ruimtelijke Ordening</p>
+                    <p><small><b>Onderwerp:</b> rooilijn</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-20&pd_search=2004-03-17&numac_search=2004035405&page=1&lg_txt=N&caller=list&2004035405=1&view_numac=&text1=Nijlen&text2=rooilijn&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div></div>
 </div>
 <div id="map"></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -64,7 +84,7 @@
     const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OSM' }).addTo(map);
     const resultLayer = L.layerGroup().addTo(map);
 
-    // 2. WMS Configuratie (Provincie Vlaams-Brabant)
+    // WMS Configuratie (Provincie Vlaams-Brabant)
     const trageWegenBrabant = L.tileLayer.wms('https://geoservices.vlaamsbrabant.be/TrageWegen/MapServer/WMSServer', {
         layers: '0', 
         format: 'image/png',
@@ -88,25 +108,19 @@
     }
 
     
-    const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"id": 985513, "projectnummer": "2026040631", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Hoogstammige bomen vellen die geen deel uitmaken van een bos; Nieuwbouw van bijgebouwen, niet-overdekte lage constructies en andere handelingen; Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden; Verwijderen van vrijstaande bijgebouwen, niet-overdekte lage constructies of andere beperkte handelingen", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-04-09", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-18", "vvo_huidige_toestand": "Nijlen", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "EKzwronQSoqKIpi1x1MD2Q", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026040631", "uuid": "tI3zUPjnSlaQF9yXihOY_g", "projectNaam": "Okkerse-Verbouwen van een woning in open bebouwing en bouw van een zwembad", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2026040631"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[4.676195319980264, 51.14596038851228], [4.676186263731775, 51.14595447959652], [4.675758260091583, 51.14622700139008], [4.675902739200006, 51.14638773849175], [4.676094114877805, 51.14661036620867], [4.67668205469138, 51.14630245010538], [4.676195319980264, 51.14596038851228]]]]}}]};
-    const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"gml_id": "F_TrageWegen.77948", "OBJECTID": 77948, "LBLSTATUS": "in gebruik", "TRAGE_WEG": 1, "TW_ID": "12026_855", "TW_BREEDTE": 4, "TW_EIGENAAR": -7, "TW_DAT_INVENTARISATIE": "2018-07-31T00:00:00", "TW_JUR_STATUUT": -8, "TW_ZICHTBAAR": 1, "TW_NIET_ZB_REDEN": -9, "TW_TOEGANKELIJK": 1, "TW_NIET_TG_REDEN": -9, "TW_VERHARDING": 21, "Shape_Length": 134.81781724, "TW_NAAM": "Bevelse dreef", "WS_OIDN": 137267.0, "LBLMORF": "aardeweg", "LBLWEGCAT": "niet van toepassing", "LSTRNM": "", "RSTRNM": "", "LBLBEHEER": "Gemeente Nijlen", "WV_LBLTYPE": "weg met losse verharding", "WB_BREEDTE": -8.0, "TW_ABW": null, "index_right": 4, "id": 985513, "projectnummer": "2026040631", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Hoogstammige bomen vellen die geen deel uitmaken van een bos; Nieuwbouw van bijgebouwen, niet-overdekte lage constructies en andere handelingen; Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden; Verwijderen van vrijstaande bijgebouwen, niet-overdekte lage constructies of andere beperkte handelingen", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-04-09", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-18", "vvo_huidige_toestand": "Nijlen", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "EKzwronQSoqKIpi1x1MD2Q", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026040631", "uuid": "tI3zUPjnSlaQF9yXihOY_g", "projectNaam": "Okkerse-Verbouwen van een woning in open bebouwing en bouw van een zwembad", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[4.675231782264748, 51.14567367057578], [4.675238513552229, 51.14567592450927], [4.67530518194915, 51.1457069328748], [4.676170665941054, 51.146725453920766]]]}}]};
-    const DATA_STAATSBLAD = [{"date": "15 december 2004", "title": "Departement Leefmilieu en Infrastructuur  Ruimtelijke ordening ANZEGEM. - Bij besluit van 19 november 2004 van de Vlaamse minister van Financi\u00ebn en Begroting en Ruimtelijke Ordening : - is", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-19&pd_search=2004-12-15&numac_search=2004036789&page=1&lg_txt=N&caller=list&2004036789=0&view_numac=&text1=Nijlen&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2004036789"}, {"date": "17 maart 2004", "title": "Departement Leefmilieu en Infrastructuur Ruimtelijke ordening AALST. - Bij besluit van 20 februari 2004 van de Vlaamse minister van Financi\u00ebn en Begroting, Ruimtelijke Ordening", "link": "https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-05-19&pd_search=2004-03-17&numac_search=2004035405&page=1&lg_txt=N&caller=list&2004035405=1&view_numac=&text1=Nijlen&text2=rooilijn&choix1=en&choix2=en", "onderwerp": "rooilijn", "numac": "2004035405"}];
-            
+const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"id": 985665, "projectnummer": "2026040631", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Hoogstammige bomen vellen die geen deel uitmaken van een bos; Nieuwbouw van bijgebouwen, niet-overdekte lage constructies en andere handelingen; Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden; Verwijderen van vrijstaande bijgebouwen, niet-overdekte lage constructies of andere beperkte handelingen", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-04-09", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-20", "vvo_huidige_toestand": "Nijlen", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "EKzwronQSoqKIpi1x1MD2Q", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026040631", "uuid": "tI3zUPjnSlaQF9yXihOY_g", "projectNaam": "Okkerse-Verbouwen van een woning in open bebouwing en bouw van een zwembad", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2026040631"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[4.676195319980264, 51.14596038851228], [4.676186263731775, 51.14595447959652], [4.675758260091583, 51.14622700139008], [4.675902739200006, 51.14638773849175], [4.676094114877805, 51.14661036620867], [4.67668205469138, 51.14630245010538], [4.676195319980264, 51.14596038851228]]]]}}]};
+const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"gml_id": "F_TrageWegen.77948", "OBJECTID": 77948, "LBLSTATUS": "in gebruik", "TRAGE_WEG": 1, "TW_ID": "12026_855", "TW_BREEDTE": 4, "TW_EIGENAAR": -7, "TW_DAT_INVENTARISATIE": "2018-07-31T00:00:00", "TW_JUR_STATUUT": -8, "TW_ZICHTBAAR": 1, "TW_NIET_ZB_REDEN": -9, "TW_TOEGANKELIJK": 1, "TW_NIET_TG_REDEN": -9, "TW_VERHARDING": 21, "Shape_Length": 134.81781724, "TW_NAAM": "Bevelse dreef", "WS_OIDN": 137267.0, "LBLMORF": "aardeweg", "LBLWEGCAT": "niet van toepassing", "LSTRNM": "", "RSTRNM": "", "LBLBEHEER": "Gemeente Nijlen", "WV_LBLTYPE": "weg met losse verharding", "WB_BREEDTE": -8.0, "TW_ABW": null, "index_right": 4, "id": 985665, "projectnummer": "2026040631", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Hoogstammige bomen vellen die geen deel uitmaken van een bos; Nieuwbouw van bijgebouwen, niet-overdekte lage constructies en andere handelingen; Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden; Verwijderen van vrijstaande bijgebouwen, niet-overdekte lage constructies of andere beperkte handelingen", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-04-09", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-05-20", "vvo_huidige_toestand": "Nijlen", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "EKzwronQSoqKIpi1x1MD2Q", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026040631", "uuid": "tI3zUPjnSlaQF9yXihOY_g", "projectNaam": "Okkerse-Verbouwen van een woning in open bebouwing en bouw van een zwembad", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[4.675231782264748, 51.14567367057578], [4.675238513552229, 51.14567592450927], [4.67530518194915, 51.1457069328748], [4.676170665941054, 51.146725453920766]]]}}]};
+        
 
     window.onload = () => {
-        const content = document.getElementById('content-area');
-        content.innerHTML = "";
         resultLayer.clearLayers();
 
-        // 1. Dossiers
-        let omgevingsHtml = '<div class="section-title">Omgevingsonderzoeken</div>';
         if (typeof DATA_DOSSIERS !== 'undefined' && DATA_DOSSIERS && DATA_DOSSIERS.features) {
             const leafletGeo = L.geoJSON(DATA_DOSSIERS, {
                 style: { color: '#3498db', weight: 2, fillOpacity: 0.3 },
                 onEachFeature: (f, l) => {
                     const p = f.properties;
                     const nr = p.projectnummer || p.PROJECTNUMMER || 'N/A';
-                    const type = p.omschrijving_projecttype || p.OMSCHRIJVING_PROJECTTYPE || 'Geen info';
                     const naam = p.projectNaam || p.PROJECTNAAM || 'Geen naam';
                     const omschrijving = p.handeling_omschrijving || p.HANDELING_OMSCHRIJVING || '';
                     const url = p.loket_url || p.LOKET_URL || '#';
@@ -120,22 +134,12 @@
                             <a href="${url}" target="_blank" style="color: #3498db; font-weight: bold; text-decoration: none;">Open Omgevingsloket -></a>
                         </div>
                     `);
-                    
-                    omgevingsHtml += `
-                        <div class="card card-omgeving" onclick="zoomToFeature('${nr}')">
-                            <h4>Project ${nr}</h4>
-                            <p><b>Type:</b> ${type}</p>
-                            <p><b>Naam:</b> ${naam}</p>
-                            ${omschrijving ? `<p class="omschrijving">${omschrijving}</p>` : ''}
-                            <a href="${url}" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
-                        </div>`;
                 }
             }).addTo(resultLayer);
             if (DATA_DOSSIERS.features.length > 0) map.fitBounds(leafletGeo.getBounds());
             window.currentLayers = leafletGeo;
         }
 
-        // 2. Wegen
         if (typeof DATA_WEGEN !== 'undefined' && DATA_WEGEN && DATA_WEGEN.features) {
             L.geoJSON(DATA_WEGEN, { 
                 style: { color: '#e74c3c', weight: 3, dashArray: '5, 5' },
@@ -155,23 +159,6 @@
                 }
             }).addTo(resultLayer);
         }
-
-        // 3. Staatsblad
-        let staatsbladHtml = '<div class="section-title">Belgisch Staatsblad</div>';
-        if (typeof DATA_STAATSBLAD !== 'undefined' && DATA_STAATSBLAD && DATA_STAATSBLAD.length > 0) {
-            DATA_STAATSBLAD.forEach(item => {
-                staatsbladHtml += `
-                    <div class="card card-staatsblad">
-                        <h4>${item.date}</h4>
-                        <p>${item.title}</p>
-                        ${item.onderwerp ? `<p><small><b>Onderwerp:</b> ${item.onderwerp}</small></p>` : ''}
-                        <a href="${item.link}" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
-                    </div>`;
-            });
-        } else {
-            staatsbladHtml += "<p>Geen publicaties gevonden.</p>";
-        }
-        content.innerHTML = omgevingsHtml + staatsbladHtml;
     };
 
     function zoomToFeature(id) {
@@ -179,7 +166,11 @@
         window.currentLayers.eachLayer(layer => {
             const p = layer.feature.properties;
             if ((p.projectnummer || p.PROJECTNUMMER) == id) {
-                map.setView(layer.getBounds().getCenter(), 17);
+                if (typeof layer.getBounds === 'function') {
+                    map.setView(layer.getBounds().getCenter(), 17);
+                } else if (typeof layer.getLatLng === 'function') {
+                    map.setView(layer.getLatLng(), 17);
+                }
                 layer.openPopup();
             }
         });
