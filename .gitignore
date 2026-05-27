@@ -8,5 +8,6 @@ logboek/*.txt
 
 # Bestanden in de map 'resultaten_analyse' en alle onderliggende mappen
 resultaten_analyse/**/*.geojson
+resultaten_analyse/*.json
 resultaten_analyse/**/*.json
 resultaten_analyse/**/*.gfs
