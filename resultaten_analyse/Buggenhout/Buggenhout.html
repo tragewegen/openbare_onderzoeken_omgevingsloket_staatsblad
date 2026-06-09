@@ -56,7 +56,14 @@
             </button>
         </div>
     </div>
-    <div id="content-area"><div class="section-title">Omgevingsonderzoeken</div><div class="section-title">Belgisch Staatsblad</div>
+    <div id="content-area"><div class="section-title">Omgevingsonderzoeken</div>
+                <div class="card card-omgeving" onclick="zoomToFeature('2026053561')">
+                    <h4>Project 2026053561</h4>
+                    <p><b>Type:</b> Aanvraag omgevingsproject</p>
+                    <p><b>Naam:</b> VERHULST - DE BACKER David & Sofie</p>
+                    <p class="omschrijving">Bouwen of herbouwen; Nieuwbouw van bijgebouwen en niet overdekte lage constructie</p>
+                    <a href="https://omgevingsloketinzage.omgeving.vlaanderen.be/2026053561" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
+                </div><div class="section-title">Belgisch Staatsblad</div>
                 <div class="card card-staatsblad">
                     <h4>09 mei 2025</h4>
                     <p>Gemeente Buggenhout De gemeenteraad van Buggenhout, heeft tijdens zijn zitting van 27 maart 2025</p>
@@ -215,8 +222,8 @@
     }
 
     
-const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": []};
-const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": []};
+const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"id": 993903, "projectnummer": "2026053561", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Bouwen of herbouwen; Nieuwbouw van bijgebouwen en niet overdekte lage constructie", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-04-24", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-06-08", "vvo_huidige_toestand": "Buggenhout", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "DaQdR_LpQjeTnTGXHCv5-A", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026053561", "uuid": "uZk2ePIuT56ii_vfQqPg-Q", "projectNaam": "VERHULST - DE BACKER David & Sofie", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2026053561"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[4.190027688233769, 51.02225911732498], [4.189933262838877, 51.022233382647094], [4.189888731512394, 51.022264983712475], [4.189431895864692, 51.02259669780517], [4.189461096341046, 51.02261251790156], [4.18942973698701, 51.02263582389425], [4.189763768445975, 51.0226645379029], [4.189934774157608, 51.02240185785217], [4.189994126849111, 51.0223106727483], [4.190027688233769, 51.02225911732498]]]]}}]};
+const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"gml_id": "F_TrageWegen.26168", "OBJECTID": 26168, "WS_OIDN": 158157.0, "LBLSTATUS": "in gebruik", "LBLMORF": "aardeweg", "LBLWEGCAT": "niet gekend", "LSTRNM": "", "RSTRNM": "", "LBLBEHEER": "Gemeente Buggenhout", "WV_LBLTYPE": "weg met losse verharding", "WB_BREEDTE": -8.0, "TRAGE_WEG": 1, "TW_ID": "42004_561", "TW_BREEDTE": 3, "TW_EIGENAAR": 4, "TW_DAT_INVENTARISATIE": "2016-02-06T00:00:00", "TW_JUR_STATUUT": 2, "TW_NAAM": null, "TW_ZICHTBAAR": 1, "TW_NIET_ZB_REDEN": -9, "TW_TOEGANKELIJK": 1, "TW_NIET_TG_REDEN": -9, "TW_VERHARDING": 15, "Shape_Length": 72.42628011, "TW_ABW": "Bug_050_1", "index_right": 4, "id": 993903, "projectnummer": "2026053561", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Bouwen of herbouwen; Nieuwbouw van bijgebouwen en niet overdekte lage constructie", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-04-24", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-06-08", "vvo_huidige_toestand": "Buggenhout", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "DaQdR_LpQjeTnTGXHCv5-A", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026053561", "uuid": "uZk2ePIuT56ii_vfQqPg-Q", "projectNaam": "VERHULST - DE BACKER David & Sofie", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null}, "geometry": {"type": "MultiLineString", "coordinates": [[[4.189334287023401, 51.02264465370465], [4.18978575926317, 51.02231440607812], [4.189882600281339, 51.022248438162485], [4.189959183964787, 51.02220604478877], [4.190036343663599, 51.02216955804702]]]}}]};
         
 
     window.onload = () => {
