@@ -56,7 +56,14 @@
             </button>
         </div>
     </div>
-    <div id="content-area"><div class="section-title">Omgevingsonderzoeken</div><div class="section-title">Belgisch Staatsblad</div>
+    <div id="content-area"><div class="section-title">Omgevingsonderzoeken</div>
+                <div class="card card-omgeving" onclick="zoomToFeature('2026037183')">
+                    <h4>Project 2026037183</h4>
+                    <p><b>Type:</b> Aanvraag omgevingsproject</p>
+                    <p><b>Naam:</b> Verbouwing van woning</p>
+                    <p class="omschrijving">Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden</p>
+                    <a href="https://omgevingsloketinzage.omgeving.vlaanderen.be/2026037183" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
+                </div><div class="section-title">Belgisch Staatsblad</div>
                 <div class="card card-staatsblad">
                     <h4>05 juni 2026</h4>
                     <p>Gemeente Stekene Het college van burgemeester en schepenen van Stekene deelt mee dat op de gemeenteraad van 26 mei 2026 werd beraadslaagd over de voorlopige vaststelling van de rooilijn- en</p>
@@ -167,8 +174,8 @@
     }
 
     
-const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": []};
-const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": []};
+const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"id": 984522, "projectnummer": "2026037183", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-03-30", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-06-22", "vvo_huidige_toestand": "Stekene", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "4rmXTex4TIq7p9_JnRbk_Q", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026037183", "uuid": "yHGc5hrhTfOSMZu3FnTFZw", "projectNaam": "Verbouwing van woning", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2026037183"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[4.030394792221564, 51.23672531439552], [4.029951412202457, 51.236496326086204], [4.029805641113149, 51.236760348737725], [4.029989089337157, 51.2368528337733], [4.030275198075992, 51.236997079447264], [4.030213728169382, 51.23720268482304], [4.030459662601566, 51.23728359970027], [4.030475904010803, 51.23728894023562], [4.030831415633895, 51.237405904984755], [4.030868169626209, 51.237418000319764], [4.031126519634832, 51.23750299397905], [4.031244177027193, 51.23735805822347], [4.031243891312952, 51.23735796752569], [4.030816757450056, 51.23722329038451], [4.030638410933787, 51.2371357109103], [4.030805609422722, 51.23693748970211], [4.030394792221564, 51.23672531439552]]]]}}]};
+const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"gml_id": "F_TrageWegen.16967", "OBJECTID": 16967, "WS_OIDN": null, "LBLSTATUS": "buiten gebruik", "LBLMORF": null, "LBLWEGCAT": null, "LSTRNM": null, "RSTRNM": null, "LBLBEHEER": null, "WV_LBLTYPE": null, "WB_BREEDTE": null, "TRAGE_WEG": 1, "TW_ID": "6690", "TW_BREEDTE": -8, "TW_EIGENAAR": -8, "TW_DAT_INVENTARISATIE": "1970-01-01T00:00:00", "TW_JUR_STATUUT": 2, "TW_ZICHTBAAR": -8, "TW_NIET_ZB_REDEN": -8, "TW_TOEGANKELIJK": 2, "TW_NIET_TG_REDEN": -8, "TW_VERHARDING": -8, "Shape_Length": 373.20333405, "TW_ABW": "244_79_1", "index_right": 2, "projectnummer": "2026037183"}, "geometry": {"type": "MultiLineString", "coordinates": [[[4.029742166295405, 51.237650486577614], [4.029846391354195, 51.23729921244103], [4.029895423936025, 51.23715567181185], [4.030037251975217, 51.23668795745126], [4.030126506499867, 51.23634291677903], [4.030148990812742, 51.23629663220307], [4.030275617927584, 51.23614288464804], [4.030402336526388, 51.23597639252238], [4.030504975267922, 51.23582141761503], [4.030559047362524, 51.23574625519634], [4.030579718962356, 51.23569533092418], [4.030754172105863, 51.23556373553506], [4.030954615498354, 51.235411356316654], [4.031058510296647, 51.23533749515929], [4.031160661163298, 51.235249723843594], [4.031313104129067, 51.23509836677883], [4.031439849656003, 51.234927238235066], [4.031603958966319, 51.2346936446841], [4.031667511616719, 51.23458401110749]]]}}]};
         
 
     window.onload = () => {
