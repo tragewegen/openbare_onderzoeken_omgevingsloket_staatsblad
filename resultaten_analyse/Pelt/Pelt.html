@@ -56,30 +56,37 @@
             </button>
         </div>
     </div>
-    <div id="content-area"><div class="section-title">Omgevingsonderzoeken</div><div class="section-title">Belgisch Staatsblad</div>
+    <div id="content-area"><div class="section-title">Omgevingsonderzoeken</div>
+                <div class="card card-omgeving" onclick="zoomToFeature('2025142140')">
+                    <h4>Project 2025142140</h4>
+                    <p><b>Type:</b> Aanvraag omgevingsproject</p>
+                    <p><b>Naam:</b> 24-19010 Hendriks Kris</p>
+                    <p class="omschrijving">Bouwen of herbouwen; Het reliëf van de bodem aanmerkelijk wijzigen; Nieuwbouw of aanleggen</p>
+                    <a href="https://omgevingsloketinzage.omgeving.vlaanderen.be/2025142140" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
+                </div><div class="section-title">Belgisch Staatsblad</div>
                 <div class="card card-staatsblad">
                     <h4>24 augustus 2022</h4>
                     <p>Gemeente Pelt UITTREKSEL UIT DE NOTULEN VAN DE GEMEENTERAAD VERGADERING VAN 2 juni 2022 Aanwezigen</p>
                     <p><small><b>Onderwerp:</b> grafisch plan tot opheffing</small></p>
-                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-07-14&pd_search=2022-08-24&numac_search=2022702473&page=1&lg_txt=N&caller=list&2022702473=0&text1=Pelt&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-07-15&pd_search=2022-08-24&numac_search=2022702473&page=1&lg_txt=N&caller=list&2022702473=0&text1=Pelt&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
                 </div>
                 <div class="card card-staatsblad">
                     <h4>24 augustus 2022</h4>
                     <p>Gemeente Pelt UITTREKSEL UIT DE NOTULEN VAN DE GEMEENTERAAD VERGADERING VAN 2 juni 2022 Aanwezigen</p>
                     <p><small><b>Onderwerp:</b> grafisch plan tot opheffing</small></p>
-                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-07-14&pd_search=2022-08-24&numac_search=2022702472&page=1&lg_txt=N&caller=list&2022702472=1&text1=Pelt&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-07-15&pd_search=2022-08-24&numac_search=2022702472&page=1&lg_txt=N&caller=list&2022702472=1&text1=Pelt&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
                 </div>
                 <div class="card card-staatsblad">
                     <h4>20 april 2022</h4>
                     <p>Gemeente Pelt Het college van burgemeester en schepenen van de gemeente Pelt brengt ter kennis van het publiek dat de gemeenteraad in zitting van 31 maart 2022</p>
                     <p><small><b>Onderwerp:</b> grafisch plan tot opheffing</small></p>
-                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-07-14&pd_search=2022-04-20&numac_search=2022701219&page=1&lg_txt=N&caller=list&2022701219=2&text1=Pelt&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-07-15&pd_search=2022-04-20&numac_search=2022701219&page=1&lg_txt=N&caller=list&2022701219=2&text1=Pelt&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
                 </div>
                 <div class="card card-staatsblad">
                     <h4>20 april 2022</h4>
                     <p>Gemeente Pelt Het college van burgemeester en schepenen van de gemeente Pelt brengt ter kennis van het publiek dat de gemeenteraad in zitting van 31 maart 2022</p>
                     <p><small><b>Onderwerp:</b> grafisch plan tot opheffing</small></p>
-                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-07-14&pd_search=2022-04-20&numac_search=2022701218&page=1&lg_txt=N&caller=list&2022701218=3&text1=Pelt&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-07-15&pd_search=2022-04-20&numac_search=2022701218&page=1&lg_txt=N&caller=list&2022701218=3&text1=Pelt&text2=grafisch+plan+tot+opheffing&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
                 </div></div>
 </div>
 <div id="map"></div>
@@ -113,8 +120,8 @@
     }
 
     
-const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": []};
-const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": []};
+const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"id": 947451, "projectnummer": "2025142140", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Bouwen of herbouwen; Het reli\u00ebf van de bodem aanmerkelijk wijzigen; Nieuwbouw of aanleggen", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-04-21", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-07-15", "vvo_huidige_toestand": "Provincie Limburg", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "Sma-Xw5GRDeGbx-WEeIIdw", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2025142140", "uuid": "eb2ayhxhTwWlzYRu8Fsyfw", "projectNaam": "24-19010 Hendriks Kris", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2025142140"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[5.424992406053503, 51.19869567369431], [5.426039404757781, 51.1988093424336], [5.427068493773723, 51.1989210589208], [5.42693964797509, 51.19922539815431], [5.427033352499967, 51.19923804256622], [5.428055939203465, 51.19937602183145], [5.428123143252838, 51.198868499035086], [5.428663822531955, 51.19889786131361], [5.42862711645664, 51.19903981840357], [5.429279046264996, 51.199083155718085], [5.429309213882929, 51.19896519584725], [5.42931528351151, 51.19893136823895], [5.429315384252478, 51.19893076504579], [5.429316590698215, 51.19892404813385], [5.429342389627508, 51.19878010322119], [5.429355086018917, 51.19870926973964], [5.429360000029176, 51.19868187991092], [5.429381431117687, 51.1985622994672], [5.429390874062571, 51.1984503507934], [5.429391811082119, 51.1984393393744], [5.429391853140005, 51.19842232209657], [5.429392128596503, 51.19829293544407], [5.42939214930056, 51.19828315480998], [5.429390577502915, 51.19826186408994], [5.429387875407317, 51.19822548135824], [5.429379751560436, 51.19811556023062], [5.429372863715691, 51.19800776747079], [5.429144626041055, 51.1980108688235], [5.428367914373581, 51.19802143621308], [5.428353194325709, 51.198021550309754], [5.427982822592626, 51.198024603179846], [5.42795837527732, 51.19802480447357], [5.427645898575582, 51.19799788779767], [5.426797093868637, 51.197924761892786], [5.426113845515113, 51.1978598202908], [5.426060161920524, 51.19785471853095], [5.425601299381862, 51.19781110125365], [5.425539970282532, 51.198098617963936], [5.425472316202795, 51.19841579321267], [5.424992406053503, 51.19869567369431]]]]}}]};
+const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"gml_id": "F_TrageWegen.50316", "OBJECTID": 50316, "WS_OIDN": 29146.0, "LBLSTATUS": "in gebruik", "LBLMORF": "aardeweg", "LBLWEGCAT": "niet gekend", "LSTRNM": "", "RSTRNM": "", "LBLBEHEER": "Gemeente Pelt", "WV_LBLTYPE": "weg met losse verharding", "TRAGE_WEG": 1, "TW_ID": "72029_49865", "TW_BREEDTE": 2, "TW_EIGENAAR": -8, "TW_DAT_INVENTARISATIE": "2017-04-15T00:00:00", "TW_JUR_STATUUT": -7, "TW_ZICHTBAAR": 1, "TW_NIET_ZB_REDEN": -9, "TW_TOEGANKELIJK": 2, "TW_NIET_TG_REDEN": 2, "TW_VERHARDING": 30, "Shape_Length": 416.96745744, "TW_ABW": null, "TW_NAAM": null, "index_right": 0, "projectnummer": "2025142140"}, "geometry": {"type": "MultiLineString", "coordinates": [[[5.424129449076579, 51.199278584387585], [5.424456098226139, 51.199052198086235], [5.424694977044427, 51.19888951226539], [5.424851014900788, 51.19878066700954], [5.424928173826134, 51.19873250410056], [5.424945832339723, 51.19872251179952], [5.424997700139243, 51.19869353361855], [5.425147783457105, 51.19861747151819], [5.425321173453368, 51.19853444968569], [5.425357685591357, 51.19851796911195], [5.425421704356101, 51.19849169569754], [5.425479400349528, 51.19847305686719], [5.42551363020423, 51.19846446236914], [5.42555481077869, 51.19845637199226], [5.425620355705508, 51.19844819840229], [5.425695000544434, 51.19844697302498], [5.425908354062563, 51.19845053788165], [5.425961353988114, 51.198451330935086], [5.426187625311426, 51.19846236667946], [5.426480906415376, 51.19848123387354], [5.426809912239255, 51.198506935824135], [5.426936012796903, 51.1985178877115], [5.427138175127322, 51.198540230554826], [5.42718471283959, 51.198546276835486], [5.427408488492298, 51.19857905994278], [5.427500565233158, 51.19859694139756], [5.42758916031462, 51.1986190160793], [5.427660702518176, 51.198649369997995], [5.427742073556479, 51.19869039602366], [5.427810456750046, 51.19871331699594], [5.427874129600079, 51.19872350626598], [5.427974948804311, 51.19872878674537], [5.428211974443676, 51.19873761865756], [5.428289218626802, 51.19874372163846], [5.428403538190461, 51.198748089565136], [5.428516135854823, 51.198753497622434], [5.428760399846086, 51.198743376795036], [5.428788163027521, 51.19874174323248], [5.428879573530894, 51.19874035636881], [5.428971096042839, 51.19874389460912], [5.42918517690904, 51.19875419805916], [5.429487634600158, 51.19876875040804]]]}}]};
         
 
     window.onload = () => {
