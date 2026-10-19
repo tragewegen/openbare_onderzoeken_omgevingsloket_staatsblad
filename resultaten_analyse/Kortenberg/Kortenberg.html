@@ -56,7 +56,14 @@
             </button>
         </div>
     </div>
-    <div id="content-area"><div class="section-title">Omgevingsonderzoeken</div><div class="section-title">Belgisch Staatsblad</div><p>Geen publicaties gevonden.</p></div>
+    <div id="content-area"><div class="section-title">Omgevingsonderzoeken</div>
+                <div class="card card-omgeving" onclick="zoomToFeature('2026080629')">
+                    <h4>Project 2026080629</h4>
+                    <p><b>Type:</b> Aanvraag omgevingsproject</p>
+                    <p><b>Naam:</b> Aanleg van een terras of andere verharding</p>
+                    <p class="omschrijving">Nieuwbouw van bijgebouwen, niet-overdekte lage constructies en andere handelingen</p>
+                    <a href="https://omgevingsloketinzage.omgeving.vlaanderen.be/2026080629" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
+                </div><div class="section-title">Belgisch Staatsblad</div><p>Geen publicaties gevonden.</p></div>
 </div>
 <div id="map"></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -89,8 +96,8 @@
     }
 
     
-const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": []};
-const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": []};
+const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"id": 1014669, "projectnummer": "2026080629", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Nieuwbouw van bijgebouwen, niet-overdekte lage constructies en andere handelingen", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-06-27", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-10-18", "vvo_huidige_toestand": "Kortenberg", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "bPzkXzFYTVu78EsRSBUpUg", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026080629", "uuid": "kw3Efb1rR72N9Yj8W2meRQ", "projectNaam": "Aanleg van een terras of andere verharding", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2026080629"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[4.569708717805149, 50.902908806977834], [4.569686051124774, 50.90272869831042], [4.569666849171361, 50.90272970213466], [4.56955642729972, 50.90273548307062], [4.569530559163692, 50.90273678597191], [4.569527794520694, 50.90273854364838], [4.56952758185584, 50.902738678854256], [4.569511888189004, 50.90274889076976], [4.569077607990703, 50.90303124594014], [4.569083965288013, 50.90303516342503], [4.569090222764221, 50.90303900916521], [4.569293556201264, 50.90316409897627], [4.569674830833613, 50.90292981046738], [4.569708717805149, 50.902908806977834]]]]}}]};
+const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"gml_id": "F_TrageWegen.128998", "OBJECTID": 128998, "WS_OIDN": 131165.0, "LBLSTATUS": "in gebruik", "LBLMORF": "wandel- of fietsweg, niet toegankelijk voor andere voertuigen", "LBLWEGCAT": "niet van toepassing", "LBLBEHEER": "Gemeente Kortenberg", "WV_LBLTYPE": "weg met losse verharding", "WB_BREEDTE": -8.0, "TRAGE_WEG": 1, "TW_ID": "24055_1260", "TW_BREEDTE": 4, "TW_EIGENAAR": -8, "TW_DAT_INVENTARISATIE": "2020-10-15T00:00:00", "TW_JUR_STATUUT": 2, "TW_ABW": "ERP_0079_1", "TW_ZICHTBAAR": -8, "TW_NIET_ZB_REDEN": 0, "TW_TOEGANKELIJK": 1, "TW_NIET_TG_REDEN": 0, "TW_VERHARDING": 13, "Shape_Length": 196.98015128, "LSTRNM": null, "RSTRNM": null, "index_right": 1, "projectnummer": "2026080629"}, "geometry": {"type": "MultiLineString", "coordinates": [[[4.567670547640157, 50.903969575574656], [4.567777394989873, 50.90387171511484], [4.567825134499573, 50.90383493919274], [4.568188997739052, 50.90359858167543], [4.568367547228581, 50.90348605359692], [4.569090427099421, 50.90303028729964], [4.569617674136015, 50.90269972419724]]]}}]};
         
 
     window.onload = () => {
