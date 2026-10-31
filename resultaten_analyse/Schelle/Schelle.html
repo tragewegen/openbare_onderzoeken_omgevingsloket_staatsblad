@@ -56,7 +56,44 @@
             </button>
         </div>
     </div>
-    <div id="content-area"><div class="section-title">Omgevingsonderzoeken</div><div class="section-title">Belgisch Staatsblad</div><p>Geen publicaties gevonden.</p></div>
+    <div id="content-area"><div class="section-title">Omgevingsonderzoeken</div>
+                <div class="card card-omgeving" onclick="zoomToFeature('2026108120')">
+                    <h4>Project 2026108120</h4>
+                    <p><b>Type:</b> Aanvraag omgevingsproject</p>
+                    <p><b>Naam:</b> 196_villavini</p>
+                    <p class="omschrijving">Bouwen of herbouwen; Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden</p>
+                    <a href="https://omgevingsloketinzage.omgeving.vlaanderen.be/2026108120" target="_blank" class="btn-link" onclick="event.stopPropagation();">Bekijk in Omgevingsloket -></a>
+                </div><div class="section-title">Belgisch Staatsblad</div>
+                <div class="card card-staatsblad">
+                    <h4>29 oktober 2025</h4>
+                    <p>Bericht voorgeschreven bij artikel 3quater van het besluit van de Regent van 23 augustus 1948 tot regeling van de rechtspleging voor de afdeling bestuursrechtspraak van de Raad van State Een beroep</p>
+                    <p><small><b>Onderwerp:</b> rooilijn</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-10-30&pd_search=2025-10-29&numac_search=2025008190&page=1&lg_txt=N&caller=list&2025008190=0&text1=Schelle&text2=rooilijn&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div>
+                <div class="card card-staatsblad">
+                    <h4>05 januari 2015</h4>
+                    <p>Gemeente Schelle Aankondiging van openbaar onderzoek Het publiek wordt ervan in kennis gesteld dat er wordt overgegaan tot een openbaar onderzoek zoals opgelegd in artikel 28 van de Wet op de</p>
+                    <p><small><b>Onderwerp:</b> rooilijn</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-10-30&pd_search=2015-01-05&numac_search=2015700139&page=1&lg_txt=N&caller=list&2015700139=1&text1=Schelle&text2=rooilijn&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div>
+                <div class="card card-staatsblad">
+                    <h4>29 februari 2012</h4>
+                    <p>Gemeente Schelle Openbaar onderzoek ontwerp van gemeentelijk rooilijnplan 'Rooilijn hoek Provinciale Steenweg   Poortstraat', voorlopig vastgesteld door de gemeenteraad</p>
+                    <p><small><b>Onderwerp:</b> rooilijn</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-10-30&pd_search=2012-02-29&numac_search=2012707458&page=1&lg_txt=N&caller=list&2012707458=2&text1=Schelle&text2=rooilijn&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div>
+                <div class="card card-staatsblad">
+                    <h4>03 november 2011</h4>
+                    <p>Definitieve vaststelling rooilijn- en onteigeningsplan  SCHELLE. - De gemeenteraad van de gemeente Schelle heeft op 9 september 2011 het gemeentelijk rooilijn- en onteigeningsplan « Uitbreiding</p>
+                    <p><small><b>Onderwerp:</b> rooilijn</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-10-30&pd_search=2011-11-03&numac_search=2011035901&page=1&lg_txt=N&caller=list&2011035901=4&text1=Schelle&text2=rooilijn&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div>
+                <div class="card card-staatsblad">
+                    <h4>14 juli 2011</h4>
+                    <p>Gemeente Schelle Ontwerp van gemeentelijk rooilijnplan Openbaar onderzoek  « Rooilijn- en onteigeningplan uitbreiding Tuinlei »</p>
+                    <p><small><b>Onderwerp:</b> rooilijn</small></p>
+                    <a href="https://www.ejustice.just.fgov.be/cgi/article.pl?language=nl&sum_date=2026-10-30&pd_search=2011-07-14&numac_search=2011729532&page=1&lg_txt=N&caller=list&2011729532=3&text1=Schelle&text2=rooilijn&choix1=en&choix2=en" target="_blank" class="btn-link">Bekijk in Staatsblad -></a>
+                </div></div>
 </div>
 <div id="map"></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -89,8 +126,8 @@
     }
 
     
-const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": []};
-const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": []};
+const DATA_DOSSIERS = {"type": "FeatureCollection", "name": "matches_dossiers", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"id": 1031331, "projectnummer": "2026108120", "project_type_code": "OMV2019_AANVRAAG", "handeling_omschrijving": "Bouwen of herbouwen; Verbouwen en/of uitbreiden zonder functiewijziging en zonder wijziging van aantal woongelegenheden", "aanvrager": "Natuurlijk perso(o)n(en)", "omschrijving_projecttype": "Aanvraag omgevingsproject", "datum_indiening": "2026-10-09", "huidige_toestand": "In behandeling (in eerste aanleg)", "datum_huidige_toestand": "2026-10-30", "vvo_huidige_toestand": "Schelle", "fase_huidige_toestand": "Eerste Aanleg", "voorwerp_uuid": "BnPrhDH7SqmaaNMSuSfNHw", "project_link": "https://omgevingsloket.omgeving.vlaanderen.be?project=2026108120", "uuid": "BYLXw0TkSASIlsIq3XH8pQ", "projectNaam": "196_villavini", "dossierinhoudAard": "PROJECT", "eindDatumBeroep": null, "loket_url": "https://omgevingsloketinzage.omgeving.vlaanderen.be/2026108120"}, "geometry": {"type": "MultiPolygon", "coordinates": [[[[4.32588913972964, 51.119887912129315], [4.325889139664746, 51.119887984039124], [4.325907293794829, 51.120567421545836], [4.325908053551382, 51.12059600597016], [4.325920502497059, 51.121061365777884], [4.32627594424626, 51.12104265182429], [4.326316137231692, 51.12104099414888], [4.326477374930617, 51.121040592661345], [4.326568027396797, 51.12104036390341], [4.326737848236526, 51.12096005530477], [4.326732224928482, 51.12100390932914], [4.326727680301115, 51.12103929635077], [4.326700760440401, 51.12105202394145], [4.326678898749323, 51.12106237128781], [4.326721782062497, 51.12107100650869], [4.326806217089083, 51.1210758989628], [4.326890739516323, 51.12107887678838], [4.327034876543545, 51.12108348427946], [4.32716418487917, 51.121091825765255], [4.32726332164331, 51.121091284808216], [4.327465452721112, 51.121088792741645], [4.327554649452914, 51.12108739419041], [4.327968872797323, 51.12107514920776], [4.328287567163683, 51.12107001664345], [4.328634399337896, 51.12106375105607], [4.328742696676166, 51.121073719736906], [4.328865280107501, 51.12109673570572], [4.328867019729047, 51.12108312735325], [4.32887039826656, 51.121056773532246], [4.328998707412136, 51.12005657748547], [4.328556935332573, 51.12004365741224], [4.328548666036449, 51.120043411947506], [4.328435609438555, 51.12004011112256], [4.328413329467636, 51.12003945644914], [4.328391849287964, 51.12003882900664], [4.327603238625674, 51.120015756814865], [4.32762795671813, 51.11982310985205], [4.327562039702602, 51.1198443186232], [4.326877563874242, 51.119871299557744], [4.32588913972964, 51.119887912129315]], [[4.326764152373126, 51.1207550855984], [4.326769200314725, 51.12071576168556], [4.326772249293595, 51.12069191566022], [4.326775427614597, 51.1206671618184], [4.326924576181268, 51.12067218468033], [4.32692050640368, 51.12071999429962], [4.326918630254524, 51.120742042992184], [4.326917114801241, 51.120759965984774], [4.326764152373126, 51.1207550855984]]]]}}]};
+const DATA_WEGEN = {"type": "FeatureCollection", "name": "matches_wegen", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"gml_id": "F_TrageWegen.23483", "OBJECTID": 23483, "WS_OIDN": 200598.0, "LBLSTATUS": "in gebruik", "LBLMORF": "wandel- of fietsweg, niet toegankelijk voor andere voertuigen", "LBLWEGCAT": "niet gekend", "LSTRNM": "", "RSTRNM": "", "LBLBEHEER": "Gemeente Schelle", "WV_LBLTYPE": "weg met losse verharding", "WB_BREEDTE": -8.0, "TRAGE_WEG": 1, "TW_ID": 29765, "TW_BREEDTE": -8, "TW_EIGENAAR": -8, "TW_DAT_INVENTARISATIE": "1970-01-01T00:00:00", "TW_JUR_STATUUT": -8, "TW_ZICHTBAAR": -8, "TW_NIET_ZB_REDEN": -8, "TW_TOEGANKELIJK": 2, "TW_NIET_TG_REDEN": -8, "TW_VERHARDING": 20, "Shape_Length": 106.33168478, "TW_ABW": null, "index_right": 1, "projectnummer": "2026108120"}, "geometry": {"type": "MultiLineString", "coordinates": [[[4.328498996442129, 51.12003802903176], [4.328765222826081, 51.119797058259536], [4.32908838024577, 51.11951611482399], [4.329233291376298, 51.119374212566136], [4.329288892844079, 51.11932145801104], [4.329368128604537, 51.11925452696406]]]}}, {"type": "Feature", "properties": {"gml_id": "F_TrageWegen.23488", "OBJECTID": 23488, "WS_OIDN": 251545.0, "LBLSTATUS": "in gebruik", "LBLMORF": "aardeweg", "LBLWEGCAT": "niet gekend", "LSTRNM": "", "RSTRNM": "", "LBLBEHEER": "Gemeente Schelle", "WV_LBLTYPE": "weg met losse verharding", "WB_BREEDTE": -8.0, "TRAGE_WEG": 1, "TW_ID": 31273, "TW_BREEDTE": -8, "TW_EIGENAAR": -8, "TW_DAT_INVENTARISATIE": "1970-01-01T00:00:00", "TW_JUR_STATUUT": -8, "TW_ZICHTBAAR": -8, "TW_NIET_ZB_REDEN": -8, "TW_TOEGANKELIJK": 2, "TW_NIET_TG_REDEN": -8, "TW_VERHARDING": 20, "Shape_Length": 241.42182009, "TW_ABW": null, "index_right": 1, "projectnummer": "2026108120"}, "geometry": {"type": "MultiLineString", "coordinates": [[[4.328498996442129, 51.12003802903176], [4.328374736580777, 51.120142571158915], [4.328243299888804, 51.12023796020426], [4.328198981972091, 51.12027083499599], [4.328167354863775, 51.12029429387547], [4.328044881590875, 51.12036232403765], [4.327779656788302, 51.12049373887115], [4.327333894466437, 51.12069572433802], [4.326899929945453, 51.12087674152534], [4.326682937663182, 51.120969078718645], [4.326532832140417, 51.12104339869888], [4.326417610935257, 51.121110539823455], [4.326287688840226, 51.12119771149879], [4.326103615765371, 51.121337636588414], [4.325988059572844, 51.1214422152056], [4.325939962373063, 51.121465775469204]]]}}]};
         
 
     window.onload = () => {
